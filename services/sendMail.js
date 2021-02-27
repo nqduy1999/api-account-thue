@@ -17,4 +17,3 @@ const oauth2client = new OAuth2(
   MAILING_SERVICE_REFRESH_TOKEN,
   SENDER_EMAIL_ADDRESS,
 );
-sf
