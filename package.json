@@ -8,7 +8,7 @@
     "start": "nodemon index.js",
     "dev": "nodemon index.js",
     "prettier-format": "prettier --config .prettierrc './**/*.js' --write",
-    "linting": "eslint components"
+    "linting": "eslint"
   },
   "author": "",
   "license": "ISC",
@@ -39,7 +39,7 @@
   },
   "lint-staged": {
     "**/*.{js}": [
-      "eslint components",
+      "eslint ",
       "git add"
     ]
   }
