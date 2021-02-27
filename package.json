@@ -8,7 +8,8 @@
     "start": "nodemon index.js",
     "dev": "nodemon index.js",
     "prettier-format": "prettier --config .prettierrc './**/*.js' --write",
-    "linting": "eslint"
+    "lint:js": "eslint . --ext .js,.jsx",
+    "lint:js:fix": "npm run lint:js -- --fix"
   },
   "author": "",
   "license": "ISC",
@@ -38,9 +39,13 @@
     "lint-staged": "^10.5.4"
   },
   "lint-staged": {
-    "**/*.{js}": [
-      "eslint ",
-      "git add"
+    "**/*.{js,jsx}": [
+      "eslint . --fix", "git add"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }
