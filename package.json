@@ -7,9 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js",
     "dev": "nodemon index.js",
-    "prettier-format": "prettier --config .prettierrc './**/*.js' --write",
-    "lint:js": "eslint . --ext .js,.jsx",
-    "lint:js:fix": "npm run lint:js -- --fix"
+    "pretest": "./node_modules/.bin/eslint --ignore-path .gitignore . --fix"
   },
   "author": "",
   "license": "ISC",
@@ -37,11 +35,6 @@
     "eslint-plugin-import": "^2.22.1",
     "husky": "^5.1.1",
     "lint-staged": "^10.5.4"
-  },
-  "lint-staged": {
-    "services/*.{js,jsx}": [
-      "eslint . --fix", "git add"
-    ]
   },
   "husky": {
     "hooks": {

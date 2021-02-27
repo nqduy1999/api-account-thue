@@ -18,5 +18,4 @@ const oauth2client = new OAuth2(
   SENDER_EMAIL_ADDRESS,
 );
 const sendEmail = (to, url) => {
-sfsf
 }
