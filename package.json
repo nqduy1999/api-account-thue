@@ -6,18 +6,27 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "prettier-format": "prettier --config .prettierrc './**/*.js' --write"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
     "express": "^4.17.1",
     "express-fileupload": "^1.2.1",
+    "googleapis": "^67.1.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.17",
-    "nodemon": "^2.0.7"
+    "nodemailer": "^6.5.0",
+    "nodemon": "^2.0.7",
+    "prettier": "^2.2.1",
+    "prettier-format": "^2.0.2"
   },
   "devDependencies": {
     "eslint": "^7.20.0",

@@ -9,25 +9,31 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
-app.use(fileUpload({
-  useTempFiles: true,
-}));
+app.use(
+  fileUpload({
+    useTempFiles: true,
+  }),
+);
 
 // Router
 
 app.use('/user', require('./routes/user_router'));
 //
 const URI = process.env.MONGODB_URL;
-mongoose.connect(URI, {
-  useCreateIndex: true,
-  useFindAndModify: false,
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}, (err) => {
-  if (err) throw err;
-  // eslint-disable-next-line no-console
-  console.log('Connect to Mongodb ');
-});
+mongoose.connect(
+  URI,
+  {
+    useCreateIndex: true,
+    useFindAndModify: false,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  },
+  (err) => {
+    if (err) throw err;
+    // eslint-disable-next-line no-console
+    console.log('Connect to Mongodb ');
+  },
+);
 app.get('/', (req, res) => {
   res.json({ msg: 'Hello everyone' });
 });
