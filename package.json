@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js",
     "dev": "nodemon index.js",
-    "prettier-format": "prettier --config .prettierrc './**/*.js' --write"
+    "prettier-format": "prettier --config .prettierrc './**/*.js' --write",
+    "linting": "eslint components"
   },
   "author": "",
   "license": "ISC",
@@ -35,5 +36,11 @@
     "eslint-plugin-import": "^2.22.1",
     "husky": "^5.1.1",
     "lint-staged": "^10.5.4"
+  },
+  "lint-staged": {
+    "**/*.{js}": [
+      "eslint components",
+      "git add"
+    ]
   }
 }
