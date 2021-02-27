@@ -9,7 +9,7 @@
     "dev": "nodemon index.js",
     "pretest": "./node_modules/.bin/eslint --ignore-path .gitignore . --fix"
   },
-  "author": "",
+  "author": "Quoc Duy",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
