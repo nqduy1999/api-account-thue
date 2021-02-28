@@ -1,6 +1,7 @@
 const User = require('../models/user_model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const sendMail = require('../services/sendMail');
 
 const { CLIENT_URL } = process.env;
 
@@ -23,12 +24,10 @@ const UserController = {
         email,
         password: passwordHash,
       };
-      console.log(newUser);
       const activation_token = createActivationToken(newUser);
-      const url = `${CLIENT_URL}/user/activate/${activation_token}`;
+      const url = `${CLIENT_URL}user/activate/${activation_token}`;
       sendMail(email, url);
-      
-      console.log({ activation_token });
+      // console.log({ activation_token });
       res.json({
         msg: 'Đăng ký thành công, Vui long xac nhan email ',
       });
