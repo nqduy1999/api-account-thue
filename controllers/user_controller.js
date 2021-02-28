@@ -47,10 +47,20 @@ const UserController = {
         name, email, password
       })
       await newUser.save();
-
       res.json({msg : "Kích hoạt tài khoản thành công"});
     } catch (err) {
       return res.status(500).json({msg : err.message})
+    }
+  },
+  login: async(req, res) => {
+    try {
+      const {email, password} = req.body;
+      const user = await User.findOne({email});
+      if(!user) return res.status(400).json({msg : "Email không tồn tại vui lòng kiểm tra lại"});
+      const isMatchPass = bcrypt.compare(password, user.password);
+      if(!isMatchPass) return res.status(400).json({msg : "Password is inCorrect"});
+    } catch (err) {
+      return res.status(500).json({msg :err.message})
     }
   }
 };
