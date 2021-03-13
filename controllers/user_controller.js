@@ -26,7 +26,7 @@ const UserController = {
       };
       const activation_token = createActivationToken(newUser);
       const url = `${CLIENT_URL}user/activate/${activation_token}`;
-      sendMail(email, url);
+      sendMail(email, url, "Verify your Email");
       // console.log({ activation_token });
       res.json({
         msg: 'Đăng ký thành công, Vui long xac nhan email ',
@@ -37,58 +37,82 @@ const UserController = {
   },
   activateEmail: async (req, res) => {
     try {
-      const {activation_token} = req.body;
+      const { activation_token } = req.body;
       const user = jwt.verify(activation_token, process.env.ACTIVATION_TOKEN_SECRET);
-      const {name, email, password} = user;
+      const { name, email, password } = user;
 
-      const check = await User.findOne({email});
-      if(check) return res.status(400).json({msg : "Mail này đã được đăng ký"})
+      const check = await User.findOne({ email });
+      if (check) return res.status(400).json({ msg: "Mail này đã được đăng ký" })
       const newUser = new User({
         name, email, password
       })
       await newUser.save();
-      res.json({msg : "Kích hoạt tài khoản thành công"});
+      res.json({ msg: "Kích hoạt tài khoản thành công" });
     } catch (err) {
-      return res.status(500).json({msg : err.message})
+      return res.status(500).json({ msg: err.message })
     }
   },
-  login: async(req, res) => {
+  login: async (req, res) => {
     try {
-      const {email, password} = req.body;
-      const user = await User.findOne({email});
-      if(!user) return res.status(400).json({msg : "Email không tồn tại vui lòng kiểm tra lại"});
+      const { email, password } = req.body;
+      const user = await User.findOne({ email });
+      if (!user) return res.status(400).json({ msg: "Email không tồn tại vui lòng kiểm tra lại" });
       const isMatchPass = await bcrypt.compare(password, user.password);
-      console.log(isMatchPass);
-      if(!isMatchPass) return res.status(400).json({msg : "Mat khau khong dung vui long nhap lai"});
-      const refresh_token = createRefreshToken({id : user._id});
+      if (!isMatchPass) return res.status(400).json({ msg: "Mat khau khong dung vui long nhap lai" });
+      const refresh_token = createRefreshToken({ id: user._id });
       res.cookie('refreshToken', refresh_token, {
-        httpOnly : true,
-        path : '/user/refresh_token',
-        maxAge: 7*24*60*60*1000
+        httpOnly: true,
+        path: '/user/refresh_token',
+        maxAge: 7 * 24 * 60 * 60 * 1000
       });
       res.json({
-        msg : "Đăng nhập thành công"
+        msg: "Đăng nhập thành công"
       })
     } catch (err) {
-      return res.status(500).json({msg :err.message})
+      return res.status(500).json({ msg: err.message })
     }
   },
   getAccessToken: (req, res) => {
     try {
-        const rf_token = req.cookies.refreshToken
-        console.log(rf_token);
-        if(!rf_token) return res.status(400).json({msg: "Please login now!"})
-        jwt.verify(rf_token, process.env.REFRESH_TOKEN_SECRET, (err, user) =>{
-          if(err) return res.status(400).json({msg: "Please login now!"})
-          const access_token = createAccessToken({id: user.id});
-          res.json({
-            access_token
-          })
-        });
+      const rf_token = req.cookies.refreshToken
+      if (!rf_token) return res.status(400).json({ msg: "Please login now!" })
+      jwt.verify(rf_token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+        if (err) return res.status(400).json({ msg: "Please login now!" })
+        const access_token = createAccessToken({ id: user.id });
+        res.json({
+          access_token
+        })
+      });
     } catch (err) {
-        return res.status(500).json({msg: err.message})
+      return res.status(500).json({ msg: err.message })
     }
-},
+  },
+  forgotPassword: async (req, res) => {
+    try {
+      const {email} =req.body;
+      const user = await User.findOne({email});
+      if(!user) return res.status(400).json({msg : "Email không tồn tại"});
+      const access_token = createAccessToken({id : user.id});
+      const url = `${CLIENT_URL}user/reset/${access_token}`;
+      sendMail(email, url, "Reset your password");
+      res.json({msg : "Gửi email đặt lại mật khẩu thành công, vui lòng kiểm tra mail để xác nhận"})
+    } catch (err) {
+      return res.status(500).json({msg : err.message});
+    }
+  },
+  resetPassword: async (req, res) => {
+    try {
+      const {password} = req.body;
+      const passwordHash = await bcrypt.hash(password, 12);
+      await User.findByIdAndUpdate({_id : req.user.id}, {
+        password: passwordHash
+      });
+      res.json({msg : "Password successfully changed"})
+    } catch (err) {
+      return res.status(500).json({msg : err.message});
+
+    }
+  }
 };
 
 function validateEmail(email) {

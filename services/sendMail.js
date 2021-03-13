@@ -17,7 +17,7 @@ const oauth2Client = new OAuth2(
   MAILING_SERVICE_REFRESH_TOKEN,
   OAUTH_PLAYGROUND,
 );
-const sendEmail = (to, url) => {
+const sendEmail = (to, url, text) => {
   console.log(to);
   console.log(url);
   oauth2Client.setCredentials({
@@ -47,7 +47,7 @@ const sendEmail = (to, url) => {
         Just click the button below to validate your email address.
     </p>
     
-    <a href=${url} style="background: crimson; text-decoration: none; color: white; padding: 10px 20px; margin: 10px 0; display: inline-block;">Click to confirm</a>
+    <a href=${url} style="background: crimson; text-decoration: none; color: white; padding: 10px 20px; margin: 10px 0; display: inline-block;">${text}</a>
 
     <p>If the button doesn't work for any reason, you can also click on the link below:</p>
 
