@@ -151,13 +151,15 @@ const UserController = {
     }
   },
   getUserByPage: async (req, res) => {
+    const paginator = {
+      perPage: Number(req.query.limit),
+      currentPage: Number(req.query.page),
+      nextPage: Number(req.query.page)+1,
+    }
+    const {perPage, currentPage} = paginator
     try {
-      const arr = [];
-      if(arr.length == 0){
-        const users = await User.find().limit(1).select('-password');
-        arr.concat(users);
-      }
-      res.json(arr);
+        const users = await User.find().limit(perPage).skip(currentPage > 0 ? (currentPage - 1) * perPage : 0).select('-password');
+        res.json({users, paginator});
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }

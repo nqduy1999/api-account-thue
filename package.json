@@ -1,4 +1,5 @@
 {
+  
   "name": "api-account-okthue",
   "version": "1.0.0",
   "description": "",
@@ -41,5 +42,12 @@
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-commit": "lint-staged"
     }
+  },
+  "keywords": [
+    "example",
+    "heroku"
+  ],
+  "engines": {
+    "node": "14.x"
   }
 }
