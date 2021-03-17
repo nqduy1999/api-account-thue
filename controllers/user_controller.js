@@ -89,7 +89,7 @@ const UserController = {
           const access_token = createAccessToken({ id: user.id });
           res.cookie('accessToken', access_token, {
             httpOnly: true,
-            maxAge: 1 * 24 * 60 * 60 * 1000
+            maxAge: 3 * 24 * 60 * 60 * 1000
           });
         }
       );
@@ -163,7 +163,48 @@ const UserController = {
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
-  }
+  },
+  logOut: async (req, res) =>{
+    try {
+      res.clearCookie('refreshToken',{path: '/user/refresh_token'})
+      res.json({msg : "Logout"})
+    } catch (err) {
+      return res.status(500).json({msg: err.message})  
+    }
+  },
+  updateUser: async (req, res) =>{
+    try {
+      const {name, avatar} = req.body;
+      await User.findByIdAndUpdate({_id:req.user.id}, {
+        name,
+        avatar
+      })
+      res.json({msg :'Cập nhật thành công'});
+    } catch (err) {
+      return res.status(500).json({msg: err.message})
+    }
+  },
+  updateAllUser: async (req, res) =>{
+    try {
+      const {name, avatar, role} = req.body;
+      await User.findByIdAndUpdate({_id:req.params.id}, {
+        name,
+        avatar,
+        role
+      })
+      res.json({msg :'Cập nhật thành công'});
+    } catch (err) {
+      return res.status(500).json({msg: err.message})
+    }
+  },
+  deleteUser: async (req, res) =>{
+    try {
+      await User.findByIdAndDelete(req.params.id)
+      res.json({msg :'Xoá thành công'});
+    } catch (err) {
+      return res.status(500).json({msg: err.message})
+    }
+  },
 };
 
 function validateEmail(email) {
