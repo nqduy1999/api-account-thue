@@ -20,7 +20,7 @@ const uploadService = {
                   throw err
               }
               removeTmp(file.tempFilePath);
-              res.json({url : result.url });
+              res.json({url : result.secure_url });
           }
         )
         } catch (err) {
