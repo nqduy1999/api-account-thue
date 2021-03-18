@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
+// const path = require('path');
 
 const app = express();
 app.use(express.json());
@@ -15,11 +16,8 @@ app.use(
   }),
 );
 
-// Router
-
 app.use('/user', require('./routes/user_router'));
 app.use('/api', require('./routes/upload'));
-//
 const URI = process.env.MONGODB_URL;
 mongoose.connect(
   URI,
@@ -31,16 +29,9 @@ mongoose.connect(
   },
   (err) => {
     if (err) throw err;
-    // eslint-disable-next-line no-console
     console.log('Connect to Mongodb ');
   },
 );
-app.get('/', (req, res) => {
-  res.json({ msg: 'Hello everyone' });
-});
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Server is running is http://localhost:${PORT}`);
-});
+// if(process.env.NODE_ENV === 'production'){
+//   app.use(express.static('client/build'))
+  // app.get('*', (req, res)
