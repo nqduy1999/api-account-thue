@@ -29,7 +29,6 @@ const UserController = {
       const activation_token = createActivationToken(newUser);
       const url = `${CLIENT_URL}user/activate/${activation_token}`;
       sendMail(email, url, 'Verify your Email');
-      // console.log({ activation_token });
       res.json({
         msg: 'Đăng ký thành công, Vui lòng xác nhận email '
       });
