@@ -17,8 +17,10 @@ app.use(
 
 // Router
 
-app.use('/user', require('./routes/user_router'));
-app.use('/api', require('./routes/upload'));
+app.use('/api/user', require('./routes/user.routes'));
+app.use('/api', require('./routes/upload.routes'));
+app.use('/api/category', require('./routes/category.routes'));
+app.use('/api/post', require('./routes/post.routes'));
 //
 const URI = process.env.MONGODB_URL;
 mongoose.connect(
