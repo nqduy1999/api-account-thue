@@ -28,6 +28,10 @@ const userSchema = new mongoose.Schema(
       default:
         'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pngitem.com%2Fmiddle%2FobiRmR_1240-x-1240-0-avatar-profile-icon-png%2F&psig=AOvVaw0lNf_V8h0wZD-LcPRBECUm&ust=1614417286336000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLjw76ebh-8CFQAAAAAdAAAAABAD',
     },
+    isActive: {
+      type: Boolean,
+      default: false
+    }
   },
   {
     timestamps: true,
