@@ -1,7 +1,7 @@
 const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const sendMail = require('../services/sendMail');
+const sendMail = require('../services/sendMail.services');
 
 const { CLIENT_URL } = process.env;
 
@@ -88,11 +88,21 @@ const UserController = {
         return res
           .status(400)
           .json({ msg: 'Mật khẩu không đúng vui lòng nhập lại' });
-      const refresh_token = createRefreshToken({ id: user._id });
-      if (!refresh_token) return res.status(400).json({ msg: '' });
       if (!user.isActive) return res
         .status(400)
         .json({ msg: 'Chưa kích hoạt tài khoản' });
+      const refresh_token = createRefreshToken({ id: user._id });
+      if (!refresh_token) return res.status(400).json({ msg: '' });
+      res.json({
+        status: 200,
+        msg: 'Đăng nhập thành công',
+        data: {
+          email: user.email,
+          name: user.name,
+          role: user.role === 1 ? "ADMIN" : "USER"
+        }
+      });
+      res.cookie('accessTokenfsfs', "haha");
       res.cookie('refreshToken', refresh_token, {
         httpOnly: true,
         path: '/user/refresh_token',
@@ -105,14 +115,11 @@ const UserController = {
           if (err) return res.status(400).json({ msg: '' });
           const access_token = createAccessToken({ id: user.id });
           res.cookie('accessToken', access_token, {
-            httpOnly: true,
-            maxAge: 3 * 24 * 60 * 60 * 1000
+            maxAge: 3 * 24 * 60 * 60 * 1000,
+            httpOnly: true
           });
         }
       );
-      res.json({
-        msg: 'Đăng nhập thành công'
-      });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
