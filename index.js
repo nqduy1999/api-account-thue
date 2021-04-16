@@ -19,7 +19,7 @@ app.use(
 
 app.use('/api/user', require('./routes/user.routes'));
 app.use('/api', require('./routes/upload.routes'));
-app.use('/api/category', require('./routes/category.routes'));
+app.use('/api/vehicle', require('./routes/vehicle.routes'));
 app.use('/api/post', require('./routes/post.routes'));
 //
 const URI = process.env.MONGODB_URL;

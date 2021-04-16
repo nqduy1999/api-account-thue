@@ -21,7 +21,6 @@ class APIFeature {
   sorting() {
     if (this.queryString.sort) {
       const sortBy = this.queryString.sort.split(',').join(' ')
-      console.log(this.query);
       this.query = this.query.sort(sortBy);
     }
     else {
@@ -33,7 +32,7 @@ class APIFeature {
     const page = this.queryString.page * 1 || 1;
     const limit = this.queryString.limit * 1 || 3;
     const skip = (page - 1) * limit;
-    const query = this.query.skip(skip).limit(limit);
+    this.query = this.query.skip(skip).limit(limit);
     return this;
   }
 }

@@ -79,6 +79,7 @@ const UserController = {
     try {
       const { email, password } = req.body;
       const user = await User.findOne({ email });
+      let access_token = "";
       if (!user)
         return res
           .status(400)
@@ -93,6 +94,14 @@ const UserController = {
         .json({ msg: 'Chưa kích hoạt tài khoản' });
       const refresh_token = createRefreshToken({ id: user._id });
       if (!refresh_token) return res.status(400).json({ msg: '' });
+      jwt.verify(
+        refresh_token,
+        process.env.REFRESH_TOKEN_SECRET,
+        (err, user) => {
+          if (err) return res.status(400).json({ msg: '' });
+          access_token = createAccessToken({ id: user.id });
+        }
+      );
       res.json({
         status: 200,
         msg: 'Đăng nhập thành công',
@@ -100,26 +109,9 @@ const UserController = {
           email: user.email,
           name: user.name,
           role: user.role === 1 ? "ADMIN" : "USER"
-        }
+        },
+        access_token
       });
-      res.cookie('accessTokenfsfs', "haha");
-      res.cookie('refreshToken', refresh_token, {
-        httpOnly: true,
-        path: '/user/refresh_token',
-        maxAge: 7 * 24 * 60 * 60 * 1000
-      });
-      jwt.verify(
-        refresh_token,
-        process.env.REFRESH_TOKEN_SECRET,
-        (err, user) => {
-          if (err) return res.status(400).json({ msg: '' });
-          const access_token = createAccessToken({ id: user.id });
-          res.cookie('accessToken', access_token, {
-            maxAge: 3 * 24 * 60 * 60 * 1000,
-            httpOnly: true
-          });
-        }
-      );
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
