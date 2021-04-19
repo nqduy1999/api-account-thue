@@ -2,16 +2,11 @@ const mongoose = require('mongoose');
 
 const vehicleTypeSchema = new mongoose.Schema(
   {
-    id: {
-      type: String,
-      required: true,
-      trim: true,
-      unique: true
-    },
     name: {
       type: String,
       require,
-      unique: true
+      unique: true,
+      trim: true
     },
     logo: {
       type: String,

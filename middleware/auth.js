@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken')
 
 
-const auth = (req, res, next) => {
+const auth = async (req, res, next) => {
     try {
-        const token = req.header("x-api-token")
+        const token = await req.header("x-api-token")
         if (!token) return res.status(400).json({ msg: "Bạn không có quyền " })
 
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {

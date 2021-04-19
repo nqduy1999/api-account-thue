@@ -22,7 +22,7 @@ app.use('/api', require('./routes/upload.routes'));
 app.use('/api/vehicle', require('./routes/vehicle.routes'));
 app.use('/api/post', require('./routes/post.routes'));
 //
-const URI = process.env.MONGODB_URL;
+const URI = process.env.MONGODB_URL_LOCAL;
 mongoose.connect(
   URI,
   {
