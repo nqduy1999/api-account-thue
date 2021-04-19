@@ -2,10 +2,6 @@ const mongoose = require('mongoose');
 
 const postModel = new mongoose.Schema(
   {
-    id: {
-      type: String,
-      required: true,
-    },
     name: {
       type: String,
       required: true,
@@ -14,6 +10,36 @@ const postModel = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    location: {
+      cityId: {
+        type: Number,
+        trim: true,
+      },
+      countryCode: {
+        type: Number,
+        trim: true,
+      },
+      districtId: {
+        type: Number,
+        trim: true,
+      },
+      lat: {
+        type: Number,
+        trim: true,
+      },
+      lon: {
+        type: Number,
+        trim: true,
+      },
+      street: {
+        type: String,
+        trim: true,
+      },
+      wardId: {
+        type: Number,
+        trim: true,
+      },
+    }
   },
   {
     timestamps: true

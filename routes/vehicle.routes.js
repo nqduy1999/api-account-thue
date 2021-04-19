@@ -5,8 +5,8 @@ const router = require("express").Router();
 //Type Vehicle
 router.get("/type", VehicleController.getVehicleType)
 router.post("/type", VehicleController.createVehicleType);
-router.delete("/type/:id", auth, VehicleController.deteleVehicleType);
-router.put("/type/:id", auth, VehicleController.updateVehicleType);
+router.delete("/type/:id", VehicleController.deteleVehicleType);
+router.put("/type/:id", VehicleController.updateVehicleType);
 // Makes Vehicle
 router.get("/makes", VehicleController.getVehicleMakes)
 router.post("/makes", VehicleController.createVehicleMakes);

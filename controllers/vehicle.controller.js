@@ -33,7 +33,7 @@ const VehicleController = {
         try {
             await vehicleType.findByIdAndDelete(req.params.id);
             res.json({
-                msg: "Delete Sucessful"
+                msg: "Xoá thành công"
             })
         } catch (err) {
             res.status(500).json({ msg: err.message });
@@ -41,12 +41,13 @@ const VehicleController = {
     },
     updateVehicleType: async (req, res) => {
         try {
-            const { name } = req.body;
+            const { name, logo } = req.body;
             const param = {
-                name
+                name,
+                logo
             }
             await vehicleType.findByIdAndUpdate({ _id: req.params.id }, param);
-            res.json({ msg: "Update Sucessfully" })
+            res.json({ msg: "Cập nhật loại thành công" })
         } catch (err) {
             res.status(500).json({ msg: err.message });
         }
@@ -88,9 +89,10 @@ const VehicleController = {
     },
     updateVehicleMakes: async (req, res) => {
         try {
-            const { name } = req.body;
+            const { name, logo } = req.body;
             const param = {
-                name
+                name,
+                logo
             }
             await vehicleMake.findByIdAndUpdate({ _id: req.params.id }, param);
             res.json({ msg: "Cập nhật hãng xe thành công" })
@@ -108,26 +110,28 @@ const VehicleController = {
         }
     },
     createVehicleModel: async (req, res) => {
-        const { name, logo, typeId, makesId } = req.body;
-        const model = await vehicleModel.findOne({ name: name });
-        const type = await vehicleType.findOne({ id: typeId });
-        const make = await vehicleType.findOne({ id: makesId });
-        if (!type) {
-            res.status(400).json({ msg: "Không tồn tại kiểu xe" });
-        }
-        if (!make) {
-            res.status(400).json({ msg: "Không tồn tại hãng xe" });
-        }
-        if (model) {
-            res.status(400).json({ msg: "Trùng tên" });
-            return;
-        }
-        const newModel = new vehicleModel({  typeId, makesId, name, logo });
-        await newModel.save();
-        res.json({ msg: "sucesss" });
         try {
-            res.json({ msg: "Admin Resource" });
+            const { name, logo, typeId, makesId } = req.body;
+            const model = await vehicleModel.findOne({ name: name });
+            const type = await vehicleType.findById(typeId);
+            const make = await vehicleMake.findById(makesId);
+            if (!type) {
+                res.status(400).json({ msg: "Không tồn tại kiểu xe" });
+                return;
+            }
+            if (!make) {
+                res.status(400).json({ msg: "Không tồn tại hãng xe" });
+                return;
+            }
+            if (model) {
+                res.status(400).json({ msg: "Trùng tên" });
+                return;
+            }
+            const newModel = new vehicleModel({ typeId, makesId, name, logo });
+            await newModel.save();
+            res.json({ msg: "Tạo thành công" });
         } catch (err) {
+            console.log(err);
             res.status(500).json({ msg: err.message });
         }
     },
@@ -143,9 +147,10 @@ const VehicleController = {
     },
     updateVehicleModel: async (req, res) => {
         try {
-            const { name } = req.body;
+            const { name, logo } = req.body;
             const param = {
-                name
+                name,
+                logo
             }
             await vehicleModel.findByIdAndUpdate({ _id: req.params.id }, param);
             res.json({ msg: "Update Sucessfully" })
