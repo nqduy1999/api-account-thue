@@ -4,7 +4,7 @@ const auth = require('../middleware/auth');
 const authAdmin = require('../middleware/authAdmin');
 
 router.post('/register', userController.register);
-router.post('/resend_email',userController.resendActiveEmail);
+router.post('/resend_token',userController.resendActiveEmail);
 router.post('/activation', userController.activateEmail);
 router.post('/login', userController.login);
 router.post('/forgot', userController.forgotPassword);
