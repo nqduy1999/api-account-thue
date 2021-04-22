@@ -4,6 +4,9 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
+const https = require('https');
+var fs = require('fs')
+
 
 const app = express();
 app.use(express.json());
@@ -42,7 +45,10 @@ app.get('/', (req, res) => {
 });
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+https.createServer({
+  key: fs.readFileSync('server.key'),
+  cert: fs.readFileSync('server.cert')
+}, app).listen(PORT, () => {
   // eslint-disable-next-line no-console
-  console.log(`Server is running is http://localhost:${PORT}`);
+  console.log(`Server is running is https://localhost:${PORT}`);
 });
