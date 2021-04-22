@@ -116,3 +116,5 @@ dist
 .pnp.*
 .vscode
 tmp/
+server.cert
+server.key
