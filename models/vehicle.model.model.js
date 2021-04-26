@@ -19,6 +19,10 @@ const vehicleModelSchema = new mongoose.Schema(
     logo: {
       type: String,
       require
+    },
+    isLuxury: {
+      type: Boolean,
+      default: false,
     }
   },
   {
