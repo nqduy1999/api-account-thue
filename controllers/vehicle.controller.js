@@ -1,6 +1,7 @@
 const vehicleMake = require("../models/vehicle.make.model");
 const vehicleType = require("../models/vehicle.type.model");
 const vehicleModel = require("../models/vehicle.model.model");
+const responseData = require("../utils/respones");
 
 const VehicleController = {
     // Type là loại xe ví dụ xe 4 chỗ 7 chỗ bán tải 
@@ -102,9 +103,32 @@ const VehicleController = {
     },
     // Model là loại xe trong mẫu xe 
     getVehicleModel: async (req, res) => {
+        const { typeId, makesId, page, limit } = req.query
+        const paginator = {
+            perPage: Number(limit),
+            currentPage: Number(page),
+            nextPage: Number(page) + 1,
+        }
+        const { perPage, currentPage } = paginator
+        let params;
         try {
-            let models = await vehicleModel.find();
-            res.json(models);
+            console.log(typeId, makesId);
+            if (!typeId && !makesId) {
+                params = {};
+            }
+            if (typeId && makesId) {
+                params = { typeId, makesId }
+            }
+            if (typeId && !makesId) {
+                params = { typeId }
+            }
+            if (!typeId && makesId) {
+                params = { makesId }
+            }
+            let total = Math.ceil(await (await vehicleModel.find(params)).length / (limit ? limit : 1));
+            let models = await vehicleModel.find(params)
+                .limit(perPage).skip(currentPage > 0 ? (currentPage - 1) * perPage : 0);
+            res.json(responseData(true, models, null, { ...paginator, total }));
         } catch (err) {
             res.status(500).json({ msg: err.message });
         }
@@ -116,20 +140,20 @@ const VehicleController = {
             const type = await vehicleType.findById(typeId);
             const make = await vehicleMake.findById(makesId);
             if (!type) {
-                res.status(400).json({ msg: "Không tồn tại kiểu xe" });
+                res.status(400).json(responseData(false, [], "Không tồn tại kiểu xe"));
                 return;
             }
             if (!make) {
-                res.status(400).json({ msg: "Không tồn tại hãng xe" });
+                res.status(400).json(responseData(false, [], "Không tồn tại hãng xe"));
                 return;
             }
             if (model) {
-                res.status(400).json({ msg: "Trùng tên" });
+                res.status(400).json(responseData(false, [], "Trùng tên"));
                 return;
             }
             const newModel = new vehicleModel({ typeId, makesId, name, logo });
             await newModel.save();
-            res.json({ msg: "Tạo thành công" });
+            res.json(responseData(true, [], "Tạo thành công"));
         } catch (err) {
             console.log(err);
             res.status(500).json({ msg: err.message });

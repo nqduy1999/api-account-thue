@@ -22,7 +22,6 @@ const vehicleModelSchema = new mongoose.Schema(
     },
     isLuxury: {
       type: Boolean,
-      default: false,
     }
   },
   {
