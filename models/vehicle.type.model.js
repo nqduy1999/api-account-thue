@@ -11,7 +11,11 @@ const vehicleTypeSchema = new mongoose.Schema(
     logo: {
       type: String,
       require
+    },
+    key: {
+      type: String,
     }
+
   },
   {
     timestamps: true

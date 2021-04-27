@@ -6,9 +6,18 @@ const postModel = new mongoose.Schema(
       type: String,
       required: true,
     },
-    category: {
+    seat: {
+      type: Number,
+      required: true,
+    },
+    status: {
+      type: Number,
+      required: true
+    },
+    idModel: {
       type: String,
       trim: true,
+      require
     },
     location: {
       cityId: {
