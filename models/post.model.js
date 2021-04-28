@@ -8,7 +8,7 @@ const postModel = new mongoose.Schema(
     },
     seat: {
       type: Number,
-      required: true,
+      required: true,                           
     },
     status: {
       type: Number,
@@ -105,9 +105,6 @@ const postModel = new mongoose.Schema(
       type: Boolean,
       trim: true,
     },
-    requiredPapers: [
-
-    ]
   },
   {
     timestamps: true
