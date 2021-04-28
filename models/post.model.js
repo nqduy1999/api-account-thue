@@ -73,10 +73,41 @@ const postModel = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    rating:
+    {
+      avg: {
+        type: Number,
+      },
+      star1: {
+        type: Number,
+      },
+      star2: {
+        type: Number,
+      },
+      star3: {
+        type: Number,
+      },
+      star4: {
+        type: Number,
+      },
+      star5: {
+        type: Number,
+      }
+    },
+    photos: [
+      {
+        url: {
+          type: String
+        }
+      }
+    ],
     photosVerified: {
       type: Boolean,
       trim: true,
-    }
+    },
+    requiredPapers: [
+
+    ]
   },
   {
     timestamps: true

@@ -35,6 +35,47 @@ const userSchema = new mongoose.Schema(
     accountBalance: {
       type: Number,
       default: 0,
+    },
+    location: [{
+      cityId: {
+        type: Number,
+        trim: true,
+      },
+      countryCode: {
+        type: Number,
+        trim: true,
+      },
+      districtId: {
+        type: Number,
+        trim: true,
+      },
+      lat: {
+        type: Number,
+        trim: true,
+      },
+      lon: {
+        type: Number,
+        trim: true,
+      },
+      street: {
+        type: String,
+        trim: true,
+      },
+      wardId: {
+        type: Number,
+        trim: true,
+      },
+    }
+    ],
+    emailVerified: {
+      type: Boolean,
+    },
+    phone: {
+      type: Number,
+      require
+    },
+    phoneVerified: {
+      type: Boolean
     }
   },
   {
