@@ -31,6 +31,10 @@ const userSchema = new mongoose.Schema(
     isActive: {
       type: Boolean,
       default: false
+    },
+    accountBalance: {
+      type: Number,
+      default: 0,
     }
   },
   {

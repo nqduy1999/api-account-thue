@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const postModel = new mongoose.Schema(
+const CustomerCar = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -82,4 +82,4 @@ const postModel = new mongoose.Schema(
     timestamps: true
   }
 )
-module.exports = mongoose.model('post', postModel);
+module.exports = mongoose.model('customer-car', CustomerCar);
