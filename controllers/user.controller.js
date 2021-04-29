@@ -32,8 +32,8 @@ const UserController = {
         name: name,
         password: passwordHash
       });
-      const url = `${CLIENT_URL}user/activate/${activation_token}`;
-      sendMail(email, url, 'Gửi mã xác nhận thành công');
+      const url = `${CLIENT_URL}activate?token=${activation_token}`;
+      sendMail(email, url, 'Bấm vào đây để kích hoạt tài khoản');
       res.json({
         msg: 'Đăng ký thành công, Vui lòng xác nhận email '
       });
@@ -50,7 +50,7 @@ const UserController = {
         name: userFind.name,
         password: userFind.password
       });
-      const url = `${CLIENT_URL}activate/${activation_token}`;
+      const url = `${CLIENT_URL}activate?token=${activation_token}`;
       sendMail(email, url, 'Bấm vào đây để kích hoạt tài khoản');
       res.json({
         msg: 'Gửi mã thành công, Vui lòng xác nhận email'
