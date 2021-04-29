@@ -39,9 +39,8 @@ class APIFeature {
 const postController = {
   createPost: async (req, res) => {
     try {
-      const { name, category, tags, address, price, title, dynamic, document, property, rules, image, status } = req.body;
-      if (!image) return res.status(400).json({ msg: "Không có hình nào được chọn " });
-      const newPost = new postModel({ name, category, tags, address, price, title: title.toLowerCase(), dynamic, document, property, rules, status, image });
+      const { name, seat, status, idOwner, idModel, idMake, idType, location, price, locationAddr, rating, photos, photosVerified } = req.body;
+      const newPost = new postModel({ name, seat, status, idOwner, idModel, idMake, idType, location, price, locationAddr, rating, photos, photosVerified });
       await newPost.save();
       res.json(newPost);
     } catch (err) {
