@@ -42,7 +42,7 @@ const postController = {
       const { name, seat, status, idOwner, idModel, idMake, idType, location, price, locationAddr, rating, photos, photosVerified } = req.body;
       const newPost = new postModel({ name, seat, status, idOwner, idModel, idMake, idType, location, price, locationAddr, rating, photos, photosVerified });
       await newPost.save();
-      res.json(newPost);
+      res.json({ msg: "Tạo post thành công" });
     } catch (err) {
       res.status(500).json({ msg: err.message });
     }
@@ -62,9 +62,9 @@ const postController = {
   },
   updatePost: async (req, res) => {
     try {
-      const { name, category, tags, address, price, title, dynamic, document, property, rules, image, status } = req.body;
+      const { name, seat, status, idOwner, idModel, idMake, idType, location, price, locationAddr, rating, photos, photosVerified } = req.body;
       await postModel.findByIdAndUpdate({ _id: req.params.id }, {
-        name, category, tags, address, price, title, dynamic, document, property, rules, image, status
+        name, seat, status, idOwner, idModel, idMake, idType, location, price, locationAddr, rating, photos, photosVerified
       })
       res.json({ msg: "Update Sucessful" })
     } catch (err) {
