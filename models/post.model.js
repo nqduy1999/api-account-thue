@@ -8,7 +8,7 @@ const postModel = new mongoose.Schema(
     },
     seat: {
       type: Number,
-      required: true,                           
+      required: true,
     },
     status: {
       type: Number,
@@ -40,7 +40,7 @@ const postModel = new mongoose.Schema(
         trim: true,
       },
       countryCode: {
-        type: Number,
+        type: String,
         trim: true,
       },
       districtId: {

@@ -99,13 +99,14 @@ const UserController = {
         process.env.REFRESH_TOKEN_SECRET,
         (err, user) => {
           if (err) return res.status(400).json({ msg: '' });
-          access_token = createAccessToken({ id: user.id });
+          access_token = createAccessToken({ id: user._id });
         }
       );
       res.json({
         status: 200,
         msg: 'Đăng nhập thành công',
         data: {
+          id: user._id,
           email: user.email,
           name: user.name,
           role: user.role === 1 ? "ADMIN" : "USER"
