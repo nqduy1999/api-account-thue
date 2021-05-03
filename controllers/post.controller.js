@@ -65,11 +65,11 @@ const postController = {
       res.status(500).json({ msg: err.message });
     }
   },
-  sendRequestHireCar: async (req, res) => {
-    try { } catch (err) {
-      res.status(500).json({ msg: err.message });
-    }
-  },
+  // sendRequestHireCar: async (req, res) => {
+  //   try { } catch (err) {
+  //     res.status(500).json({ msg: err.message });
+  //   }
+  // },
 }
 
 module.exports = postController;

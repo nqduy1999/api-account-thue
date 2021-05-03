@@ -68,7 +68,8 @@ const UserController = {
       );
       const { email } = user;
       await User.findOneAndUpdate({ email }, {
-        isActive: true
+        isActive: true,
+        emailVerified: true,
       });
       res.json({ msg: 'Kích hoạt tài khoản thành công' });
     } catch (err) {

@@ -36,7 +36,7 @@ const userSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    location: [{
+    address: [{
       cityId: {
         type: Number,
         trim: true,
@@ -76,6 +76,29 @@ const userSchema = new mongoose.Schema(
     },
     phoneVerified: {
       type: Boolean
+    },
+    license: {
+      licenseDrive: {
+        type: String
+      },
+      approveLicense: {
+        type: Boolean,
+        default: false
+      },
+      passport: {
+        type: String
+      },
+      approvePassport: {
+        type: Boolean,
+        default: false
+      },
+      identification: {
+        type: String
+      },
+      approveIdentification: {
+        type: Boolean,
+        default: false
+      },
     }
   },
   {
