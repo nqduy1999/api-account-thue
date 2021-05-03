@@ -1,9 +1,9 @@
-function responseData(status, data, msg, paginator) {
+function responseData(status, data, msg, pagination) {
   return {
     code: status === true ? 1 : -1,
     data,
     msg,
-    paginator
+    pagination
   }
 }
 

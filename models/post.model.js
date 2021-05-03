@@ -11,7 +11,7 @@ const postModel = new mongoose.Schema(
       required: true,
     },
     status: {
-      type: Number,
+      type: Number,// 1: Xe đang được thuê, 2: Xe trống, 3: Gửi xác nhận cho chủ xe.
       required: true
     },
     idOwner: {
@@ -105,6 +105,38 @@ const postModel = new mongoose.Schema(
       type: Boolean,
       trim: true,
     },
+    totalTrips: {
+      type: Number,
+      default: 0
+    },
+    isDriver: {
+      type: Boolean,
+      default: false,
+    },
+    note: {
+      type: String,
+      default: "1. Chấp nhận Hộ khẩu Thành phố/KT3 Thành phố/Hộ khẩu tỉnh/Passport (Bản gốc) (Giữ lại khi nhận xe)\r\n2. Tài sản đặt cọc (1 trong 2 hình thức)\r\n- Xe máy (giá trị >15t) + Cà vẹt (bản gốc)\r\n- Hoặc cọc tiền mặt 15 triệu."
+    },
+    requiredPapers: [{
+      name: {
+        type: String,
+        default: "CMND và GPLX (đối chiếu)",
+      },
+      logo: {
+        type: String,
+        default: "https://res.cloudinary.com/clduykhang/image/upload/v1619962419/system/icon_cmnd_auwbor.png"
+      }
+    }
+    ],
+    vehicleNumber: {
+      type: String
+    },
+    approveVehicle: {
+      type: Boolean,
+      default: false
+    },
+    priceSummary: {
+    }
   },
   {
     timestamps: true

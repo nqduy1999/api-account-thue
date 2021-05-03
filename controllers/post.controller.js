@@ -1,61 +1,47 @@
 const postModel = require("../models/post.model");
+const responseData = require("../utils/respones");
 
-class APIFeature {
-  constructor(query, queryString) {
-    this.query = query;
-    this.queryString = queryString;
-  }
-  filtering() {
-    const queryObj = { ...this.queryString };
-    const excludedFields = ['page', 'sort', 'limit']
-    excludedFields.forEach(el => delete (queryObj[el]));
-    let queryStr = JSON.stringify(queryObj);
-    queryStr = queryStr.replace(/\b(gte|gt|lt|lte|regex)\b/g, match => '$' + match);
-    //gte : Lớn hơn hoặc bằng giá trị được chọn
-    //lte: Bé hơn hoặc bằng giá trị được chọn 
-    //lt : bé hơn giá trị được chọn 
-    //gt : Lớn hơn giá trị được chọn 
-    this.query.find(JSON.parse(queryStr));
-    return this;
-  }
-  sorting() {
-    if (this.queryString.sort) {
-      const sortBy = this.queryString.sort.split(',').join(' ')
-      this.query = this.query.sort(sortBy);
-    }
-    else {
-      this.query = this.query.sort('-createdAt');
-    }
-    return this;
-  }
-  paginating() {
-    const page = this.queryString.page * 1 || 1;
-    const limit = this.queryString.limit * 1 || 3;
-    const skip = (page - 1) * limit;
-    this.query = this.query.skip(skip).limit(limit);
-    return this;
-  }
-}
 const postController = {
   createPost: async (req, res) => {
     try {
-      const { name, seat, status, idOwner, idModel, idMake, idType, location, price, locationAddr, rating, photos, photosVerified } = req.body;
-      const newPost = new postModel({ name, seat, status, idOwner, idModel, idMake, idType, location, price, locationAddr, rating, photos, photosVerified });
+      const { name, seat, status, idOwner, idModel, idMake, idType, location, price, locationAddr, rating, photos, photosVerified, isDriver } = req.body;
+      const newPost = new postModel({ name, seat, status, idOwner, idModel, idMake, idType, location, price, locationAddr, rating, photos, photosVerified, isDriver });
       await newPost.save();
       res.json({ msg: "Tạo post thành công" });
     } catch (err) {
       res.status(500).json({ msg: err.message });
     }
   },
-  getAllPost: async (req, res) => {
+  getAllPostFree: async (req, res) => {
     try {
-      const feature = new APIFeature(postModel.find(), req.query).filtering().sorting().paginating();
-      const post = await feature.query;
-      res.json({
-        status: "success",
-        result: post.length,
-        posts: post
-      });
+      const { page, limit } = req.query;
+      const pagination = {
+        perPage: Number(limit),
+        currentPage: Number(page),
+        nextPage: Number(page) + 1,
+      }
+      const { perPage, currentPage } = pagination
+      let params = {
+        status: 2,
+        isDriver: false,
+        approveVehicle: true
+      };
+      const dataResponse = {
+        'name': 1,
+        'photos': 2,
+        'locationAddr': 3,
+        'price': 4,
+        'photosVerified': 5,
+        'rating': 6
+      }
+      let totalPage = Math.ceil(await (await postModel.find(params)).length / (limit ? limit : 1))
+      const posts = await postModel.find(params, dataResponse, function (err) {
+        // eslint-disable-next-line no-undef
+        if (err) return next(err);
+      }).limit(perPage).skip(currentPage > 0 ? (currentPage - 1) * perPage : 0);
+      res.json(responseData(true, posts, null
+        , { ...pagination, totalPage }
+      ));
     } catch (err) {
       res.status(500).json({ msg: err.message });
     }
@@ -66,7 +52,7 @@ const postController = {
       await postModel.findByIdAndUpdate({ _id: req.params.id }, {
         name, seat, status, idOwner, idModel, idMake, idType, location, price, locationAddr, rating, photos, photosVerified
       })
-      res.json({ msg: "Update Sucessful" })
+      res.json({ msg: "Update Successful" })
     } catch (err) {
       res.status(500).json({ msg: err.message });
     }
@@ -74,11 +60,16 @@ const postController = {
   deletePost: async (req, res) => {
     try {
       await postModel.findByIdAndDelete(req.params.id)
-      return res.json({ msg: "Delete Sucessful" });
+      return res.json({ msg: "Delete Successful" });
     } catch (err) {
       res.status(500).json({ msg: err.message });
     }
-  }
+  },
+  sendRequestHireCar: async (req, res) => {
+    try { } catch (err) {
+      res.status(500).json({ msg: err.message });
+    }
+  },
 }
 
 module.exports = postController;
