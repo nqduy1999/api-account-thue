@@ -2,41 +2,66 @@ const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const sendMail = require('../services/sendMail.services');
-
+const phoneServiceSms = require('../middleware/phone.service.sms');
 const { CLIENT_URL } = process.env;
 
 const UserController = {
   register: async (req, res) => {
     try {
-      const { email, password, name } = req.body;
-      if (!email || !name || !password) {
-        return res
-          .status(400)
-          .json({ msg: 'Vui lòng điền tất cả khoảng trắng' });
+      const { email, password, name, phone } = req.body;
+      if (email) {
+        if (!validateEmail(email))
+          return res.status(400).json({ msg: 'Email không hợp lệ' });
+        const user = await User.findOne({ email });
+        if (user) return res.status(400).json({ msg: 'Email đã tồn tại' });
+        if (password.length < 6)
+          return res.status(400).json({ msg: 'Mật khẩu phải nhiều hơn 6 ký tự' });
+        const passwordHash = await bcrypt.hash(password, 12);
+        const newUser = new User({
+          name,
+          email,
+          password: passwordHash
+        });
+        await newUser.save();
+        const activation_token = createActivationToken({
+          email: email,
+          name: name,
+          password: passwordHash
+        });
+        const url = `${CLIENT_URL}activate?token=${activation_token}`;
+        sendMail(email, url, 'Bấm vào đây để kích hoạt tài khoản');
+        res.json({
+          msg: 'Đăng ký thành công, Vui lòng xác nhận email '
+        });
       }
-      if (!validateEmail(email))
-        return res.status(400).json({ msg: 'Email không hợp lệ' });
-      const user = await User.findOne({ email });
-      if (user) return res.status(400).json({ msg: 'Email đã tồn tại' });
-      if (password.length < 6)
-        return res.status(400).json({ msg: 'Mật khẩu phải nhiều hơn 6 ký tự' });
-      const passwordHash = await bcrypt.hash(password, 12);
-      const newUser = new User({
-        name,
-        email,
-        password: passwordHash
-      });
-      await newUser.save();
-      const activation_token = createActivationToken({
-        email: email,
-        name: name,
-        password: passwordHash
-      });
-      const url = `${CLIENT_URL}activate?token=${activation_token}`;
-      sendMail(email, url, 'Bấm vào đây để kích hoạt tài khoản');
-      res.json({
-        msg: 'Đăng ký thành công, Vui lòng xác nhận email '
-      });
+      if (phone) {
+        const newPhone = phone.slice(1, 10);
+        if (!validatePhone(phone)) { return res.status(400).json({ msg: 'Sai định dạng số điện thoại' }) }
+        if (password.length < 6)
+          return res.status(400).json({ msg: 'Mật khẩu phải nhiều hơn 6 ký tự' });
+        const passwordHash = await bcrypt.hash(password, 12);
+        const user = await User.findOne({ phone });
+        if (user) return res.status(400).json({ msg: 'Số điện thoại đã đăng ký' });
+        const newUser = new User({
+          name,
+          phone,
+          password: passwordHash
+        });
+        await newUser.save();
+        const result = await phoneServiceSms.sendSmsOTP(newPhone)
+        if (result !== true) {
+          res.status(500).json([
+            {
+              msg: "Send sms failed",
+              param: 'sms'
+            }
+          ])
+        } else {
+          res.status(201).json({
+            message: 'Đăng ký thành công, Mã xác nhận đã được gửi về số điện thoại của bạn'
+          })
+        }
+      }
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -228,6 +253,10 @@ function validateEmail(email) {
   // eslint-disable-next-line no-useless-escape
   const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(email);
+}
+function validatePhone(phone) {
+  const re = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+  return re.test(phone)
 }
 const createActivationToken = (payload) => {
   return jwt.sign(payload, process.env.ACTIVATION_TOKEN_SECRET, {

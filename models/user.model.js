@@ -9,9 +9,7 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: [true, 'Please input your email'],
       trim: true,
-      unique: true,
     },
     password: {
       type: String,
@@ -26,7 +24,7 @@ const userSchema = new mongoose.Schema(
     avatar: {
       type: String,
       default:
-        'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pngitem.com%2Fmiddle%2FobiRmR_1240-x-1240-0-avatar-profile-icon-png%2F&psig=AOvVaw0lNf_V8h0wZD-LcPRBECUm&ust=1614417286336000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLjw76ebh-8CFQAAAAAdAAAAABAD',
+        'https://res.cloudinary.com/clduykhang/image/upload/v1620008054/system/icons8-male-user-96_rqihbm.png',
     },
     isActive: {
       type: Boolean,
@@ -69,13 +67,15 @@ const userSchema = new mongoose.Schema(
     ],
     emailVerified: {
       type: Boolean,
+      default: false
     },
     phone: {
-      type: Number,
-      require
+      type: String,
+      trim: true,
     },
     phoneVerified: {
-      type: Boolean
+      type: Boolean,
+      default: false
     },
     license: {
       licenseDrive: {
