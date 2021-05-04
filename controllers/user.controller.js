@@ -44,6 +44,7 @@ const UserController = {
         if (user) return res.status(400).json({ msg: 'Số điện thoại đã đăng ký' });
         const result = await phoneServiceSms.sendSmsOTP(newPhone)
         if (result !== true) {
+          console.log(result);
           res.status(500).json([
             {
               msg: "Send sms failed",
@@ -52,15 +53,15 @@ const UserController = {
           ])
         } else {
           res.status(201).json({
-            message: 'Đăng ký thành công, Mã xác nhận đã được gửi về số điện thoại của bạn'
+            msg: 'Đăng ký thành công, Mã xác nhận đã được gửi về số điện thoại của bạn'
           })
+          const newUser = new User({
+            name,
+            phone,
+            password: passwordHash
+          });
+          await newUser.save();
         }
-        const newUser = new User({
-          name,
-          phone,
-          password: passwordHash
-        });
-        await newUser.save();
       }
     } catch (err) {
       return res.status(500).json({ msg: err.message });

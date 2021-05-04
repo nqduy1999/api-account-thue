@@ -5,6 +5,7 @@ const client = require('twilio')(configTwilio.accountSID, configTwilio.authToken
  * method to send smst verify otp
  */
 const sendSmsOTP = async (phone) => {
+  console.log(phone);
   try {
     const verification = await client.verify.services(configTwilio.serviceID)
       .verifications
