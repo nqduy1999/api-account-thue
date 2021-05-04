@@ -6,12 +6,12 @@ const postController = {
     try {
       const { name, seat, status, idOwner, idModel, idMake, idType, location,
         price, locationAddr, rating, photos, photosVerified, isDriver, vehicleNumber,
-        note, requiredPapers, paperOfCar } = req.body;
+        note, requiredPapers, paperOfCar, totalTrips } = req.body;
       const newPost = new postModel({
         name, seat, status, idOwner, idModel, idMake,
         idType, location, price, locationAddr, rating, photos,
         photosVerified, isDriver, vehicleNumber, note, requiredPapers
-        , paperOfCar
+        , paperOfCar, totalTrips
       });
       await newPost.save();
       res.json({ msg: "Tạo post thành công" });
@@ -39,7 +39,8 @@ const postController = {
         'locationAddr': 3,
         'price': 4,
         'photosVerified': 5,
-        'rating': 6
+        'rating': 6,
+        'totalTrips': 7
       }
       let totalPage = Math.ceil(await (await postModel.find(params)).length / (limit ? limit : 1))
       const posts = await postModel.find(params, dataResponse, function (err) {
