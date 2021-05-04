@@ -1,11 +1,18 @@
 const postModel = require("../models/post.model");
-const responseData = require("../utils/respones");
+const responseData = require("../utils/response");
 
 const postController = {
   createPost: async (req, res) => {
     try {
-      const { name, seat, status, idOwner, idModel, idMake, idType, location, price, locationAddr, rating, photos, photosVerified, isDriver } = req.body;
-      const newPost = new postModel({ name, seat, status, idOwner, idModel, idMake, idType, location, price, locationAddr, rating, photos, photosVerified, isDriver });
+      const { name, seat, status, idOwner, idModel, idMake, idType, location,
+        price, locationAddr, rating, photos, photosVerified, isDriver, vehicleNumber,
+        note, requiredPapers, paperOfCar } = req.body;
+      const newPost = new postModel({
+        name, seat, status, idOwner, idModel, idMake,
+        idType, location, price, locationAddr, rating, photos,
+        photosVerified, isDriver, vehicleNumber, note, requiredPapers
+        , paperOfCar
+      });
       await newPost.save();
       res.json({ msg: "Tạo post thành công" });
     } catch (err) {
@@ -24,7 +31,7 @@ const postController = {
       let params = {
         status: 2,
         isDriver: false,
-        approveVehicle: true
+        // approveVehicle: true
       };
       const dataResponse = {
         'name': 1,
@@ -65,8 +72,17 @@ const postController = {
       res.status(500).json({ msg: err.message });
     }
   },
+  getListPostByIdUser: async (req, res) => {
+    try {
+      const { id } = req.body;
+    } catch (err) {
+      res.status(500).json({ msg: err.message })
+    }
+  }
   // sendRequestHireCar: async (req, res) => {
-  //   try { } catch (err) {
+  //   try {
+
+  //    } catch (err) {
   //     res.status(500).json({ msg: err.message });
   //   }
   // },

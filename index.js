@@ -22,6 +22,7 @@ app.use('/api/user', require('./routes/user.routes'));
 app.use('/api', require('./routes/upload.routes'));
 app.use('/api/vehicle', require('./routes/vehicle.routes'));
 app.use('/api/post', require('./routes/post.routes'));
+app.use('/api/require-paper', require('./routes/require-paper.routes'));
 //
 const URI = process.env.MONGODB_URL_LOCAL;
 mongoose.connect(

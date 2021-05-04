@@ -1,3 +1,4 @@
+const { Schema } = require('mongoose');
 const mongoose = require('mongoose');
 
 const postModel = new mongoose.Schema(
@@ -15,23 +16,23 @@ const postModel = new mongoose.Schema(
       required: true
     },
     idOwner: {
-      type: String,
-      trim: true,
+      type: Schema.Types.ObjectId,
+      ref: 'User',
       require
     },
     idModel: {
-      type: String,
-      trim: true,
+      type: Schema.Types.ObjectId,
+      ref: 'vehicle_models',
       require
     },
     idMake: {
-      type: String,
-      trim: true,
+      type: Schema.Types.ObjectId,
+      ref: 'vehicle_makes',
       require
     },
     idType: {
-      type: String,
-      trim: true,
+      type: Schema.Types.ObjectId,
+      ref: 'vehicle_types',
       require
     },
     location: {
@@ -96,9 +97,7 @@ const postModel = new mongoose.Schema(
     },
     photos: [
       {
-        url: {
-          type: String
-        }
+        url: String
       }
     ],
     photosVerified: {
@@ -117,26 +116,21 @@ const postModel = new mongoose.Schema(
       type: String,
       default: "1. Chấp nhận Hộ khẩu Thành phố/KT3 Thành phố/Hộ khẩu tỉnh/Passport (Bản gốc) (Giữ lại khi nhận xe)\r\n2. Tài sản đặt cọc (1 trong 2 hình thức)\r\n- Xe máy (giá trị >15t) + Cà vẹt (bản gốc)\r\n- Hoặc cọc tiền mặt 15 triệu."
     },
-    requiredPapers: [{
-      name: {
-        type: String,
-        default: "CMND và GPLX (đối chiếu)",
-      },
-      logo: {
-        type: String,
-        default: "https://res.cloudinary.com/clduykhang/image/upload/v1619962419/system/icon_cmnd_auwbor.png"
-      }
-    }
+    requiredPapers: [
     ],
     vehicleNumber: {
-      type: String
+      type: String,
+      require
     },
+    paperOfCar: [
+      {
+        url: String
+      }
+    ],
     approveVehicle: {
       type: Boolean,
       default: false
     },
-    priceSummary: {
-    }
   },
   {
     timestamps: true

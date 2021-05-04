@@ -1,13 +1,12 @@
 require('dotenv').config()
-const configTwilio = require('../utils/configTwilio');
-const client = require('twilio')(configTwilio.accountSID, configTwilio.authToken);
+const client = require('twilio')(process.env.ACCOUNT_SID_TWILIO, process.env.AUTH_TOKEN_TWILIO);
 /**
  * method to send smst verify otp
  */
 const sendSmsOTP = async (phone) => {
-  console.log(phone);
+  console.log(process.env.ACCOUNT_SID_TWILIO);
   try {
-    const verification = await client.verify.services(configTwilio.serviceID)
+    const verification = await client.verify.services(process.env.SERVICE_ID_TWILIO)
       .verifications
       .create({ to: `+84${phone}`, channel: 'sms' })
     if (verification) return true
@@ -20,7 +19,7 @@ const sendSmsOTP = async (phone) => {
 const verifyOtp = async (phone, code) => {
   try {
     // eslint-disable-next-line 
-    const verification_check = await client.verify.services(configTwilio.serviceID)
+    const verification_check = await client.verify.services(process.env.SERVICE_ID_TWILIO)
       .verificationChecks
       .create({ to: `+84${phone}`, code: code })
     if (verification_check.valid) {

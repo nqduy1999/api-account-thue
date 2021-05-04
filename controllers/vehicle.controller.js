@@ -1,7 +1,7 @@
 const vehicleMake = require("../models/vehicle.make.model");
 const vehicleType = require("../models/vehicle.type.model");
 const vehicleModel = require("../models/vehicle.model.model");
-const responseData = require("../utils/respones");
+const responseData = require("../utils/response");
 
 const VehicleController = {
     // Type là loại xe ví dụ xe 4 chỗ 7 chỗ bán tải 
@@ -102,15 +102,7 @@ const VehicleController = {
     },
     // Model là loại xe trong mẫu xe 
     getVehicleModel: async (req, res) => {
-        const { typeId, makesId
-            // , page, limit 
-        } = req.query
-        // const paginator = {
-        //     perPage: Number(limit),
-        //     currentPage: Number(page),
-        //     nextPage: Number(page) + 1,
-        // }
-        // const { perPage, currentPage } = paginator
+        const { typeId, makesId } = req.query
         let params;
         try {
             if (!typeId && !makesId) {
@@ -125,11 +117,8 @@ const VehicleController = {
             if (!typeId && makesId) {
                 params = { makesId }
             }
-            // let total = Math.ceil(await (await vehicleModel.find(params)).length / (limit ? limit : 1));
             let models = await vehicleModel.find(params)
-            // .limit(perPage).skip(currentPage > 0 ? (currentPage - 1) * perPage : 0);
             res.json(responseData(true, models, null
-                // , { ...paginator, total }
             ));
         } catch (err) {
             res.status(500).json({ msg: err.message });
