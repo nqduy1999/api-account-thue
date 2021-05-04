@@ -42,12 +42,6 @@ const UserController = {
         const passwordHash = await bcrypt.hash(password, 12);
         const user = await User.findOne({ phone });
         if (user) return res.status(400).json({ msg: 'Số điện thoại đã đăng ký' });
-        const newUser = new User({
-          name,
-          phone,
-          password: passwordHash
-        });
-        await newUser.save();
         const result = await phoneServiceSms.sendSmsOTP(newPhone)
         if (result !== true) {
           res.status(500).json([
@@ -61,6 +55,12 @@ const UserController = {
             message: 'Đăng ký thành công, Mã xác nhận đã được gửi về số điện thoại của bạn'
           })
         }
+        const newUser = new User({
+          name,
+          phone,
+          password: passwordHash
+        });
+        await newUser.save();
       }
     } catch (err) {
       return res.status(500).json({ msg: err.message });
@@ -101,15 +101,39 @@ const UserController = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  verifyPhone: async (req, res) => {
+    try {
+      const { phone, code } = req.body;
+      const result = await phoneServiceSms.verifyOtp(phone, code)
+      if (result) {
+        await User.findOneAndUpdate({ phone }, {
+          isActive: true,
+          phoneVerified: true,
+        })
+        res.json({ msg: 'Kích hoạt tài khoản thành công' });
+      }
+    }
+    catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
   login: async (req, res) => {
     try {
-      const { email, password } = req.body;
-      const user = await User.findOne({ email });
+      const { email, password, phone } = req.body;
+      let user;
+      if (email) { user = await User.findOne({ email }) }
+      if (phone) { user = await User.findOne({ phone }) }
       let access_token = "";
-      if (!user)
-        return res
-          .status(400)
-          .json({ msg: 'Email không tồn tại vui lòng kiểm tra lại' });
+      if (!user) {
+        if (email) {
+          return res
+            .status(400)
+            .json({ msg: 'Không đúng email hoặc mật khẩu' })
+        }
+        if (phone) {
+          return res.status(400).json({ msg: 'Không đúng số điện thoại hoặc mật khẩu' })
+        }
+      }
       const isMatchPass = await bcrypt.compare(password, user.password);
       if (!isMatchPass)
         return res
@@ -133,7 +157,8 @@ const UserController = {
         msg: 'Đăng nhập thành công',
         data: {
           id: user._id,
-          email: user.email,
+          email,
+          phone,
           name: user.name,
           role: user.role === 1 ? "ADMIN" : "USER"
         },
