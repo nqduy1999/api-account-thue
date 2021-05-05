@@ -73,13 +73,13 @@ const postController = {
       res.status(500).json({ msg: err.message });
     }
   },
-  getListPostByIdUser: async (req, res) => {
-    try {
-      const { id } = req.body;
-    } catch (err) {
-      res.status(500).json({ msg: err.message })
-    }
-  }
+  // getListPostByIdUser: async (req, res) => {
+  //   try {
+  //     const { id } = req.body;
+  //   } catch (err) {
+  //     res.status(500).json({ msg: err.message })
+  //   }
+  // }
   // sendRequestHireCar: async (req, res) => {
   //   try {
 

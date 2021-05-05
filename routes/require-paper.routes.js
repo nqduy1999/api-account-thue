@@ -6,6 +6,6 @@ const router = require("express").Router();
 router.get('/', RequirePapersController.getRequirePaper)
 router.post('/', RequirePapersController.createRequirePaper);
 
-router.delete('/:id', RequirePapersController.deteleRequirePaper)
+router.delete('/:id', RequirePapersController.deleteRequirePaper)
 router.put('/:id', RequirePapersController.updateRequirePaper);
 module.exports = router;

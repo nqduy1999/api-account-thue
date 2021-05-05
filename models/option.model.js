@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const RequirePapersModel = new mongoose.Schema(
+const OptionsModel = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -12,4 +12,4 @@ const RequirePapersModel = new mongoose.Schema(
     },
   }
 )
-module.exports = mongoose.model('requirePapers', RequirePapersModel);
+module.exports = mongoose.model('options', OptionsModel);

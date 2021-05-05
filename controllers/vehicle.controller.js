@@ -30,7 +30,7 @@ const VehicleController = {
             res.status(500).json({ msg: err.message });
         }
     },
-    deteleVehicleType: async (req, res) => {
+    deleteVehicleType: async (req, res) => {
         try {
             await vehicleType.findByIdAndDelete(req.params.id);
             res.json({
@@ -77,7 +77,7 @@ const VehicleController = {
             res.status(500).json({ msg: err.message });
         }
     },
-    deteleVehicleMakes: async (req, res) => {
+    deleteVehicleMakes: async (req, res) => {
         try {
             await vehicleMake.findByIdAndDelete(req.params.id);
             res.json({
@@ -150,7 +150,7 @@ const VehicleController = {
             res.status(500).json({ msg: err.message });
         }
     },
-    deteleVehicleModel: async (req, res) => {
+    deleteVehicleModel: async (req, res) => {
         try {
             await vehicleModel.findByIdAndDelete(req.params.id);
             res.json({

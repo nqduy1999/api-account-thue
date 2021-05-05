@@ -20,7 +20,7 @@ const RequirePapersController = {
       res.status(500).json({ msg: err.message });
     }
   },
-  deteleRequirePaper: async (req, res) => {
+  deleteRequirePaper: async (req, res) => {
     try {
       await requirePaperModel.findByIdAndDelete(req.params.id);
       res.json({
