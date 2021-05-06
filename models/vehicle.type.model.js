@@ -6,19 +6,19 @@ const vehicleTypeSchema = new mongoose.Schema(
       type: String,
       require,
       unique: true,
-      trim: true
+      trim: true,
     },
     logo: {
       type: String,
-      require
+      require,
     },
     key: {
       type: String,
-    }
+    },
 
   },
   {
-    timestamps: true
-  }
+    timestamps: true,
+  },
 );
 module.exports = mongoose.model('vehicle_type', vehicleTypeSchema);

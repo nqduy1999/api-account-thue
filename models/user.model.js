@@ -99,9 +99,9 @@ const userSchema = new mongoose.Schema(
         type: Boolean,
         default: false,
       },
-      historyPostHire: [{
+      historyContract: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'post',
+        ref: 'contract',
       }],
     },
   },

@@ -1,28 +1,28 @@
-const OptionModel = require('../models/option.model');
+const ContractModel = require('../models/contract.model');
 
 const OptionsController = {
-  getOptions: async (req, res) => {
+  getContractsByIdOwner: async (req, res) => {
     try {
-      const options = await OptionModel.find();
+      const options = await ContractModel.find();
       res.json(options);
     } catch (err) {
       res.status(500).json({ msg: err.message });
     }
   },
-  createOption: async (req, res) => {
-    const { name, logo } = req.body;
-    const newOption = new OptionModel({ name, logo });
-    await newOption.save();
-    res.json({ msg: 'Tạo thành công' });
+  createContract: async (req, res) => {
+    const { idOwner, idHirer } = req.body;
+    const newContract = new ContractModel({ idOwner, idHirer });
+    await newContract.save();
+    res.json({ msg: 'Tạo hợp đồng thành công' });
     try {
       res.json({ msg: 'Admin Resource' });
     } catch (err) {
       res.status(500).json({ msg: err.message });
     }
   },
-  deleteOption: async (req, res) => {
+  deleteContract: async (req, res) => {
     try {
-      await OptionModel.findByIdAndDelete(req.params.id);
+      await ContractModel.findByIdAndDelete(req.params.id);
       res.json({
         msg: 'Xoá thành công',
       });
@@ -36,7 +36,7 @@ const OptionsController = {
       const param = {
         name, logo,
       };
-      await OptionModel.findByIdAndUpdate({ _id: req.params.id }, param);
+      await ContractModel.findByIdAndUpdate({ _id: req.params.id }, param);
       res.json({ msg: 'Cập nhật thành công' });
     } catch (err) {
       res.status(500).json({ msg: err.message });

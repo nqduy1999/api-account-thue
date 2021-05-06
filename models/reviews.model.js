@@ -8,15 +8,15 @@ const reviewSchema = new mongoose.Schema(
     },
     comment: {
       type: String,
-      default: "ga"
+      default: 'ga',
     },
     serviceType: {
-      type: Number
+      type: Number,
     },
     postId: {
       type: String,
-      require
-    }
+      require,
+    },
   },
   {
     timestamps: true,

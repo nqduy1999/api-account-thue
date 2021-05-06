@@ -8,7 +8,7 @@ const vehicleModelSchema = new mongoose.Schema(
     },
     makesId: {
       type: String,
-      require: true
+      require: true,
     },
     name: {
       type: String,
@@ -18,14 +18,14 @@ const vehicleModelSchema = new mongoose.Schema(
     },
     logo: {
       type: String,
-      require
+      require,
     },
     isLuxury: {
       type: Boolean,
-    }
+    },
   },
   {
-    timestamps: true
-  }
+    timestamps: true,
+  },
 );
 module.exports = mongoose.model('vehicle_models', vehicleModelSchema);

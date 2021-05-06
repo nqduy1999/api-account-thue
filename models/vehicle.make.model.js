@@ -5,15 +5,15 @@ const vehicleMakeSchema = new mongoose.Schema(
     name: {
       type: String,
       require,
-      trim: true
+      trim: true,
     },
     logo: {
       type: String,
-      require
-    }
+      require,
+    },
   },
   {
-    timestamps: true
-  }
+    timestamps: true,
+  },
 );
 module.exports = mongoose.model('vehicle_make', vehicleMakeSchema);

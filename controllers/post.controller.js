@@ -123,14 +123,6 @@ const postController = {
       res.status(500).json({ msg: err.message });
     }
   },
-  sendRequestHireCar: async (req, res) => {
-    try {
-      // const { idHirer } = req.body;
-      // const postFind = await PostModel.findById({ _id: req.params.id });
-    } catch (err) {
-      res.status(500).json({ msg: err.message });
-    }
-  },
 };
 
 module.exports = postController;
