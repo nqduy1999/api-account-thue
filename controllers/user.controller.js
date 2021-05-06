@@ -49,7 +49,6 @@ const UserController = {
         if (user) return res.status(400).json({ msg: 'Số điện thoại đã đăng ký' });
         const result = await phoneServiceSms.sendSmsOTP(newPhone);
         if (result !== true) {
-          console.log(result);
           res.status(500).json([
             {
               msg: 'Send sms failed',

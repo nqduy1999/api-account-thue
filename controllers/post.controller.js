@@ -117,19 +117,20 @@ const postController = {
     const { perPage, currentPage } = pagination;
     try {
       const totalPage = Math.ceil(await (await PostModel.find({ idOwner: req.params.id })).length / (limit || 1));
-      await PostModel.find({ idOwner: req.params.id }).limit(perPage).skip(currentPage > 0 ? (currentPage - 1) * perPage : 0);
+      const posts = await PostModel.find({ idOwner: req.params.id }).limit(perPage).skip(currentPage > 0 ? (currentPage - 1) * perPage : 0);
       res.json(responseData(true, posts, null, { ...pagination, totalPage }));
     } catch (err) {
       res.status(500).json({ msg: err.message });
     }
   },
-  // sendRequestHireCar: async (req, res) => {
-  //   try {
-
-  //    } catch (err) {
-  //     res.status(500).json({ msg: err.message });
-  //   }
-  // },
+  sendRequestHireCar: async (req, res) => {
+    try {
+      // const { idHirer } = req.body;
+      // const postFind = await PostModel.findById({ _id: req.params.id });
+    } catch (err) {
+      res.status(500).json({ msg: err.message });
+    }
+  },
 };
 
 module.exports = postController;

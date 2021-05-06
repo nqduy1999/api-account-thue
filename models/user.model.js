@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: Number,
-      default: 0
+      default: 0,
       // 1 Admin, 0 user
     },
     avatar: {
@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema(
     },
     isActive: {
       type: Boolean,
-      default: false
+      default: false,
     },
     accountBalance: {
       type: Number,
@@ -63,11 +63,11 @@ const userSchema = new mongoose.Schema(
         type: Number,
         trim: true,
       },
-    }
+    },
     ],
     emailVerified: {
       type: Boolean,
-      default: false
+      default: false,
     },
     phone: {
       type: String,
@@ -75,31 +75,35 @@ const userSchema = new mongoose.Schema(
     },
     phoneVerified: {
       type: Boolean,
-      default: false
+      default: false,
     },
     license: {
       licenseDrive: {
-        type: String
+        type: String,
       },
       approveLicense: {
         type: Boolean,
-        default: false
+        default: false,
       },
       passport: {
-        type: String
+        type: String,
       },
       approvePassport: {
         type: Boolean,
-        default: false
+        default: false,
       },
       identification: {
-        type: String
+        type: String,
       },
       approveIdentification: {
         type: Boolean,
-        default: false
+        default: false,
       },
-    }
+      historyPostHire: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'post',
+      }],
+    },
   },
   {
     timestamps: true,
