@@ -1,11 +1,9 @@
-const OptionsController = require("../controllers/option.controller");
-// const auth = require('../middleware/auth');
+const router = require('express').Router();
+const OptionsController = require('../controllers/option.controller');
 
-const router = require("express").Router();
+router.get('/', OptionsController.getOptions);
+router.post('/', OptionsController.createOption);
 
-router.get('/', OptionsController.getRequirePaper)
-router.post('/', OptionsController.createRequirePaper);
-
-router.delete('/:id', OptionsController.deleteRequirePaper)
-router.put('/:id', OptionsController.updateRequirePaper);
+router.delete('/:id', OptionsController.deleteOption);
+router.put('/:id', OptionsController.updateOption);
 module.exports = router;

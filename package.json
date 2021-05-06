@@ -32,26 +32,16 @@
     "prettier-format": "^2.0.2",
     "twilio": "^3.61.0"
   },
-  "devDependencies": {
-    "babel-eslint": "^10.1.0",
-    "eslint": "^7.20.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.22.1",
-    "husky": "^5.1.1",
-    "lint-staged": "^10.5.4",
-    "prettier": "2.2.1"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "lint-staged"
-    }
-  },
   "keywords": [
     "example",
     "heroku"
   ],
   "engines": {
     "node": "14.x"
+  },
+  "devDependencies": {
+    "eslint": "^7.25.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1"
   }
 }

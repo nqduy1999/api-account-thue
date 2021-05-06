@@ -4,12 +4,12 @@ const OptionsModel = new mongoose.Schema(
   {
     name: {
       type: String,
-      require
+      require,
     },
     logo: {
       type: String,
-      require
+      require,
     },
-  }
-)
+  },
+);
 module.exports = mongoose.model('options', OptionsModel);

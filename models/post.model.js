@@ -1,7 +1,7 @@
 const { Schema } = require('mongoose');
 const mongoose = require('mongoose');
 
-const postModel = new mongoose.Schema(
+const PostModel = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -12,28 +12,28 @@ const postModel = new mongoose.Schema(
       required: true,
     },
     status: {
-      type: Number,// 1: Xe đang được thuê, 2: Xe trống, 3: Gửi xác nhận cho chủ xe.
-      required: true
+      type: Number, // 1: Xe đang được thuê, 2: Xe trống, 3: Gửi xác nhận cho chủ xe.
+      required: true,
     },
     idOwner: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      require
+      require,
     },
     idModel: {
       type: Schema.Types.ObjectId,
       ref: 'vehicle_models',
-      require
+      require,
     },
     idMake: {
       type: Schema.Types.ObjectId,
       ref: 'vehicle_makes',
-      require
+      require,
     },
     idType: {
       type: Schema.Types.ObjectId,
       ref: 'vehicle_types',
-      require
+      require,
     },
     location: {
       cityId: {
@@ -68,7 +68,7 @@ const postModel = new mongoose.Schema(
     price: {
       type: Number,
       trim: true,
-      require
+      require,
     },
     locationAddr: {
       type: String,
@@ -93,12 +93,12 @@ const postModel = new mongoose.Schema(
       },
       star5: {
         type: Number,
-      }
+      },
     },
     photos: [
       {
-        url: String
-      }
+        url: String,
+      },
     ],
     photosVerified: {
       type: Boolean,
@@ -106,7 +106,7 @@ const postModel = new mongoose.Schema(
     },
     totalTrips: {
       type: Number,
-      default: 0
+      default: 0,
     },
     isDriver: {
       type: Boolean,
@@ -114,33 +114,42 @@ const postModel = new mongoose.Schema(
     },
     options: [{
       type: Schema.Types.ObjectId,
-      ref: 'optionsCars'
+      ref: 'optionsCars',
     }],
     note: {
       type: String,
-      default: "1. Chấp nhận Hộ khẩu Thành phố/KT3 Thành phố/Hộ khẩu tỉnh/Passport (Bản gốc) (Giữ lại khi nhận xe)\r\n2. Tài sản đặt cọc (1 trong 2 hình thức)\r\n- Xe máy (giá trị >15t) + Cà vẹt (bản gốc)\r\n- Hoặc cọc tiền mặt 15 triệu."
+      default: '1. Chấp nhận Hộ khẩu Thành phố/KT3 Thành phố/Hộ khẩu tỉnh/Passport (Bản gốc) (Giữ lại khi nhận xe)\r\n2. Tài sản đặt cọc (1 trong 2 hình thức)\r\n- Xe máy (giá trị >15t) + Cà vẹt (bản gốc)\r\n- Hoặc cọc tiền mặt 15 triệu.',
     },
     requiredPapers: [{
       type: Schema.Types.ObjectId,
-      ref: 'requirePapers'
-    }
+      ref: 'requirePapers',
+    },
     ],
     vehicleNumber: {
       type: String,
-      require
+      require,
     },
     paperOfCar: [
       {
-        url: String
-      }
+        url: String,
+      },
     ],
     approveVehicle: {
       type: Boolean,
-      default: false
+      default: false,
     },
+    transmission: {
+      id: String,
+      name: String,
+    },
+    conditions: [
+      {
+        name: String,
+      },
+      require],
   },
   {
-    timestamps: true
-  }
-)
-module.exports = mongoose.model('post', postModel);
+    timestamps: true,
+  },
+);
+module.exports = mongoose.model('post', PostModel);

@@ -1,9 +1,9 @@
-const optionModel = require("../models/option.model");
+const OptionModel = require('../models/option.model');
 
 const OptionsController = {
   getOptions: async (req, res) => {
     try {
-      let options = await optionModel.find();
+      const options = await OptionModel.find();
       res.json(options);
     } catch (err) {
       res.status(500).json({ msg: err.message });
@@ -11,21 +11,21 @@ const OptionsController = {
   },
   createOption: async (req, res) => {
     const { name, logo } = req.body;
-    const newOption = new optionModel({ name, logo });
+    const newOption = new OptionModel({ name, logo });
     await newOption.save();
-    res.json({ msg: "Tạo thành công" });
+    res.json({ msg: 'Tạo thành công' });
     try {
-      res.json({ msg: "Admin Resource" });
+      res.json({ msg: 'Admin Resource' });
     } catch (err) {
       res.status(500).json({ msg: err.message });
     }
   },
   deleteOption: async (req, res) => {
     try {
-      await optionModel.findByIdAndDelete(req.params.id);
+      await OptionModel.findByIdAndDelete(req.params.id);
       res.json({
-        msg: "Xoá thành công"
-      })
+        msg: 'Xoá thành công',
+      });
     } catch (err) {
       res.status(500).json({ msg: err.message });
     }
@@ -34,13 +34,13 @@ const OptionsController = {
     try {
       const { name, logo } = req.body;
       const param = {
-        name, logo
-      }
-      await optionModel.findByIdAndUpdate({ _id: req.params.id }, param);
-      res.json({ msg: "Cập nhật thành công" })
+        name, logo,
+      };
+      await OptionModel.findByIdAndUpdate({ _id: req.params.id }, param);
+      res.json({ msg: 'Cập nhật thành công' });
     } catch (err) {
       res.status(500).json({ msg: err.message });
     }
   },
-}
+};
 module.exports = OptionsController;

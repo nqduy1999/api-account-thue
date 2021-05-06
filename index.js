@@ -23,6 +23,7 @@ app.use('/api', require('./routes/upload.routes'));
 app.use('/api/vehicle', require('./routes/vehicle.routes'));
 app.use('/api/post', require('./routes/post.routes'));
 app.use('/api/require-paper', require('./routes/require-paper.routes'));
+app.use('/api/option', require('./routes/option.routes'));
 //
 const URI = process.env.MONGODB_URL_LOCAL;
 mongoose.connect(
@@ -35,7 +36,6 @@ mongoose.connect(
   },
   (err) => {
     if (err) throw err;
-    // eslint-disable-next-line no-console
     console.log('Connect to Mongodb ');
   },
 );
@@ -45,6 +45,5 @@ app.get('/', (req, res) => {
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  // eslint-disable-next-line no-console
   console.log(`Server is running is http://localhost:${PORT}`);
 });
