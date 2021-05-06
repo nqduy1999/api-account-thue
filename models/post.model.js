@@ -138,10 +138,10 @@ const PostModel = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    transmission: {
+    transmission: [{
       id: String,
       name: String,
-    },
+    }],
     conditions: [
       {
         name: String,

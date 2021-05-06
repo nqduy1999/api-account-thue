@@ -2,7 +2,7 @@ const router = require('express').Router();
 const postController = require('../controllers/post.controller');
 
 router.get('/', postController.getAllPostFree);
-router.get('/:id', postController.getListPostByIdUser);
+router.get('/find-by-owner/:id', postController.getListPostByIdUser);
 router.post('/', postController.createPost);
 
 router.delete('/:id', postController.deletePost);

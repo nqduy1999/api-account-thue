@@ -1,64 +1,69 @@
-const User = require('../models/user.model');
+/* eslint-disable no-shadow */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-use-before-define */
+/* eslint-disable camelcase */
+/* eslint-disable consistent-return */
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const User = require('../models/user.model');
 const sendMail = require('../services/sendMail.services');
 const phoneServiceSms = require('../middleware/phone.service.sms');
+
 const { CLIENT_URL } = process.env;
 
 const UserController = {
   register: async (req, res) => {
     try {
-      const { email, password, name, phone } = req.body;
+      const {
+        email, password, name, phone,
+      } = req.body;
       if (email) {
-        if (!validateEmail(email))
-          return res.status(400).json({ msg: 'Email không hợp lệ' });
+        if (!validateEmail(email)) { return res.status(400).json({ msg: 'Email không hợp lệ' }); }
         const user = await User.findOne({ email });
         if (user) return res.status(400).json({ msg: 'Email đã tồn tại' });
-        if (password.length < 6)
-          return res.status(400).json({ msg: 'Mật khẩu phải nhiều hơn 6 ký tự' });
+        if (password.length < 6) { return res.status(400).json({ msg: 'Mật khẩu phải nhiều hơn 6 ký tự' }); }
         const passwordHash = await bcrypt.hash(password, 12);
         const newUser = new User({
           name,
           email,
-          password: passwordHash
+          password: passwordHash,
         });
         await newUser.save();
         const activation_token = createActivationToken({
-          email: email,
-          name: name,
-          password: passwordHash
+          email,
+          name,
+          password: passwordHash,
         });
         const url = `${CLIENT_URL}activate?token=${activation_token}`;
         sendMail(email, url, 'Bấm vào đây để kích hoạt tài khoản');
         res.json({
-          msg: 'Đăng ký thành công, Vui lòng xác nhận email '
+          msg: 'Đăng ký thành công, Vui lòng xác nhận email ',
         });
       }
       if (phone) {
         const newPhone = phone.slice(1, 10);
-        if (!validatePhone(phone)) { return res.status(400).json({ msg: 'Sai định dạng số điện thoại' }) }
-        if (password.length < 6)
-          return res.status(400).json({ msg: 'Mật khẩu phải nhiều hơn 6 ký tự' });
+        if (!validatePhone(phone)) { return res.status(400).json({ msg: 'Sai định dạng số điện thoại' }); }
+        if (password.length < 6) { return res.status(400).json({ msg: 'Mật khẩu phải nhiều hơn 6 ký tự' }); }
         const passwordHash = await bcrypt.hash(password, 12);
         const user = await User.findOne({ phone });
         if (user) return res.status(400).json({ msg: 'Số điện thoại đã đăng ký' });
-        const result = await phoneServiceSms.sendSmsOTP(newPhone)
+        const result = await phoneServiceSms.sendSmsOTP(newPhone);
         if (result !== true) {
           console.log(result);
           res.status(500).json([
             {
-              msg: "Send sms failed",
-              param: 'sms'
-            }
-          ])
+              msg: 'Send sms failed',
+              param: 'sms',
+            },
+          ]);
         } else {
           res.status(201).json({
-            msg: 'Đăng ký thành công, Mã xác nhận đã được gửi về số điện thoại của bạn'
-          })
+            msg: 'Đăng ký thành công, Mã xác nhận đã được gửi về số điện thoại của bạn',
+          });
           const newUser = new User({
             name,
             phone,
-            password: passwordHash
+            password: passwordHash,
           });
           await newUser.save();
         }
@@ -72,14 +77,14 @@ const UserController = {
       const { email } = req.body;
       const userFind = await User.findOne({ email });
       const activation_token = createActivationToken({
-        email: email,
+        email,
         name: userFind.name,
-        password: userFind.password
+        password: userFind.password,
       });
       const url = `${CLIENT_URL}activate?token=${activation_token}`;
       sendMail(email, url, 'Bấm vào đây để kích hoạt tài khoản');
       res.json({
-        msg: 'Gửi mã thành công, Vui lòng xác nhận email'
+        msg: 'Gửi mã thành công, Vui lòng xác nhận email',
       });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
@@ -90,7 +95,7 @@ const UserController = {
       const { activation_token } = req.body;
       const user = jwt.verify(
         activation_token,
-        process.env.ACTIVATION_TOKEN_SECRET
+        process.env.ACTIVATION_TOKEN_SECRET,
       );
       const { email } = user;
       await User.findOneAndUpdate({ email }, {
@@ -105,16 +110,15 @@ const UserController = {
   verifyPhone: async (req, res) => {
     try {
       const { phone, code } = req.body;
-      const result = await phoneServiceSms.verifyOtp(phone, code)
+      const result = await phoneServiceSms.verifyOtp(phone, code);
       if (result) {
         await User.findOneAndUpdate({ phone }, {
           isActive: true,
           phoneVerified: true,
-        })
+        });
         res.json({ msg: 'Kích hoạt tài khoản thành công' });
       }
-    }
-    catch (err) {
+    } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
   },
@@ -122,27 +126,30 @@ const UserController = {
     try {
       const { email, password, phone } = req.body;
       let user;
-      if (email) { user = await User.findOne({ email }) }
-      if (phone) { user = await User.findOne({ phone }) }
-      let access_token = "";
+      if (email) { user = await User.findOne({ email }); }
+      if (phone) { user = await User.findOne({ phone }); }
+      let access_token = '';
       if (!user) {
         if (email) {
           return res
             .status(400)
-            .json({ msg: 'Không đúng email hoặc mật khẩu' })
+            .json({ msg: 'Không đúng email hoặc mật khẩu' });
         }
         if (phone) {
-          return res.status(400).json({ msg: 'Không đúng số điện thoại hoặc mật khẩu' })
+          return res.status(400).json({ msg: 'Không đúng số điện thoại hoặc mật khẩu' });
         }
       }
       const isMatchPass = await bcrypt.compare(password, user.password);
-      if (!isMatchPass)
+      if (!isMatchPass) {
         return res
           .status(400)
           .json({ msg: 'Mật khẩu không đúng vui lòng nhập lại' });
-      if (!user.isActive) return res
-        .status(400)
-        .json({ msg: 'Chưa kích hoạt tài khoản' });
+      }
+      if (!user.isActive) {
+        return res
+          .status(400)
+          .json({ msg: 'Chưa kích hoạt tài khoản' });
+      }
       const refresh_token = createRefreshToken({ id: user._id });
       if (!refresh_token) return res.status(400).json({ msg: '' });
       jwt.verify(
@@ -151,7 +158,7 @@ const UserController = {
         (err, user) => {
           if (err) return res.status(400).json({ msg: '' });
           access_token = createAccessToken({ id: user._id });
-        }
+        },
       );
       res.json({
         status: 200,
@@ -161,9 +168,9 @@ const UserController = {
           email,
           phone,
           name: user.name,
-          role: user.role === 1 ? "ADMIN" : "USER"
+          role: user.role === 1 ? 'ADMIN' : 'USER',
         },
-        access_token
+        access_token,
       });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
@@ -179,7 +186,7 @@ const UserController = {
       sendMail(email, url, 'Reset your password');
       res.json({
         msg:
-          'Gửi email đặt lại mật khẩu thành công, vui lòng kiểm tra mail để xác nhận'
+          'Gửi email đặt lại mật khẩu thành công, vui lòng kiểm tra mail để xác nhận',
       });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
@@ -193,8 +200,8 @@ const UserController = {
       await User.findOneAndUpdate(
         { _id: req.user.id },
         {
-          password: passwordHash
-        }
+          password: passwordHash,
+        },
       );
 
       res.json({ msg: 'Thay đổi password thành công' });
@@ -223,8 +230,8 @@ const UserController = {
       perPage: Number(req.query.limit),
       currentPage: Number(req.query.page),
       nextPage: Number(req.query.page) + 1,
-    }
-    const { perPage, currentPage } = paginator
+    };
+    const { perPage, currentPage } = paginator;
     try {
       const users = await User.find().limit(perPage).skip(currentPage > 0 ? (currentPage - 1) * perPage : 0).select('-password');
       res.json({ users, paginator });
@@ -234,10 +241,10 @@ const UserController = {
   },
   logOut: async (req, res) => {
     try {
-      res.clearCookie('refreshToken', { path: '/user/refresh_token' })
-      res.json({ msg: "Logout" })
+      res.clearCookie('refreshToken', { path: '/user/refresh_token' });
+      res.json({ msg: 'Logout' });
     } catch (err) {
-      return res.status(500).json({ msg: err.message })
+      return res.status(500).json({ msg: err.message });
     }
   },
   updateUser: async (req, res) => {
@@ -245,11 +252,11 @@ const UserController = {
       const { name, avatar } = req.body;
       await User.findByIdAndUpdate({ _id: req.user.id }, {
         name,
-        avatar
-      })
+        avatar,
+      });
       res.json({ msg: 'Cập nhật thành công' });
     } catch (err) {
-      return res.status(500).json({ msg: err.message })
+      return res.status(500).json({ msg: err.message });
     }
   },
   updateAllUser: async (req, res) => {
@@ -258,19 +265,19 @@ const UserController = {
       await User.findByIdAndUpdate({ _id: req.params.id }, {
         name,
         avatar,
-        role
-      })
+        role,
+      });
       res.json({ msg: 'Cập nhật thành công' });
     } catch (err) {
-      return res.status(500).json({ msg: err.message })
+      return res.status(500).json({ msg: err.message });
     }
   },
   deleteUser: async (req, res) => {
     try {
-      await User.findByIdAndDelete(req.params.id)
+      await User.findByIdAndDelete(req.params.id);
       res.json({ msg: 'Xoá thành công' });
     } catch (err) {
-      return res.status(500).json({ msg: err.message })
+      return res.status(500).json({ msg: err.message });
     }
   },
 };
@@ -282,21 +289,15 @@ function validateEmail(email) {
 }
 function validatePhone(phone) {
   const re = /((09|03|07|08|05)+([0-9]{8})\b)/g;
-  return re.test(phone)
+  return re.test(phone);
 }
-const createActivationToken = (payload) => {
-  return jwt.sign(payload, process.env.ACTIVATION_TOKEN_SECRET, {
-    expiresIn: '5m'
-  });
-};
-const createAccessToken = (payload) => {
-  return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: '15m'
-  });
-};
-const createRefreshToken = (payload) => {
-  return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
-    expiresIn: '7d'
-  });
-};
+const createActivationToken = (payload) => jwt.sign(payload, process.env.ACTIVATION_TOKEN_SECRET, {
+  expiresIn: '5m',
+});
+const createAccessToken = (payload) => jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+  expiresIn: '15m',
+});
+const createRefreshToken = (payload) => jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
+  expiresIn: '7d',
+});
 module.exports = UserController;
