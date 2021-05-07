@@ -1,17 +1,25 @@
 const ContractModel = require('../models/contract.model');
+const postModel = require('../models/post.model');
+const PostModel = require('../models/post.model');
 
-const OptionsController = {
-  getContractsByIdOwner: async (req, res) => {
+const ContractController = {
+  getContractsById: async (req, res) => {
     try {
-      const options = await ContractModel.find();
-      res.json(options);
+      const { idOwner, idHirer } = req.body;
+      const params = {
+        ...idOwner ? { idOwner } : {},
+        ...idHirer ? { idHirer } : {},
+      };
+      const contract = await ContractModel.find({ params });
+      res.json(contract);
     } catch (err) {
       res.status(500).json({ msg: err.message });
     }
   },
   createContract: async (req, res) => {
-    const { idOwner, idHirer } = req.body;
-    const newContract = new ContractModel({ idOwner, idHirer });
+    const { idHirer, idPost } = req.body;
+    const post = await postModel.findOne({ _id: idPost });
+    const newContract = new ContractModel({ idHirer, idPost, price: post.priceOption.price });
     await newContract.save();
     res.json({ msg: 'Tạo hợp đồng thành công' });
     try {
@@ -30,17 +38,21 @@ const OptionsController = {
       res.status(500).json({ msg: err.message });
     }
   },
-  updateOption: async (req, res) => {
-    try {
-      const { name, logo } = req.body;
-      const param = {
-        name, logo,
-      };
-      await ContractModel.findByIdAndUpdate({ _id: req.params.id }, param);
-      res.json({ msg: 'Cập nhật thành công' });
-    } catch (err) {
-      res.status(500).json({ msg: err.message });
-    }
-  },
+  // acceptContract: async (req, res) => {
+  //   try {
+  //     const { idOwner, idPost } = req.body;
+  //     const param = {
+  //       status: 2,
+  //     };
+  //     const paramsPost = {
+  //       status: 1,
+  //     };
+  //     const contract = await ContractModel.findByIdAndUpdate({ _id: req.params.id }, param);
+  //     await PostModel.findByIdAndUpdate({ _id: idPost }, paramsPost);
+  //     res.json({ msg: 'Cập nhật thành công' });
+  //   } catch (err) {
+  //     res.status(500).json({ msg: err.message });
+  //   }
+  // },
 };
-module.exports = OptionsController;
+module.exports = ContractController;

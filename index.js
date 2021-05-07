@@ -8,7 +8,7 @@ const fileUpload = require('express-fileupload');
 const app = express();
 app.use(express.json());
 app.use(cors());
-app.options("*", cors());
+app.options('*', cors());
 app.use(cookieParser());
 app.use(
   fileUpload({
@@ -24,6 +24,7 @@ app.use('/api/vehicle', require('./routes/vehicle.routes'));
 app.use('/api/post', require('./routes/post.routes'));
 app.use('/api/require-paper', require('./routes/require-paper.routes'));
 app.use('/api/option', require('./routes/option.routes'));
+app.use('/api/contract', require('./routes/contract.routes'));
 //
 const URI = process.env.MONGODB_URL_LOCAL;
 mongoose.connect(
@@ -36,7 +37,6 @@ mongoose.connect(
   },
   (err) => {
     if (err) throw err;
-    console.log('Connect to Mongodb ');
   },
 );
 app.get('/', (req, res) => {
@@ -45,5 +45,4 @@ app.get('/', (req, res) => {
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`Server is running is http://localhost:${PORT}`);
 });

@@ -15,6 +15,15 @@ const ContractModel = new mongoose.Schema(
       type: Schema.Types.ObjectId,
       require,
     },
+    price: {
+      type: Number,
+    },
+    totalPrice: {
+      type: Number,
+    },
+    isLate: {
+      type: Boolean,
+    },
     status: {
       type: Number,
       default: 1,

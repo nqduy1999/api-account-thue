@@ -1,14 +1,16 @@
+/* eslint-disable consistent-return */
 /* eslint-disable comma-dangle */
 /* eslint-disable no-undef */
 /* eslint-disable max-len */
 const PostModel = require('../models/post.model');
+const userModel = require('../models/user.model');
 const responseData = require('../utils/response');
 
 const dataResponse = {
   name: 1,
   photos: 2,
   locationAddr: 3,
-  price: 4,
+  priceOption: 4,
   photosVerified: 5,
   rating: 6,
   totalTrips: 7,
@@ -19,9 +21,11 @@ const postController = {
     try {
       const {
         name, seat, status, idOwner, idModel, idMake, idType, location,
-        price, locationAddr, rating, photos, photosVerified, isDriver, vehicleNumber,
+        priceOption, locationAddr, rating, photos, photosVerified, isDriver, vehicleNumber,
         note, requiredPapers, paperOfCar, totalTrips, transmission,
       } = req.body;
+      const userFind = await userModel.findById({ _id: idOwner });
+      if (!userFind) return res.status(400).json({ msg: 'User không tồn tại ' });
       const newPost = new PostModel({
         name,
         seat,
@@ -31,7 +35,7 @@ const postController = {
         idMake,
         idType,
         location,
-        price,
+        priceOption,
         locationAddr,
         rating,
         photos,
