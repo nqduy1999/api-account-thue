@@ -85,6 +85,19 @@ const postController = {
       res.status(500).json({ msg: err.message });
     }
   },
+  getDetailPost: async (req, res) => {
+    try {
+      const post = await PostModel.findOne({ _id: req.params.id });
+      if (post) {
+        res.json(responseData(true, post, 'Success'));
+      }
+      if (!post) {
+        res.json(responseData(false, null, 'Khong tim thay'));
+      }
+    } catch (error) {
+      res.status(500).json({ msg: err.message });
+    }
+  },
   updatePost: async (req, res) => {
     try {
       const {

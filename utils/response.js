@@ -3,8 +3,8 @@ function responseData(status, data, msg, pagination) {
     code: status === true ? 1 : -1,
     data,
     msg,
-    pagination
-  }
+    pagination,
+  };
 }
 
 module.exports = responseData;
