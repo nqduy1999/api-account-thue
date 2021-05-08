@@ -28,6 +28,14 @@ const ContractModel = new mongoose.Schema(
       type: Number,
       default: 1,
     },
+    dateHire: {
+      type: Date,
+      require,
+    },
+    dateReturn: {
+      type: Date,
+      require,
+    },
   },
   {
     timestamps: true,

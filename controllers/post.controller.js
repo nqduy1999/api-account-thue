@@ -14,6 +14,7 @@ const dataResponse = {
   photosVerified: 5,
   rating: 6,
   totalTrips: 7,
+  transmission: 8,
 };
 const postController = {
 
