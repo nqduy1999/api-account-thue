@@ -151,6 +151,14 @@ const PostModel = new mongoose.Schema(
       id: String,
       name: String,
     }],
+    description: {
+      type: String,
+      require,
+    },
+    rule: [{
+      type: String,
+      require,
+    }],
     conditions: [
       {
         name: String,
