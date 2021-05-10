@@ -23,7 +23,7 @@ const postController = {
       const {
         name, seat, status, idOwner, idModel, idMake, idType, location,
         priceOption, locationAddr, rating, photos, photosVerified, isDriver, vehicleNumber,
-        note, requiredPapers, paperOfCar, totalTrips, transmission,
+        note, requiredPapers, paperOfCar, totalTrips, transmission, description, rule
       } = req.body;
       const userFind = await userModel.findById({ _id: idOwner });
       if (!userFind) return res.status(400).json({ msg: 'User không tồn tại ' });
@@ -48,6 +48,8 @@ const postController = {
         paperOfCar,
         totalTrips,
         transmission,
+        description,
+        rule
       });
       await newPost.save();
       res.json({ msg: 'Tạo post thành công' });

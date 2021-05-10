@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-shadow */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-use-before-define */
@@ -149,17 +150,17 @@ const UserController = {
           .status(400)
           .json({ msg: 'Chưa kích hoạt tài khoản' });
       }
-      const refresh_token = createRefreshToken({ id: user._id });
+      const refresh_token = createRefreshToken({ id: user.id });
       if (!refresh_token) return res.status(400).json({ msg: '' });
       jwt.verify(
         refresh_token,
         process.env.REFRESH_TOKEN_SECRET,
         (err, user) => {
           if (err) return res.status(400).json({ msg: '' });
-          access_token = createAccessToken({ id: user._id });
+          access_token = createAccessToken({ id: user.id, ...email ? { email } : {}, ...phone ? { phone } : {} });
         },
       );
-      res.json({
+      const result = {
         status: 200,
         msg: 'Đăng nhập thành công',
         data: {
@@ -170,7 +171,9 @@ const UserController = {
           role: user.role === 1 ? 'ADMIN' : 'USER',
         },
         access_token,
-      });
+      };
+      res.cookie('jwt', access_token, { secure: true, httpOnly: true });
+      return res.send(result);
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -210,10 +213,17 @@ const UserController = {
   },
   getUserInfo: async (req, res) => {
     try {
-      const users = await User.findById(req.user.id).select('-password');
+      const users = await User.findById(req.user.id);
       res.json(users);
     } catch (err) {
       return res.status(500).json({ msg: err.message });
+    }
+  },
+  getUserInfoById: async (req, res) => {
+    try {
+
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
     }
   },
   getUsersAllInfo: async (req, res) => {
