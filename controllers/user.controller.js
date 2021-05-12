@@ -221,7 +221,16 @@ const UserController = {
   },
   getUserInfoById: async (req, res) => {
     try {
-
+      const dataResponse = {
+        _id: 5,
+        name: 1,
+        avatar: 2,
+        phone: 3,
+        address: 4,
+      };
+      const { id } = req.params;
+      const user = await User.find({ _id: id }, dataResponse);
+      res.json(user);
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
@@ -304,7 +313,7 @@ const createActivationToken = (payload) => jwt.sign(payload, process.env.ACTIVAT
   expiresIn: '5m',
 });
 const createAccessToken = (payload) => jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-  expiresIn: '15m',
+  expiresIn: '1d',
 });
 const createRefreshToken = (payload) => jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
   expiresIn: '7d',

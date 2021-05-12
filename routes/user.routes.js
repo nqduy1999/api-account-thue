@@ -11,6 +11,7 @@ router.post('/login', userController.login);
 router.post('/forgot', userController.forgotPassword);
 router.post('/reset', auth, userController.resetPassword);
 router.get('/info', auth, userController.getUserInfo);
+router.get('/info-by-id/:id', userController.getUserInfoById);
 router.get('/all_info', auth, authAdmin, userController.getUsersAllInfo);
 router.get('/all_info_page', auth, authAdmin, userController.getUserByPage);
 router.get('/logout', userController.logOut);

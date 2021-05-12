@@ -103,6 +103,10 @@ const userSchema = new mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: 'contract',
       }],
+      listPostFavorite: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Posts',
+      }],
     },
   },
   {

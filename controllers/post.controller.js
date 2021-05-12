@@ -49,7 +49,7 @@ const postController = {
         totalTrips,
         transmission,
         description,
-        rule
+        rule,
       });
       await newPost.save();
       res.json({ msg: 'Tạo post thành công' });

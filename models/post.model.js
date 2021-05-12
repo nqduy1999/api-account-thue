@@ -65,20 +65,6 @@ const PostModel = new mongoose.Schema(
         trim: true,
       },
     },
-    priceOption: {
-      price: {
-        type: Number,
-        trim: true,
-        require,
-      },
-      lateFee: {
-        type: Number,
-      },
-      vat: {
-        type: Number,
-        default: 0.15,
-      },
-    },
     locationAddr: {
       type: String,
       trim: true,
@@ -164,6 +150,10 @@ const PostModel = new mongoose.Schema(
         name: String,
       },
       require],
+    price: {
+      type: Number,
+      require,
+    },
   },
   {
     timestamps: true,
