@@ -1,3 +1,4 @@
+/* eslint-disable new-cap */
 const vehicleMake = require('../models/vehicle.make.model');
 const vehicleType = require('../models/vehicle.type.model');
 const vehicleModel = require('../models/vehicle.model.model');

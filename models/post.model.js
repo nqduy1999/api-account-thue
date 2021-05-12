@@ -154,6 +154,10 @@ const PostModel = new mongoose.Schema(
       type: Number,
       require,
     },
+    priceOption: [{
+      type: Schema.Types.ObjectId,
+      ref: 'post_price',
+    }],
   },
   {
     timestamps: true,
