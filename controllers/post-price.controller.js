@@ -1,17 +1,21 @@
-const OptionModel = require('../models/option.model');
+const PostPriceModel = require('../models/post-price.model');
 
-const OptionsController = {
-  getOptions: async (req, res) => {
+const PostPriceController = {
+  getPostPrices: async (req, res) => {
     try {
-      const options = await OptionModel.find();
+      const options = await PostPriceModel.find();
       res.json(options);
     } catch (err) {
       res.status(500).json({ msg: err.message });
     }
   },
-  createOption: async (req, res) => {
-    const { name, logo } = req.body;
-    const newOption = new OptionModel({ name, logo });
+  createPostPrice: async (req, res) => {
+    const {
+      day, price, isHire, idPost,
+    } = req.body;
+    const newOption = new PostPriceModel({
+      day, price, isHire, idPost,
+    });
     await newOption.save();
     res.json({ msg: 'Tạo thành công' });
     try {
@@ -20,9 +24,9 @@ const OptionsController = {
       res.status(500).json({ msg: err.message });
     }
   },
-  deleteOption: async (req, res) => {
+  deletePostPrice: async (req, res) => {
     try {
-      await OptionModel.findByIdAndDelete(req.params.id);
+      await PostPriceModel.findByIdAndDelete(req.params.id);
       res.json({
         msg: 'Xoá thành công',
       });
@@ -30,17 +34,17 @@ const OptionsController = {
       res.status(500).json({ msg: err.message });
     }
   },
-  updateOption: async (req, res) => {
+  updatePostPrice: async (req, res) => {
     try {
-      const { name, logo } = req.body;
+      const { day, price, isHire } = req.body;
       const param = {
-        name, logo,
+        day, price, isHire,
       };
-      await OptionModel.findByIdAndUpdate({ _id: req.params.id }, param);
+      await PostPriceModel.findByIdAndUpdate({ _id: req.params.id }, param);
       res.json({ msg: 'Cập nhật thành công' });
     } catch (err) {
       res.status(500).json({ msg: err.message });
     }
   },
 };
-module.exports = OptionsController;
+module.exports = PostPriceController;
