@@ -13,9 +13,10 @@ router.post('/forgot', userController.forgotPassword);
 router.post('/reset', auth, userController.resetPassword);
 router.get('/info', auth, userController.getUserInfo);
 router.get('/info/:id', userController.getUserInfoById);
-
+router.post('/check', userController.checkPhoneAndEmail);
 router.get('/logout', userController.logOut);
 router.put('/', auth, userController.updateUser);
+//
 router.put('/admin/update/:id', auth, authAdmin, userController.updateUser);
 router.get('/admin/info/:id', auth, authAdmin, UserAdminController.getUsersAllInfo);
 router.get('/admin', auth, authAdmin, UserAdminController.getUserByPage);

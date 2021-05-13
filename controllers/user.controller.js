@@ -260,6 +260,20 @@ const UserController = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  checkPhoneAndEmail: async (req, res) => {
+    try {
+      const { email, phone } = req.body;
+      let user;
+      if (email) { user = await User.findOne({ email }); }
+      if (phone) { user = await User.findOne({ phone }); }
+      if (user) {
+        return res.status(400).json({ msg: `${email ? 'Email' : 'Số điện thoại'} đã tồn tại` });
+      }
+      res.json({ msg: 'ok' });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
 };
 
 function validateEmail(email) {
