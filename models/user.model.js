@@ -99,15 +99,15 @@ const userSchema = new mongoose.Schema(
         type: Boolean,
         default: false,
       },
-      historyContract: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'contract',
-      }],
-      listPostFavorite: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Posts',
-      }],
     },
+    historyContract: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'contract',
+    }],
+    listPostsUser: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'posts',
+    }],
   },
   {
     timestamps: true,

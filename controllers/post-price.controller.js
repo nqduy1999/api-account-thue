@@ -1,9 +1,11 @@
 const PostPriceModel = require('../models/post-price.model');
+const PostModel = require('../models/post.model');
 
 const PostPriceController = {
   getPostPrices: async (req, res) => {
     try {
-      const options = await PostPriceModel.find();
+      const { id } = req.params;
+      const options = await PostModel.find({ _id: id }).populate('post_price');
       res.json(options);
     } catch (err) {
       res.status(500).json({ msg: err.message });
