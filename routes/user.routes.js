@@ -17,6 +17,8 @@ router.get('/info/:id', userController.getUserInfoById);
 router.post('/logout', userController.logOut);
 router.put('/', auth, userController.updateUser);
 router.put('/admin/verify-license', auth, authAdmin, userController.verifyLicense);
+router.post('/check', userController.checkPhoneAndEmail);
+//
 router.put('/admin/update/:id', auth, authAdmin, userController.updateUser);
 router.get('/admin/info/:id', auth, authAdmin, UserAdminController.getUsersAllInfo);
 router.get('/admin', auth, authAdmin, UserAdminController.getUserByPage);
