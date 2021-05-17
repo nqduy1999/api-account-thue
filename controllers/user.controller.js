@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
 const sendMail = require('../services/sendMail.services');
 const phoneServiceSms = require('../middleware/phone.service.sms');
+const { responseDataNormal } = require('../utils/response');
 
 const { CLIENT_URL } = process.env;
 
@@ -16,13 +17,14 @@ const UserController = {
   register: async (req, res) => {
     try {
       const {
-        email, password, name, phone,
+        email, password, name, phone, rePassword,
       } = req.body;
       if (email) {
         if (!validateEmail(email)) { return res.status(400).json({ msg: 'Email không hợp lệ' }); }
         const user = await User.findOne({ email });
         if (user) return res.status(400).json({ msg: 'Email đã tồn tại' });
         if (password.length < 6) { return res.status(400).json({ msg: 'Mật khẩu phải nhiều hơn 6 ký tự' }); }
+        if (rePassword !== password) { return res.status(400).json({ msg: 'Mật khẩu không giống' }); }
         const passwordHash = await bcrypt.hash(password, 12);
         const newUser = new User({
           name,
@@ -221,16 +223,9 @@ const UserController = {
   },
   getUserInfoById: async (req, res) => {
     try {
-      const dataResponse = {
-        _id: 5,
-        name: 1,
-        avatar: 2,
-        phone: 3,
-        address: 4,
-      };
       const { id } = req.params;
-      const user = await User.find({ _id: id }, dataResponse);
-      res.json(user);
+      const user = await User.find({ _id: id });
+      res.json(responseDataNormal(true, user, null));
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
@@ -256,6 +251,40 @@ const UserController = {
         address,
       });
       res.json({ msg: 'Cập nhật thành công' });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  channgePassword: async (req, res) => {
+    try {
+      const { password, newPassword, rePassword } = req.body;
+      const isMatchPass = await bcrypt.compare(password, req.user.password);
+      if (!isMatchPass) { return res.status(400).json({ msg: 'Mật khẩu không giống' }); }
+      if (newPassword !== rePassword) {
+        return res.status(400).json({ msg: 'Mật khẩu gõ lại không chính xác' });
+      }
+      if (newPassword.length < 6) { return res.status(400).json({ msg: 'Mật khẩu phải nhiều hơn 6 ký tự' }); }
+      const passwordHash = await bcrypt.hash(password, 12);
+      await User.findByIdAndUpdate({ _id: req.user.id }, {
+        password: passwordHash,
+      });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  verifyLicense: async (req, res) => {
+    try {
+      const {
+        id, approveLicense, approvePassport, approveIdentification,
+      } = req.body;
+      const params = {
+        status: 2,
+        isDriver: false,
+        ...approveLicense ? { approveLicense } : {},
+        ...approvePassport ? { approvePassport } : {},
+        ...approveIdentification ? { approveIdentification } : {},
+      };
+      await User.findByIdAndUpdate({ _id: id }, params);
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }

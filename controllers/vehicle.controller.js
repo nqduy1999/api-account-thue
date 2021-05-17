@@ -1,8 +1,9 @@
+/* eslint-disable consistent-return */
 /* eslint-disable new-cap */
 const vehicleMake = require('../models/vehicle.make.model');
 const vehicleType = require('../models/vehicle.type.model');
 const vehicleModel = require('../models/vehicle.model.model');
-const responseData = require('../utils/response');
+const { responseData } = require('../utils/response');
 
 const VehicleController = {
   // Type là loại xe ví dụ xe 4 chỗ 7 chỗ bán tải
@@ -150,7 +151,6 @@ const VehicleController = {
       await newModel.save();
       res.json(responseData(true, [], 'Tạo thành công'));
     } catch (err) {
-      console.log(err);
       res.status(500).json({ msg: err.message });
     }
   },
@@ -174,7 +174,7 @@ const VehicleController = {
       await vehicleModel.findByIdAndUpdate({ _id: req.params.id }, param);
       res.json({ msg: 'Update Sucessfully' });
     } catch (err) {
-      res.status(500).json({ msg: err.message });
+      return res.status(500).json({ msg: err.message });
     }
   },
 };

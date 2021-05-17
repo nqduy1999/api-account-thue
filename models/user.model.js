@@ -78,23 +78,25 @@ const userSchema = new mongoose.Schema(
       default: false,
     },
     license: {
-      licenseDrive: {
-        type: String,
-      },
+      licenseDrive: [
+        {
+          type: String,
+        },
+      ],
       approveLicense: {
         type: Boolean,
         default: false,
       },
-      passport: {
+      passport: [{
         type: String,
-      },
+      }],
       approvePassport: {
         type: Boolean,
         default: false,
       },
-      identification: {
+      identification: [{
         type: String,
-      },
+      }],
       approveIdentification: {
         type: Boolean,
         default: false,

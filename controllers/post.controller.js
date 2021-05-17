@@ -1,10 +1,11 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable consistent-return */
 /* eslint-disable comma-dangle */
 /* eslint-disable no-undef */
 /* eslint-disable max-len */
 const PostModel = require('../models/post.model');
-const userModel = require('../models/user.model');
-const responseData = require('../utils/response');
+const UserModel = require('../models/user.model');
+const { responseData } = require('../utils/response');
 
 const dataResponse = {
   name: 1,
@@ -25,8 +26,8 @@ const postController = {
         priceOption, locationAddr, rating, photos, photosVerified, isDriver, vehicleNumber,
         note, requiredPapers, paperOfCar, totalTrips, transmission, description, rule
       } = req.body;
-      const userFind = await userModel.findById({ _id: idOwner });
-      if (!userFind) return res.status(400).json({ msg: 'User không tồn tại ' });
+      const userFind = await UserModel.findOne({ _id: idOwner });
+      const { listPostsUser } = userFind;
       const newPost = new PostModel({
         name,
         seat,
@@ -52,6 +53,9 @@ const postController = {
         rule,
       });
       await newPost.save();
+      await UserModel.findByIdAndUpdate({ _id: idOwner }, {
+        listPostsUser: listPostsUser.concat(newPost._id)
+      });
       res.json({ msg: 'Tạo post thành công' });
     } catch (err) {
       res.status(500).json({ msg: err.message });
@@ -76,7 +80,7 @@ const postController = {
         ...idMake ? { idMake } : {},
         ...idType ? { idType } : {}
       };
-      const totalPage = Math.ceil(await (await PostModel.find(params)).length / (limit || 1));
+      const totalPage = Math.ceil((await PostModel.find(params)).length / (limit || 1));
       // eslint-disable-next-line consistent-return
       const posts = await PostModel.find(params, dataResponse, (err) => {
         if (err) return next(err);
@@ -154,9 +158,9 @@ const postController = {
     };
     const { perPage, currentPage } = pagination;
     try {
-      const totalPage = Math.ceil(await (await PostModel.find({ idOwner: req.params.id })).length / (limit || 1));
-      const posts = await PostModel.find({ idOwner: req.params.id }).limit(perPage).skip(currentPage > 0 ? (currentPage - 1) * perPage : 0);
-      res.json(responseData(true, posts, null, { ...pagination, totalPage }));
+      const totalPage = Math.ceil((await PostModel.find({ idOwner: req.params.id })).length / (limit || 1));
+      const foundUser = await UserModel.find({ _id: req.params.id }).limit(perPage).skip(currentPage > 0 ? (currentPage - 1) * perPage : 0).populate('posts');
+      res.json(responseData(true, foundUser, null, { ...pagination, totalPage }));
     } catch (err) {
       res.status(500).json({ msg: err.message });
     }

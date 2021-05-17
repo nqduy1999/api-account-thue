@@ -6,5 +6,11 @@ function responseData(status, data, msg, pagination) {
     pagination,
   };
 }
-
-module.exports = responseData;
+function responseDataNormal(status, data, msg) {
+  return {
+    code: status === true ? 1 : -1,
+    data,
+    msg,
+  };
+}
+module.exports = { responseData, responseDataNormal };
