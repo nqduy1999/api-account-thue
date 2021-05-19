@@ -3,9 +3,10 @@
 /* eslint-disable comma-dangle */
 /* eslint-disable no-undef */
 /* eslint-disable max-len */
+const PostPriceModel = require('../models/post-price.model');
 const PostModel = require('../models/post.model');
 const UserModel = require('../models/user.model');
-const { responseData } = require('../utils/response');
+const { responseData, responseDataNormal } = require('../utils/response');
 
 const dataResponse = {
   name: 1,
@@ -16,6 +17,7 @@ const dataResponse = {
   rating: 6,
   totalTrips: 7,
   transmission: 8,
+  price: 9,
 };
 const postController = {
 
@@ -24,10 +26,12 @@ const postController = {
       const {
         name, seat, status, idOwner, idModel, idMake, idType, location,
         priceOption, locationAddr, rating, photos, photosVerified, isDriver, vehicleNumber,
-        note, requiredPapers, paperOfCar, totalTrips, transmission, description, rule
+        note, requiredPapers, paperOfCar, totalTrips, transmission, description, rule, price
       } = req.body;
       const userFind = await UserModel.findOne({ _id: idOwner });
       const { listPostsUser } = userFind;
+      const newPostPrice = new PostPriceModel({ ...priceOption, price });
+      newPostPrice.save();
       const newPost = new PostModel({
         name,
         seat,
@@ -37,7 +41,7 @@ const postController = {
         idMake,
         idType,
         location,
-        priceOption,
+        price,
         locationAddr,
         rating,
         photos,
@@ -51,10 +55,14 @@ const postController = {
         transmission,
         description,
         rule,
+        priceOption: newPostPrice._id
       });
       await newPost.save();
       await UserModel.findByIdAndUpdate({ _id: idOwner }, {
         listPostsUser: listPostsUser.concat(newPost._id)
+      });
+      await PostPriceModel.findByIdAndUpdate({ _id: newPostPrice._id }, {
+        idPost: newPostPrice._id
       });
       res.json({ msg: 'Tạo post thành công' });
     } catch (err) {
@@ -150,17 +158,9 @@ const postController = {
     }
   },
   getListPostByIdUser: async (req, res) => {
-    const { page, limit } = req.query;
-    const pagination = {
-      perPage: Number(limit),
-      currentPage: Number(page),
-      nextPage: Number(page) + 1,
-    };
-    const { perPage, currentPage } = pagination;
     try {
-      const totalPage = Math.ceil((await PostModel.find({ idOwner: req.params.id })).length / (limit || 1));
-      const foundUser = await UserModel.find({ _id: req.params.id }).limit(perPage).skip(currentPage > 0 ? (currentPage - 1) * perPage : 0).populate('posts');
-      res.json(responseData(true, foundUser, null, { ...pagination, totalPage }));
+      const foundUser = await PostModel.find({ idOwner: req.params.id }).populate('User');
+      res.json(responseDataNormal(true, foundUser, 'ok'));
     } catch (err) {
       res.status(500).json({ msg: err.message });
     }

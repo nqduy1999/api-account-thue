@@ -11,8 +11,8 @@ const PostPriceSchema = new mongoose.Schema(
     },
     idPost: {
       type: Schema.Types.ObjectId,
-      ref: 'post',
+      ref: 'Posts',
     },
   },
 );
-module.exports = mongoose.model('post_price', PostPriceSchema);
+module.exports = mongoose.model('PostPrice', PostPriceSchema);

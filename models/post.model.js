@@ -156,7 +156,7 @@ const PostModel = new mongoose.Schema(
     },
     priceOption: [{
       type: Schema.Types.ObjectId,
-      ref: 'post_price',
+      ref: 'PostPrice',
     }],
   },
   {

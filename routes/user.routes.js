@@ -13,7 +13,6 @@ router.post('/forgot', userController.forgotPassword);
 router.post('/reset', auth, userController.resetPassword);
 router.get('/info', auth, userController.getUserInfo);
 router.get('/info/:id', userController.getUserInfoById);
-
 router.post('/logout', userController.logOut);
 router.put('/', auth, userController.updateUser);
 router.put('/admin/verify-license', auth, authAdmin, userController.verifyLicense);

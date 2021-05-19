@@ -108,7 +108,7 @@ const userSchema = new mongoose.Schema(
     }],
     listPostsUser: [{
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'posts',
+      ref: 'Posts',
     }],
   },
   {
