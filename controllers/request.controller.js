@@ -13,8 +13,12 @@ const RequestController = {
   },
   createRequest: async (req, res) => {
     try {
-      const { type, status, images } = req.body;
-      const newRequest = new RequestModel({ type, status, images });
+      const {
+        type, status, images, idUser,
+      } = req.body;
+      const newRequest = new RequestModel({
+        type, status, images, idUser,
+      });
       await newRequest.save();
       res.json({ msg: 'Gửi request thành công' });
     } catch (err) {
