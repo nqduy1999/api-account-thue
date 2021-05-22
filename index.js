@@ -26,6 +26,7 @@ app.use('/api/post-price', require('./routes/post-price.routes'));
 app.use('/api/require-paper', require('./routes/require-paper.routes'));
 app.use('/api/option', require('./routes/option.routes'));
 app.use('/api/contract', require('./routes/contract.routes'));
+app.use('/api/request', require('./routes/request.routes'));
 //
 const URI = process.env.MONGODB_URL_LOCAL;
 mongoose.connect(
@@ -46,4 +47,5 @@ app.get('/', (req, res) => {
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
+  console.log(PORT);
 });

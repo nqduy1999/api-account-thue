@@ -74,6 +74,27 @@ const UserController = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  resendCodePhone: async (req, res) => {
+    try {
+      const { phone } = req.body;
+      const newPhone = phone.slice(1, 10);
+      const result = await phoneServiceSms.sendSmsOTP(newPhone);
+      if (result !== true) {
+        res.status(500).json([
+          {
+            msg: 'Send sms failed',
+            param: 'sms',
+          },
+        ]);
+      } else {
+        res.status(201).json({
+          msg: 'Gửi mã về điện thoại thành công',
+        });
+      }
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
   resendActiveEmail: async (req, res) => {
     try {
       const { email } = req.body;
