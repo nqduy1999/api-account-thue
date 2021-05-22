@@ -1,7 +1,6 @@
-/* eslint-disable new-cap */
 const NotifyModel = require('../models/notify.model');
 
-const RequestController = {
+const NotifyController = {
   getAllNotifyUser: async (req, res) => {
     try {
       const { idUser } = req.body;
@@ -11,5 +10,18 @@ const RequestController = {
       res.status(500).json({ msg: err.message });
     }
   },
+  createNotify: async (req, res) => {
+    try {
+      const {
+        idUser, description, type, status,
+      } = req.body;
+      const notify = new NotifyModel({
+        idUser, description, type, status,
+      });
+      notify.save();
+    } catch (err) {
+      res.status(500).json({ msg: err.message });
+    }
+  },
 };
-module.exports = RequestController;
+module.exports = NotifyController;

@@ -1,8 +1,7 @@
 const router = require('express').Router();
-const RequestController = require('../controllers/request.controller');
+const NotifyController = require('../controllers/notify.controller');
 
-router.post('/send', RequestController.createRequest);
-router.get('/', RequestController.getRequest);
-router.put('/:id', RequestController.updateRequest);
+router.get('/', NotifyController.getAllNotifyUser);
+router.post('/', NotifyController.createNotify);
 
 module.exports = router;
