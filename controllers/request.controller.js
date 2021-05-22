@@ -1,5 +1,6 @@
 /* eslint-disable new-cap */
 const RequestModel = require('../models/request.model');
+const UserModel = require('../models/user.model');
 
 const RequestController = {
   getRequest: async (req, res) => {
@@ -21,15 +22,20 @@ const RequestController = {
     }
   },
   updateRequest: async (req, res) => {
-    console.log(req.params.id);
-    // try {
-    //   await RequestModel.findByIdAndUpdate(req.params.id);
-    //   res.json({
-    //     msg: 'Xoá thành công',
-    //   });
-    // } catch (err) {
-    //   res.status(500).json({ msg: err.message });
-    // }
+    try {
+      const {
+        type, identification, passport, licenseDrive,
+      } = req.body;
+      const request = await RequestModel.findByIdAndUpdate(req.params.id, { type });
+      await UserModel.findByIdAndUpdate(request.idUser, {
+        ...identification ? { identification } : {},
+        ...passport ? { passport } : {},
+        ...licenseDrive ? { licenseDrive } : {},
+      });
+      res.json(request);
+    } catch (err) {
+      res.status(500).json({ msg: err.message });
+    }
   },
 };
 module.exports = RequestController;

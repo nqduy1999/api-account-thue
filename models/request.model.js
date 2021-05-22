@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 
 const RequestModel = new mongoose.Schema(
   {
+    idUser: {
+      type: String,
+    },
     type: {
       type: String,
     },
