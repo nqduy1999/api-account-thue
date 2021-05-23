@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 const User = require('../models/user.model');
-const { responseData } = require('../utils/response');
+const { responseData, responseDataNormal } = require('../utils/response');
 
 const UserAdminController = {
   getUsersAllInfo: async (req, res) => {
@@ -17,10 +17,11 @@ const UserAdminController = {
       currentPage: Number(req.query.page),
       nextPage: Number(req.query.page) + 1,
     };
+    const { textSearch, isSearch } = req.query;
     const { perPage, currentPage } = paginator;
     try {
       const totalPage = Math.ceil((await User.find()).length / (req.query.limit || 1));
-      const users = await User.find().limit(perPage).skip(currentPage > 0 ? (currentPage - 1) * perPage : 0).select('-password');
+      const users = await User.find(isSearch ? { name: { $regex: `${textSearch}`, $options: 'i' } } : {}).limit(perPage).skip(currentPage > 0 ? (currentPage - 1) * perPage : 0).select('-password');
       res.json(responseData(true, users, null,
         { ...paginator, totalPage }));
     } catch (err) {
@@ -29,13 +30,33 @@ const UserAdminController = {
   },
   updateAllUser: async (req, res) => {
     try {
-      const { name, avatar, role } = req.body;
+      const {
+        name,
+        avatar,
+        role,
+        isActive,
+        accountBalance,
+        address,
+        emailVerified,
+        phone,
+        phoneVerified,
+        email,
+        license,
+      } = req.body;
       await User.findByIdAndUpdate({ _id: req.params.id }, {
         name,
         avatar,
         role,
+        isActive,
+        accountBalance,
+        address,
+        emailVerified,
+        phone,
+        phoneVerified,
+        email,
+        license,
       });
-      res.json({ msg: 'Cập nhật thành công' });
+      res.json(responseDataNormal(true, null, 'Cập nhật thành công '));
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
