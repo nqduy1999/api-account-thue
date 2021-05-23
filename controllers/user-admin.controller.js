@@ -1,5 +1,6 @@
 /* eslint-disable consistent-return */
 const User = require('../models/user.model');
+const { responseData } = require('../utils/response');
 
 const UserAdminController = {
   getUsersAllInfo: async (req, res) => {
@@ -18,8 +19,10 @@ const UserAdminController = {
     };
     const { perPage, currentPage } = paginator;
     try {
+      const totalPage = Math.ceil((await User.find()).length / (req.query.limit || 1));
       const users = await User.find().limit(perPage).skip(currentPage > 0 ? (currentPage - 1) * perPage : 0).select('-password');
-      res.json({ users, paginator });
+      res.json(responseData(true, users, null,
+        { ...paginator, totalPage }));
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
