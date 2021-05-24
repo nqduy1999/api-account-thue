@@ -15,6 +15,9 @@ const vehicleMakeSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'vehicle_models',
     }],
+    isLuxury: {
+      type: Boolean,
+    },
   },
   {
     timestamps: true,

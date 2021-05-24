@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable consistent-return */
 /* eslint-disable new-cap */
 const vehicleMake = require('../models/vehicle.make.model');
@@ -56,21 +57,34 @@ const VehicleController = {
   },
   // Makes là hãng xe vd Toyota, Mercedes
   getVehicleMakes: async (req, res) => {
+    const paginator = {
+      perPage: Number(req.query.limit),
+      currentPage: Number(req.query.page),
+      nextPage: Number(req.query.page) + 1,
+    };
+    const { perPage, currentPage } = paginator;
     try {
-      const makes = await vehicleMake.find();
-      res.json(makes);
+      const totalPage = Math.ceil((await vehicleMake.find()).length / (req.query.limit || 1));
+      const makes = await vehicleMake.find().limit(perPage).skip(currentPage > 0 ? (currentPage - 1) * perPage : 0).select('-password');
+
+      res.json(responseData(true, makes, null, { ...paginator, totalPage }));
     } catch (err) {
       res.status(500).json({ msg: err.message });
     }
   },
   createVehicleMakes: async (req, res) => {
-    const { name, logo } = req.body;
+    const { name, logo, isLuxury } = req.body;
     const make = await vehicleMake.findOne({ name });
     if (make) {
       res.status(400).json({ msg: 'Đã có tên này' });
       return;
     }
-    const newCategory = new vehicleMake({ name, logo });
+    const params = {
+      ...name ? { name } : {},
+      ...logo ? { logo } : {},
+      ...isLuxury ? { isLuxury } : {},
+    };
+    const newCategory = new vehicleMake(params);
     await newCategory.save();
     res.json({ msg: 'Tạo hãng xe thành công ' });
     try {
@@ -119,8 +133,8 @@ const VehicleController = {
         ...makesId ? { makesId } : {},
       };
       const models = await
-      vehicleModel.find(isSearch ? { ...params, name: { $regex: `${textSearch}`, $options: 'i' } } : { ...params })
-        .limit(perPage).skip(currentPage > 0 ? (currentPage - 1) * perPage : 0).select('-password');
+        vehicleModel.find(isSearch ? { ...params, name: { $regex: `${textSearch}`, $options: 'i' } } : { ...params })
+          .limit(perPage).skip(currentPage > 0 ? (currentPage - 1) * perPage : 0).select('-password');
       res.json(responseData(true, models, null, { ...paginator, totalPage }));
     } catch (err) {
       res.status(500).json({ msg: err.message });
@@ -132,16 +146,6 @@ const VehicleController = {
         name, logo, typeId, makesId,
       } = req.body;
       const model = await vehicleModel.findOne({ name });
-      const type = await vehicleType.findById(typeId);
-      const make = await vehicleMake.findById(makesId);
-      if (!type) {
-        res.status(400).json(responseData(false, [], 'Không tồn tại kiểu xe'));
-        return;
-      }
-      if (!make) {
-        res.status(400).json(responseData(false, [], 'Không tồn tại hãng xe'));
-        return;
-      }
       if (model) {
         res.status(400).json(responseData(false, [], 'Trùng tên'));
         return;
@@ -150,6 +154,8 @@ const VehicleController = {
         typeId, makesId, name, logo,
       });
       await newModel.save();
+      await vehicleType.findByIdAndUpdate({ _id: typeId }, { model: newModel._id });
+      await vehicleMake.findByIdAndUpdate({ _id: makesId }, { model: newModel._id });
       res.json(responseData(true, [], 'Tạo thành công'));
     } catch (err) {
       res.status(500).json({ msg: err.message });

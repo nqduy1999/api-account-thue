@@ -20,9 +20,6 @@ const vehicleModelSchema = new mongoose.Schema(
       type: String,
       require,
     },
-    isLuxury: {
-      type: Boolean,
-    },
   },
   {
     timestamps: true,
