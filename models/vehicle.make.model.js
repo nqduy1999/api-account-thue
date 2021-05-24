@@ -11,6 +11,10 @@ const vehicleMakeSchema = new mongoose.Schema(
       type: String,
       require,
     },
+    model: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'vehicle_models',
+    }],
   },
   {
     timestamps: true,

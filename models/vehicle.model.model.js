@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 const vehicleModelSchema = new mongoose.Schema(
   {
     typeId: {
-      type: String,
-      required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'vehicle_type',
     },
     makesId: {
-      type: String,
-      require: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'vehicle_make',
     },
     name: {
       type: String,

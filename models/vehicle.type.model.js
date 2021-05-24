@@ -15,6 +15,10 @@ const vehicleTypeSchema = new mongoose.Schema(
     key: {
       type: String,
     },
+    model: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'vehicle_models',
+    }],
 
   },
   {

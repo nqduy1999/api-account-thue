@@ -105,22 +105,23 @@ const VehicleController = {
   // Model là loại xe trong mẫu xe
   getVehicleModel: async (req, res) => {
     const { typeId, makesId } = req.query;
-    let params;
+    const paginator = {
+      perPage: Number(req.query.limit),
+      currentPage: Number(req.query.page),
+      nextPage: Number(req.query.page) + 1,
+    };
+    const { perPage, currentPage } = paginator;
     try {
-      if (!typeId && !makesId) {
-        params = {};
-      }
-      if (typeId && makesId) {
-        params = { typeId, makesId };
-      }
-      if (typeId && !makesId) {
-        params = { typeId };
-      }
-      if (!typeId && makesId) {
-        params = { makesId };
-      }
-      const models = await vehicleModel.find(params);
-      res.json(responseData(true, models, null));
+      const { textSearch, isSearch } = req.query;
+      const totalPage = Math.ceil((await vehicleModel.find()).length / (req.query.limit || 1));
+      const params = {
+        ...typeId ? { typeId } : {},
+        ...makesId ? { makesId } : {},
+      };
+      const models = await
+      vehicleModel.find(isSearch ? { ...params, name: { $regex: `${textSearch}`, $options: 'i' } } : { ...params })
+        .limit(perPage).skip(currentPage > 0 ? (currentPage - 1) * perPage : 0).select('-password');
+      res.json(responseData(true, models, null, { ...paginator, totalPage }));
     } catch (err) {
       res.status(500).json({ msg: err.message });
     }
