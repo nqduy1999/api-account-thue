@@ -64,8 +64,11 @@ const VehicleController = {
     };
     const { perPage, currentPage } = paginator;
     try {
-      const totalPage = Math.ceil((await vehicleMake.find()).length / (req.query.limit || 1));
-      const makes = await vehicleMake.find().limit(perPage).skip(currentPage > 0 ? (currentPage - 1) * perPage : 0).select('-password');
+      const { textSearch, isSearch } = req.query;
+      const totalPage = Math.ceil((await vehicleMake.find(isSearch ? { name: { $regex: `${textSearch}`, $options: 'i' } } : {}))
+        .length / (req.query.limit || 1));
+      const makes = await vehicleMake.find(isSearch ? { name: { $regex: `${textSearch}`, $options: 'i' } } : {})
+        .limit(perPage).skip(currentPage > 0 ? (currentPage - 1) * perPage : 0).select('-password');
 
       res.json(responseData(true, makes, null, { ...paginator, totalPage }));
     } catch (err) {
@@ -127,14 +130,14 @@ const VehicleController = {
     const { perPage, currentPage } = paginator;
     try {
       const { textSearch, isSearch } = req.query;
-      const totalPage = Math.ceil((await vehicleModel.find()).length / (req.query.limit || 1));
       const params = {
         ...typeId ? { typeId } : {},
         ...makesId ? { makesId } : {},
       };
+      const totalPage = Math.ceil((await vehicleModel.find(isSearch ? { ...params, name: { $regex: `${textSearch}`, $options: 'i' } } : { ...params })).length / (req.query.limit || 1));
       const models = await
-        vehicleModel.find(isSearch ? { ...params, name: { $regex: `${textSearch}`, $options: 'i' } } : { ...params })
-          .limit(perPage).skip(currentPage > 0 ? (currentPage - 1) * perPage : 0).select('-password');
+      vehicleModel.find(isSearch ? { ...params, name: { $regex: `${textSearch}`, $options: 'i' } } : { ...params })
+        .limit(perPage).skip(currentPage > 0 ? (currentPage - 1) * perPage : 0).select('-password');
       res.json(responseData(true, models, null, { ...paginator, totalPage }));
     } catch (err) {
       res.status(500).json({ msg: err.message });
