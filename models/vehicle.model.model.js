@@ -21,8 +21,5 @@ const vehicleModelSchema = new mongoose.Schema(
       require,
     },
   },
-  {
-    timestamps: true,
-  },
 );
 module.exports = mongoose.model('vehicle_models', vehicleModelSchema);

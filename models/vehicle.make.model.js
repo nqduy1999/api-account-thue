@@ -19,8 +19,5 @@ const vehicleMakeSchema = new mongoose.Schema(
       type: Boolean,
     },
   },
-  {
-    timestamps: true,
-  },
 );
 module.exports = mongoose.model('vehicle_make', vehicleMakeSchema);

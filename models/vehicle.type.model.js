@@ -21,8 +21,6 @@ const vehicleTypeSchema = new mongoose.Schema(
     }],
 
   },
-  {
-    timestamps: true,
-  },
+
 );
 module.exports = mongoose.model('vehicle_type', vehicleTypeSchema);
