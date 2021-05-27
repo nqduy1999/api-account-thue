@@ -158,6 +158,10 @@ const PostModel = new mongoose.Schema(
       type: Schema.Types.ObjectId,
       ref: 'PostPrice',
     }],
+    isActive: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

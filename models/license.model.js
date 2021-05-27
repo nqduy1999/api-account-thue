@@ -6,30 +6,28 @@ const LicenseSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
     },
-    license: {
-      licenseDrive: [
-        {
-          type: String,
-        },
-      ],
-      approveLicense: {
-        type: Boolean,
-        default: false,
-      },
-      passport: [{
+    licenseDrive: [
+      {
         type: String,
-      }],
-      approvePassport: {
-        type: Boolean,
-        default: false,
       },
-      identification: [{
-        type: String,
-      }],
-      approveIdentification: {
-        type: Boolean,
-        default: false,
-      },
+    ],
+    approveLicense: {
+      type: Boolean,
+      default: false,
+    },
+    passport: [{
+      type: String,
+    }],
+    approvePassport: {
+      type: Boolean,
+      default: false,
+    },
+    identification: [{
+      type: String,
+    }],
+    approveIdentification: {
+      type: Boolean,
+      default: false,
     },
   },
 );

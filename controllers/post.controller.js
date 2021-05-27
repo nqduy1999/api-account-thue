@@ -26,7 +26,7 @@ const postController = {
       const {
         name, seat, status, idOwner, idModel, idMake, idType, location,
         priceOption, locationAddr, rating, photos, photosVerified, isDriver, vehicleNumber,
-        note, requiredPapers, paperOfCar, totalTrips, transmission, description, rule, price
+        note, requiredPapers, paperOfCar, totalTrips, transmission, description, rule, price, isActive
       } = req.body;
       const userFind = await UserModel.findOne({ _id: idOwner });
       const { listPostsUser } = userFind;
@@ -55,7 +55,8 @@ const postController = {
         transmission,
         description,
         rule,
-        priceOption: newPostPrice._id
+        priceOption: newPostPrice._id,
+        isActive
       });
       await newPost.save();
       await UserModel.findByIdAndUpdate({ _id: idOwner }, {

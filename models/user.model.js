@@ -77,31 +77,7 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    license: {
-      licenseDrive: [
-        {
-          type: String,
-        },
-      ],
-      approveLicense: {
-        type: Boolean,
-        default: false,
-      },
-      passport: [{
-        type: String,
-      }],
-      approvePassport: {
-        type: Boolean,
-        default: false,
-      },
-      identification: [{
-        type: String,
-      }],
-      approveIdentification: {
-        type: Boolean,
-        default: false,
-      },
-    },
+    license: { type: mongoose.Schema.Types.ObjectId, ref: 'licenseUser' },
     historyContract: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'contract',
