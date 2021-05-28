@@ -1,5 +1,5 @@
-const PostPriceModel = require('../models/post-price.model');
-const PostModel = require('../models/post.model');
+const PostPriceModel = require('../models/post/post-price.model');
+const PostModel = require('../models/post/post.model');
 
 const PostPriceController = {
   getPostPrices: async (req, res) => {

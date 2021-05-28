@@ -1,5 +1,5 @@
 /* eslint-disable new-cap */
-const requirePaperModel = require('../models/require-paper.model');
+const requirePaperModel = require('../models/post/require-paper.model');
 
 const RequirePapersController = {
   getRequirePaper: async (req, res) => {

@@ -1,6 +1,6 @@
 /* eslint-disable import/order */
 const VehicleController = require('../controllers/vehicle.controller');
-const auth = require('../middleware/auth');
+// const auth = require('../middleware/auth');
 
 const router = require('express').Router();
 // Type Vehicle
@@ -12,8 +12,8 @@ router.put('/type/:id', VehicleController.updateVehicleType);
 router.get('/makes', VehicleController.getVehicleMakes);
 router.get('/makes/:id', VehicleController.getVehicleMake);
 router.post('/makes', VehicleController.createVehicleMakes);
-router.delete('/makes/:id', auth, VehicleController.deleteVehicleMakes);
-router.put('/makes/:id', auth, VehicleController.updateVehicleMakes);
+router.delete('/makes/:id', VehicleController.deleteVehicleMakes);
+router.put('/makes/:id', VehicleController.updateVehicleMakes);
 // Model Vehicle
 router.get('/model', VehicleController.getVehicleModels);
 router.get('/model/:id', VehicleController.getVehicleModel);

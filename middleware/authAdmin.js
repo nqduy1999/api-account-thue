@@ -1,4 +1,4 @@
-const Users = require('../models/user.model');
+const Users = require('../models/user/user.model');
 
 // eslint-disable-next-line consistent-return
 const authAdmin = async (req, res, next) => {

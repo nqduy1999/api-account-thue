@@ -20,7 +20,7 @@ router.put('/admin/verify-license', auth, authAdmin, userController.verifyLicens
 router.post('/check', userController.checkPhoneAndEmail);
 //
 router.put('/admin/:id', auth, authAdmin, UserAdminController.updateAllUser);
-router.get('/admin/:id', auth, authAdmin, UserAdminController.getUsersAllInfo);
+router.get('/admin/:id', auth, authAdmin, UserAdminController.getUsersById);
 router.get('/admin', auth, authAdmin, UserAdminController.getUserByPage);
 router.delete('/admin/:id', auth, authAdmin, UserAdminController.deleteUser);
 

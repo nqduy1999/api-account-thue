@@ -1,6 +1,6 @@
-const ContractModel = require('../models/contract.model');
-const postModel = require('../models/post.model');
-const PostModel = require('../models/post.model');
+const ContractModel = require('../models/contract/contract.model');
+const postModel = require('../models/post/post.model');
+const PostModel = require('../models/post/post.model');
 
 const ContractController = {
   getContractsById: async (req, res) => {

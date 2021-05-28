@@ -3,9 +3,9 @@
 /* eslint-disable comma-dangle */
 /* eslint-disable no-undef */
 /* eslint-disable max-len */
-const PostPriceModel = require('../models/post-price.model');
-const PostModel = require('../models/post.model');
-const UserModel = require('../models/user.model');
+const PostPriceModel = require('../models/post/post-price.model');
+const PostModel = require('../models/post/post.model');
+const UserModel = require('../models/user/user.model');
 const { responseData, responseDataNormal } = require('../utils/response');
 
 const dataResponse = {

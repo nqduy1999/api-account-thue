@@ -2,9 +2,9 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable consistent-return */
 /* eslint-disable new-cap */
-const vehicleMake = require('../models/vehicle.make.model');
-const vehicleType = require('../models/vehicle.type.model');
-const vehicleModel = require('../models/vehicle.model.model');
+const vehicleMake = require('../models/vehicle/vehicle.make.model');
+const vehicleType = require('../models/vehicle/vehicle.type.model');
+const vehicleModel = require('../models/vehicle/vehicle.model.model');
 const { responseData, responseDataNormal } = require('../utils/response');
 
 const VehicleController = {
@@ -22,8 +22,7 @@ const VehicleController = {
     const { name, logo } = req.body;
     const category = await vehicleType.findOne({ name });
     if (category) {
-      res.status(400).json({ msg: 'Trùng tên' });
-      return;
+      return res.status(400).json({ msg: 'Trùng tên' });
     }
     const newCategory = new vehicleType({ name, logo });
     await newCategory.save();
@@ -88,8 +87,7 @@ const VehicleController = {
     const { name, logo, isLuxury } = req.body;
     const make = await vehicleMake.findOne({ name });
     if (make) {
-      res.status(400).json({ msg: 'Đã có tên này' });
-      return;
+      return res.status(400).json({ msg: 'Đã có tên này' });
     }
     const params = {
       ...name ? { name } : {},
@@ -121,10 +119,11 @@ const VehicleController = {
   },
   updateVehicleMakes: async (req, res) => {
     try {
-      const { name, logo } = req.body;
+      const { name, logo, isLuxury } = req.body;
       const param = {
         name,
         logo,
+        isLuxury,
       };
       await vehicleMake.findByIdAndUpdate({ _id: req.params.id }, param);
       res.json({ msg: 'Cập nhật hãng xe thành công' });

@@ -6,7 +6,7 @@
 /* eslint-disable consistent-return */
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('../models/user.model');
+const User = require('../models/user/user.model');
 const sendMail = require('../services/sendMail.services');
 const phoneServiceSms = require('../middleware/phone.service.sms');
 const { responseDataNormal } = require('../utils/response');

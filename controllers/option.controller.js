@@ -1,4 +1,4 @@
-const OptionModel = require('../models/option.model');
+const OptionModel = require('../models/post/option.model');
 
 const OptionsController = {
   getOptions: async (req, res) => {

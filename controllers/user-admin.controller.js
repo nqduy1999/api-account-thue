@@ -1,5 +1,5 @@
 /* eslint-disable consistent-return */
-const User = require('../models/user.model');
+const User = require('../models/user/user.model');
 const { responseData, responseDataNormal } = require('../utils/response');
 
 const UserAdminController = {
@@ -7,6 +7,15 @@ const UserAdminController = {
     try {
       const users = await User.find().select('-password');
       res.json(users);
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  getUsersById: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const user = await User.find({ _id: id });
+      res.json(user);
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }

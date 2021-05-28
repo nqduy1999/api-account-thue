@@ -1,6 +1,6 @@
 /* eslint-disable new-cap */
 const RequestModel = require('../models/request.model');
-const UserModel = require('../models/user.model');
+const UserModel = require('../models/user/user.model');
 
 const RequestController = {
   getRequest: async (req, res) => {
