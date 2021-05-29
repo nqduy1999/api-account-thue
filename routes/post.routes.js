@@ -2,6 +2,7 @@ const router = require('express').Router();
 const postController = require('../controllers/post.controller');
 
 router.get('/', postController.getAllPostFree);
+router.get('/admin', postController.getAllPostAdmin);
 router.get('/user-post/:id', postController.getListPostByIdUser);
 router.post('/', postController.createPost);
 

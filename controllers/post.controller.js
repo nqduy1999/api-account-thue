@@ -25,8 +25,7 @@ const postController = {
     try {
       const {
         name, seat, status, idOwner, idModel, idMake, idType, location,
-        priceOption, locationAddr, rating, photos, photosVerified, isDriver, vehicleNumber,
-        note, requiredPapers, paperOfCar, totalTrips, transmission, description, rule, price, isActive
+        priceOption, locationAddr, rating, photos, photosVerified, isDriver, vehicleNumber, requiredPapers, totalTrips, transmission, description, rule, price, isActive
       } = req.body;
       const userFind = await UserModel.findOne({ _id: idOwner });
       const { listPostsUser } = userFind;
@@ -48,9 +47,7 @@ const postController = {
         photosVerified,
         isDriver,
         vehicleNumber,
-        note,
         requiredPapers,
-        paperOfCar,
         totalTrips,
         transmission,
         description,
@@ -94,6 +91,31 @@ const postController = {
       const posts = await PostModel.find(params, dataResponse, (err) => {
         if (err) return next(err);
       }).limit(perPage).skip(currentPage > 0 ? (currentPage - 1) * perPage : 0);
+      res.json(responseData(true, posts, null,
+        { ...pagination, totalPage }));
+    } catch (err) {
+      res.status(500).json({ msg: err.message });
+    }
+  },
+  getAllPostAdmin: async (req, res) => {
+    try {
+      const {
+        page, limit, idModel, idMake, idType,
+      } = req.query;
+      const pagination = {
+        perPage: Number(limit),
+        currentPage: Number(page),
+        nextPage: Number(page) + 1,
+      };
+      const { perPage, currentPage } = pagination;
+      const params = {
+        ...idModel ? { idModel } : {},
+        ...idMake ? { idMake } : {},
+        ...idType ? { idType } : {}
+      };
+      const totalPage = Math.ceil((await PostModel.find(params)).length / (limit || 1));
+      // eslint-disable-next-line consistent-return
+      const posts = await PostModel.find(params).limit(perPage).skip(currentPage > 0 ? (currentPage - 1) * perPage : 0);
       res.json(responseData(true, posts, null,
         { ...pagination, totalPage }));
     } catch (err) {
@@ -173,7 +195,7 @@ const postController = {
         // eslint-disable-next-line max-len
         name, seat, status, idOwner, idModel, idMake, idType, location,
         locationAddr, rating, photos, photosVerified, transmission, priceOption,
-        description,
+        description, isActive,
         rule,
       } = req.body;
       await PostModel.findByIdAndUpdate({ _id: req.params.id }, {
@@ -193,6 +215,7 @@ const postController = {
         transmission,
         description,
         rule,
+        isActive
       });
       res.json({ msg: 'Update Successful' });
     } catch (err) {

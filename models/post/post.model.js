@@ -111,10 +111,6 @@ const PostModel = new mongoose.Schema(
       id: String,
       name: String,
     }],
-    note: {
-      type: String,
-      default: '1. Chấp nhận Hộ khẩu Thành phố/KT3 Thành phố/Hộ khẩu tỉnh/Passport (Bản gốc) (Giữ lại khi nhận xe)\r\n2. Tài sản đặt cọc (1 trong 2 hình thức)\r\n- Xe máy (giá trị >15t) + Cà vẹt (bản gốc)\r\n- Hoặc cọc tiền mặt 15 triệu.',
-    },
     requiredPapers: [{
       id: String,
       name: String,
@@ -122,17 +118,15 @@ const PostModel = new mongoose.Schema(
     ],
     vehicleNumber: {
       type: String,
+      photo: [{ type: String }],
       require,
     },
     historyContract: [
       {
-        url: String,
+        type: Schema.Types.ObjectId,
+        ref: 'contract',
       },
     ],
-    approveVehicle: {
-      type: Boolean,
-      default: false,
-    },
     transmission: [{
       id: String,
       name: String,
@@ -145,11 +139,6 @@ const PostModel = new mongoose.Schema(
       type: String,
       require,
     }],
-    conditions: [
-      {
-        name: String,
-      },
-      require],
     price: {
       type: Number,
       require,

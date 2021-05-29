@@ -3,7 +3,7 @@ const postModel = require('../models/post/post.model');
 const PostModel = require('../models/post/post.model');
 
 const ContractController = {
-  getContractsById: async (req, res) => {
+  getContracts: async (req, res) => {
     try {
       const { idOwner, idHirer } = req.body;
       const params = {
