@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    address: [{
+    address: {
       cityId: {
         type: Number,
         trim: true,
@@ -64,7 +64,6 @@ const userSchema = new mongoose.Schema(
         trim: true,
       },
     },
-    ],
     emailVerified: {
       type: Boolean,
       default: false,
@@ -77,7 +76,16 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    license: { type: mongoose.Schema.Types.ObjectId, ref: 'licenseUser' },
+    GPLX: {
+      code: String,
+      photo: [{ type: String }],
+      isActive: Boolean,
+    },
+    CMND: {
+      code: String,
+      photo: [{ type: String }],
+      isActive: Boolean,
+    },
     historyContract: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'contract',

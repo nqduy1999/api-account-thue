@@ -166,6 +166,48 @@ const postController = {
       res.status(500).json({ msg: err.message });
     }
   },
+  // Post Admin
+  updatePostAdmin: async (req, res) => {
+    try {
+      const {
+        // eslint-disable-next-line max-len
+        name, seat, status, idOwner, idModel, idMake, idType, location,
+        locationAddr, rating, photos, photosVerified, transmission, priceOption,
+        description,
+        rule,
+      } = req.body;
+      await PostModel.findByIdAndUpdate({ _id: req.params.id }, {
+        name,
+        seat,
+        status,
+        idOwner,
+        idModel,
+        idMake,
+        idType,
+        location,
+        priceOption,
+        locationAddr,
+        rating,
+        photos,
+        photosVerified,
+        transmission,
+        description,
+        rule,
+      });
+      res.json({ msg: 'Update Successful' });
+    } catch (err) {
+      res.status(500).json({ msg: err.message });
+    }
+  },
+  // eslint-disable-next-line consistent-return
+  deletePostAdmin: async (req, res) => {
+    try {
+      await PostModel.findByIdAndDelete(req.params.id);
+      return res.json({ msg: 'Delete Successful' });
+    } catch (err) {
+      res.status(500).json({ msg: err.message });
+    }
+  },
 };
 
 module.exports = postController;

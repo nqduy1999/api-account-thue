@@ -262,14 +262,15 @@ const UserController = {
   updateUser: async (req, res) => {
     try {
       const {
-        name, avatar, license, phone, address,
+        name, avatar, GPLX, phone, address, CMND,
       } = req.body;
       await User.findByIdAndUpdate({ _id: req.user.id }, {
         name,
         avatar,
-        license,
+        GPLX,
         phone,
         address,
+        CMND,
       });
       res.json({ msg: 'Cập nhật thành công' });
     } catch (err) {

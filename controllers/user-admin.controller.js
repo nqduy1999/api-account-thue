@@ -14,7 +14,7 @@ const UserAdminController = {
   getUsersById: async (req, res) => {
     try {
       const { id } = req.params;
-      const user = await User.find({ _id: id });
+      const user = await User.findById({ _id: id });
       res.json(user);
     } catch (err) {
       return res.status(500).json({ msg: err.message });
@@ -50,7 +50,8 @@ const UserAdminController = {
         phone,
         phoneVerified,
         email,
-        license,
+        GPLX,
+        CMND,
       } = req.body;
       await User.findByIdAndUpdate({ _id: req.params.id }, {
         name,
@@ -63,7 +64,8 @@ const UserAdminController = {
         phone,
         phoneVerified,
         email,
-        license,
+        GPLX,
+        CMND,
       });
       res.json(responseDataNormal(true, null, 'Cập nhật thành công '));
     } catch (err) {
