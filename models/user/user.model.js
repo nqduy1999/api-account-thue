@@ -94,6 +94,10 @@ const userSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Posts',
     }],
+    isAcceptPost: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

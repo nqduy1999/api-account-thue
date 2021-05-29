@@ -52,6 +52,7 @@ const UserAdminController = {
         email,
         GPLX,
         CMND,
+        isAcceptPost,
       } = req.body;
       await User.findByIdAndUpdate({ _id: req.params.id }, {
         name,
@@ -66,6 +67,7 @@ const UserAdminController = {
         email,
         GPLX,
         CMND,
+        isAcceptPost,
       });
       res.json(responseDataNormal(true, null, 'Cập nhật thành công '));
     } catch (err) {

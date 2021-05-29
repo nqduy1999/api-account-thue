@@ -108,23 +108,23 @@ const PostModel = new mongoose.Schema(
       default: false,
     },
     options: [{
-      type: Schema.Types.ObjectId,
-      ref: 'optionsCars',
+      id: String,
+      name: String,
     }],
     note: {
       type: String,
       default: '1. Chấp nhận Hộ khẩu Thành phố/KT3 Thành phố/Hộ khẩu tỉnh/Passport (Bản gốc) (Giữ lại khi nhận xe)\r\n2. Tài sản đặt cọc (1 trong 2 hình thức)\r\n- Xe máy (giá trị >15t) + Cà vẹt (bản gốc)\r\n- Hoặc cọc tiền mặt 15 triệu.',
     },
     requiredPapers: [{
-      type: Schema.Types.ObjectId,
-      ref: 'requirePapers',
+      id: String,
+      name: String,
     },
     ],
     vehicleNumber: {
       type: String,
       require,
     },
-    paperOfCar: [
+    historyContract: [
       {
         url: String,
       },
