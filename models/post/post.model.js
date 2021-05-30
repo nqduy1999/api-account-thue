@@ -95,10 +95,6 @@ const PostModel = new mongoose.Schema(
         url: String,
       },
     ],
-    photosVerified: {
-      type: Boolean,
-      trim: true,
-    },
     totalTrips: {
       type: Number,
       default: 0,
@@ -117,9 +113,12 @@ const PostModel = new mongoose.Schema(
     },
     ],
     vehicleNumber: {
-      type: String,
+      code: String,
       photo: [{ type: String }],
-      require,
+      isActive: {
+        type: Boolean,
+        default: false,
+      },
     },
     historyContract: [
       {

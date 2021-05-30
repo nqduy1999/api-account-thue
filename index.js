@@ -25,6 +25,7 @@ app.use('/api/post', require('./routes/post.routes'));
 app.use('/api/post-price', require('./routes/post-price.routes'));
 app.use('/api/contract', require('./routes/contract.routes'));
 app.use('/api/request', require('./routes/request.routes'));
+app.use('/api/address', require('./routes/address.routes'));
 //
 const URI = process.env.MONGODB_URL_LOCAL;
 mongoose.connect(
