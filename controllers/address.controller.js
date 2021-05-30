@@ -25,8 +25,8 @@ exports.findAllDistrictByCity = (req, res) => {
 
 exports.findAllWardByDistrict = (req, res) => {
   ward.find({ district_id: req.params.id })
-    .then((districts) => {
-      res.status(200).send(districts);
+    .then((wards) => {
+      res.status(200).send(wards);
     }).catch((err) => {
       res.status(500).send({
         message: err.message || 'Something wrong while retrieving products.',

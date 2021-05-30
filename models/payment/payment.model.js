@@ -1,9 +1,9 @@
 const { Schema } = require('mongoose');
 const mongoose = require('mongoose');
 
-const ContractModel = new mongoose.Schema(
+const PaymentModel = new mongoose.Schema(
   {
-    idPost: {
+    idContract: {
       type: Schema.Types.ObjectId,
       require,
     },
@@ -11,24 +11,25 @@ const ContractModel = new mongoose.Schema(
       type: Schema.Types.ObjectId,
       require,
     },
+    typePayment: {
+      type: String,
+    },
     idHirer: {
       type: Schema.Types.ObjectId,
       require,
     },
-    price: {
+    taxes: {
       type: Number,
     },
-    status: {
+    totalPrice: {
       type: Number,
-      default: 1,
     },
-    dateHire: {
-      type: Date,
-      require,
+    isLate: {
+      type: Boolean,
     },
-    dateReturn: {
-      type: Date,
-      require,
+    isDriver: {
+      type: Boolean,
+      default: false,
     },
   },
   {
@@ -36,4 +37,4 @@ const ContractModel = new mongoose.Schema(
 
   },
 );
-module.exports = mongoose.model('contract', ContractModel);
+module.exports = mongoose.model('contract', PaymentModel);
