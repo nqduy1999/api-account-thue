@@ -146,6 +146,10 @@ const PostModel = new mongoose.Schema(
       type: Schema.Types.ObjectId,
       ref: 'PostPrice',
     }],
+    depositFee: {
+      pricePerHour: Number,
+      pricePerDay: Number,
+    },
     isActive: {
       type: Boolean,
       default: false,
