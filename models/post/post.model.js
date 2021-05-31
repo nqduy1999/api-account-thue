@@ -150,6 +150,9 @@ const PostModel = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    isDepositFee: {
+      type: Boolean,
+    },
   },
   {
     timestamps: true,

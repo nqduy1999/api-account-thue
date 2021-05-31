@@ -13,6 +13,10 @@ const PostPriceSchema = new mongoose.Schema(
       type: Schema.Types.ObjectId,
       ref: 'Posts',
     },
+    depositFee: {
+      pricePerHour: Number,
+      pricePerDay: Number,
+    },
   },
 );
 module.exports = mongoose.model('PostPrice', PostPriceSchema);
