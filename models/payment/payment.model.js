@@ -27,10 +27,6 @@ const PaymentModel = new mongoose.Schema(
     isLate: {
       type: Boolean,
     },
-    isDriver: {
-      type: Boolean,
-      default: false,
-    },
   },
   {
     timestamps: true,

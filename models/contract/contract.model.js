@@ -18,6 +18,12 @@ const ContractModel = new mongoose.Schema(
     price: {
       type: Number,
     },
+    depositFee: {
+      price: {
+        String: Number,
+      },
+      isActive: Boolean,
+    },
     status: {
       type: Number,
       default: 1,

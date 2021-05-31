@@ -3,5 +3,4 @@ const ContractController = require('../controllers/contract.controller');
 
 router.get('/', ContractController.getContracts);
 router.post('/', ContractController.createContract);
-router.post('/accept-contract', ContractController.acceptContract);
 module.exports = router;

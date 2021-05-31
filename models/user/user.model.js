@@ -39,10 +39,9 @@ const userSchema = new mongoose.Schema(
         type: Number,
         trim: true,
       },
-      countryCode: {
-        type: Number,
-        trim: true,
-      },
+      ward: { type: String },
+      city: { type: String },
+      district: { type: String },
       districtId: {
         type: Number,
         trim: true,
