@@ -134,10 +134,10 @@ const PostModel = new mongoose.Schema(
       type: String,
       require,
     },
-    rule: [{
+    rule: {
       type: String,
       require,
-    }],
+    },
     price: {
       type: Number,
       require,
