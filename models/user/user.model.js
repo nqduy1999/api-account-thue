@@ -39,9 +39,6 @@ const userSchema = new mongoose.Schema(
         type: Number,
         trim: true,
       },
-      ward: { type: String },
-      city: { type: String },
-      district: { type: String },
       districtId: {
         type: Number,
         trim: true,
@@ -61,6 +58,15 @@ const userSchema = new mongoose.Schema(
       wardId: {
         type: Number,
         trim: true,
+      },
+      cityName: {
+        type: String,
+      },
+      districtName: {
+        type: String,
+      },
+      wardName: {
+        type: String,
       },
     },
     emailVerified: {

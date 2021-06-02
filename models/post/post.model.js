@@ -40,10 +40,6 @@ const PostModel = new mongoose.Schema(
         type: Number,
         trim: true,
       },
-      countryCode: {
-        type: String,
-        trim: true,
-      },
       districtId: {
         type: Number,
         trim: true,
@@ -63,6 +59,15 @@ const PostModel = new mongoose.Schema(
       wardId: {
         type: Number,
         trim: true,
+      },
+      cityName: {
+        type: String,
+      },
+      districtName: {
+        type: String,
+      },
+      wardName: {
+        type: String,
       },
     },
     locationAddr: {
@@ -99,9 +104,9 @@ const PostModel = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    isDriver: {
-      type: Boolean,
-      default: false,
+    typePost: {
+      type: String,
+      default: 'NO_DRIVER',
     },
     options: [{
       id: String,
@@ -139,23 +144,13 @@ const PostModel = new mongoose.Schema(
       require,
     },
     price: {
-      type: Number,
-      require,
-    },
-    priceOption: [{
-      type: Schema.Types.ObjectId,
-      ref: 'PostPrice',
-    }],
-    depositFee: {
-      pricePerHour: Number,
       pricePerDay: Number,
+      pricePerHour: Number,
     },
+    depositFee: { pricePerHour: Number },
     isActive: {
       type: Boolean,
       default: false,
-    },
-    isDepositFee: {
-      type: Boolean,
     },
   },
   {

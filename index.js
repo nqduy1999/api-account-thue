@@ -22,7 +22,6 @@ app.use('/api/user', require('./routes/user.routes'));
 app.use('/api', require('./routes/upload.routes'));
 app.use('/api/vehicle', require('./routes/vehicle.routes'));
 app.use('/api/post', require('./routes/post.routes'));
-app.use('/api/post-price', require('./routes/post-price.routes'));
 app.use('/api/contract', require('./routes/contract.routes'));
 app.use('/api/request', require('./routes/request.routes'));
 app.use('/api/address', require('./routes/address.routes'));
