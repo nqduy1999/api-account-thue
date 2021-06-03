@@ -75,22 +75,14 @@ const PostModel = new mongoose.Schema(
     {
       avg: {
         type: Number,
+        default: 0,
       },
-      star1: {
-        type: Number,
-      },
-      star2: {
-        type: Number,
-      },
-      star3: {
-        type: Number,
-      },
-      star4: {
-        type: Number,
-      },
-      star5: {
-        type: Number,
-      },
+      listRating: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'rating',
+        },
+      ],
     },
     photos: [
       {
