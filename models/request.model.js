@@ -8,14 +8,10 @@ const RequestModel = new mongoose.Schema(
     type: {
       type: String,
     },
-    images: [{
-      type: String,
-      default: false,
-    }],
     status: {
       type: String,
-      default: 'PENDING',
     },
+    data: {},
   },
 );
 module.exports = mongoose.model('request', RequestModel);

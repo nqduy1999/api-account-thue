@@ -12,7 +12,7 @@ const vehicleTypeSchema = new mongoose.Schema(
       type: String,
       require,
     },
-    key: {
+    seat: {
       type: String,
     },
     model: [{

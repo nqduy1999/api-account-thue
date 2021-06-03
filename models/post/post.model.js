@@ -14,6 +14,7 @@ const PostModel = new mongoose.Schema(
     status: {
       type: Number, // 1: Xe đang được thuê, 2: Xe trống, 3: Gửi xác nhận cho chủ xe.
       required: true,
+      default: 0,
     },
     idOwner: {
       type: Schema.Types.ObjectId,
@@ -35,7 +36,7 @@ const PostModel = new mongoose.Schema(
       ref: 'vehicle_types',
       require,
     },
-    location: {
+    address: {
       cityId: {
         type: Number,
         trim: true,
@@ -69,10 +70,6 @@ const PostModel = new mongoose.Schema(
       wardName: {
         type: String,
       },
-    },
-    locationAddr: {
-      type: String,
-      trim: true,
     },
     rating:
     {
@@ -112,18 +109,8 @@ const PostModel = new mongoose.Schema(
       id: String,
       name: String,
     }],
-    requiredPapers: [{
-      id: String,
-      name: String,
-    },
-    ],
     vehicleNumber: {
       code: String,
-      photo: [{ type: String }],
-      isActive: {
-        type: Boolean,
-        default: false,
-      },
     },
     historyContract: [
       {
@@ -131,10 +118,10 @@ const PostModel = new mongoose.Schema(
         ref: 'contract',
       },
     ],
-    transmission: [{
+    transmission: {
       id: String,
       name: String,
-    }],
+    },
     description: {
       type: String,
       require,
@@ -146,8 +133,8 @@ const PostModel = new mongoose.Schema(
     price: {
       pricePerDay: Number,
       pricePerHour: Number,
+      depositFee: Number,
     },
-    depositFee: { pricePerHour: Number },
     isActive: {
       type: Boolean,
       default: false,

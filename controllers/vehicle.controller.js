@@ -19,12 +19,12 @@ const VehicleController = {
     }
   },
   createVehicleType: async (req, res) => {
-    const { name, logo } = req.body;
+    const { name, logo, seat } = req.body;
     const category = await vehicleType.findOne({ name });
     if (category) {
       return res.status(400).json({ msg: 'Trùng tên' });
     }
-    const newCategory = new vehicleType({ name, logo });
+    const newCategory = new vehicleType({ name, logo, seat });
     await newCategory.save();
     res.json({ msg: 'Tạo loại xe thành công' });
     try {
@@ -45,9 +45,9 @@ const VehicleController = {
   },
   updateVehicleType: async (req, res) => {
     try {
-      const { name, logo, key } = req.body;
+      const { name, logo, seat } = req.body;
       const param = {
-        name, logo, key,
+        name, logo, seat,
       };
       await vehicleType.findByIdAndUpdate({ _id: req.params.id }, param);
       res.json({ msg: 'Cập nhật loại thành công' });

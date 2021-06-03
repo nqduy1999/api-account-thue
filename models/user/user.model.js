@@ -30,10 +30,7 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    accountBalance: {
-      type: Number,
-      default: 0,
-    },
+    
     address: {
       cityId: {
         type: Number,

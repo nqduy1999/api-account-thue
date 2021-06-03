@@ -23,8 +23,8 @@ const postController = {
   createPost: async (req, res) => {
     try {
       const {
-        name, seat, status, idOwner, idModel, idMake, idType, location,
-        locationAddr, rating, photos, photosVerified, isDriver, vehicleNumber, requiredPapers, totalTrips, transmission, description, rule, price, isActive
+        name, status, idOwner, idModel, idMake, idType, location,
+        photos, isDriver, vehicleNumber, options, transmission, description, rule, price, isActive
       } = req.body;
       const userFind = await UserModel.findOne({ _id: idOwner });
       const { listPostsUser } = userFind;
@@ -41,11 +41,9 @@ const postController = {
         locationAddr,
         rating,
         photos,
-        photosVerified,
         isDriver,
         vehicleNumber,
-        requiredPapers,
-        totalTrips,
+        options,
         transmission,
         description,
         rule,
