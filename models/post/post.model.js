@@ -8,7 +8,7 @@ const PostModel = new mongoose.Schema(
       required: true,
     },
     seat: {
-      type: Number,
+      type: String,
       required: true,
     },
     status: {
@@ -85,9 +85,7 @@ const PostModel = new mongoose.Schema(
       ],
     },
     photos: [
-      {
-        url: String,
-      },
+      String,
     ],
     totalTrips: {
       type: Number,
@@ -126,6 +124,9 @@ const PostModel = new mongoose.Schema(
       pricePerDay: Number,
       pricePerHour: Number,
       depositFee: Number,
+    },
+    isDriver: {
+      type: Boolean,
     },
     isActive: {
       type: Boolean,

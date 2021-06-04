@@ -5,6 +5,7 @@
 /* eslint-disable max-len */
 const PostModel = require('../models/post/post.model');
 const UserModel = require('../models/user/user.model');
+const vehicleType = require('../models/vehicle/vehicle.type.model');
 const { responseData, responseDataNormal } = require('../utils/response');
 
 const dataResponse = {
@@ -24,13 +25,14 @@ const postController = {
     try {
       const {
         name, status, idOwner, idModel, idMake, idType, location,
-        photos, isDriver, vehicleNumber, options, transmission, description, rule, price, isActive
+        photos, isDriver, vehicleNumber, options, transmission, description, rule, price, isActive, typePost
       } = req.body;
       const userFind = await UserModel.findOne({ _id: idOwner });
+      const typeVehicle = await vehicleType.findById({ _id: idType });
       const { listPostsUser } = userFind;
       const newPost = new PostModel({
         name,
-        seat,
+        seat: typeVehicle.seat,
         status,
         idOwner,
         idModel,
@@ -38,8 +40,6 @@ const postController = {
         idType,
         location,
         price,
-        locationAddr,
-        rating,
         photos,
         isDriver,
         vehicleNumber,
@@ -47,8 +47,8 @@ const postController = {
         transmission,
         description,
         rule,
-        priceOption: newPostPrice._id,
-        isActive
+        isActive,
+        typePost,
       });
       await newPost.save();
       await UserModel.findByIdAndUpdate({ _id: idOwner }, {
@@ -62,7 +62,7 @@ const postController = {
   getAllPostFree: async (req, res) => {
     try {
       const {
-        page, limit, transmission, idModel, idMake, idType, price, typePost
+        page, limit, transmission, idModel, idMake, idType, price, typePost, status
       } = req.query;
       const pagination = {
         perPage: Number(limit),
@@ -71,14 +71,14 @@ const postController = {
       };
       const { perPage, currentPage } = pagination;
       const params = {
-        status: 2,
         isActive: true,
         ...transmission ? { 'transmission.id': transmission } : {},
         ...idModel ? { idModel } : {},
         ...idMake ? { idMake } : {},
         ...idType ? { idType } : {},
         ...price ? { price } : {},
-        ...typePost ? { typePost } : {}
+        ...typePost ? { typePost } : {},
+        ...status ? { status } : {}
       };
       const totalPage = Math.ceil((await PostModel.find(params)).length / (limit || 1));
       // eslint-disable-next-line consistent-return
