@@ -87,10 +87,6 @@ const PostModel = new mongoose.Schema(
     photos: [
       String,
     ],
-    totalTrips: {
-      type: Number,
-      default: 0,
-    },
     typePost: {
       type: String,
       default: 'NO_DRIVER',

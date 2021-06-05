@@ -11,20 +11,21 @@ const { responseData, responseDataNormal } = require('../utils/response');
 const dataResponse = {
   name: 1,
   photos: 2,
-  locationAddr: 3,
+  address: 3,
   priceOption: 4,
   photosVerified: 5,
   rating: 6,
-  totalTrips: 7,
+  historyContract: 7,
   transmission: 8,
   price: 9,
+  typePost: 10,
 };
 const postController = {
 
   createPost: async (req, res) => {
     try {
       const {
-        name, status, idOwner, idModel, idMake, idType, location,
+        name, status, idOwner, idModel, idMake, idType, address,
         photos, isDriver, vehicleNumber, options, transmission, description, rule, price, isActive, typePost
       } = req.body;
       const userFind = await UserModel.findOne({ _id: idOwner });
@@ -38,7 +39,7 @@ const postController = {
         idModel,
         idMake,
         idType,
-        location,
+        address,
         price,
         photos,
         isDriver,
@@ -78,7 +79,7 @@ const postController = {
         ...idType ? { idType } : {},
         ...price ? { price } : {},
         ...typePost ? { typePost } : {},
-        ...status ? { status } : {}
+        ...status ? { status } : {},
       };
       const totalPage = Math.ceil((await PostModel.find(params)).length / (limit || 1));
       // eslint-disable-next-line consistent-return
