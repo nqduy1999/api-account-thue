@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    
+
     address: {
       cityId: {
         type: Number,
@@ -96,6 +96,10 @@ const userSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Posts',
     }],
+    infoPayment: {
+      numberAtm: String,
+      nameBank: String,
+    },
     isAcceptPost: {
       type: Boolean,
       default: false,
