@@ -3,11 +3,11 @@ const mongoose = require('mongoose');
 
 const PaymentModel = new mongoose.Schema(
   {
-    idContract: {
+    idOwner: {
       type: Schema.Types.ObjectId,
       require,
     },
-    idOwner: {
+    idPost: {
       type: Schema.Types.ObjectId,
       require,
     },
@@ -18,14 +18,12 @@ const PaymentModel = new mongoose.Schema(
       type: Schema.Types.ObjectId,
       require,
     },
-    taxes: {
-      type: Number,
-    },
     totalPrice: {
       type: Number,
     },
-    isLate: {
-      type: Boolean,
+    status: {
+      type: Number,
+      default: 1,
     },
   },
   {

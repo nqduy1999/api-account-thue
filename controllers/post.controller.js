@@ -136,7 +136,7 @@ const postController = {
         // eslint-disable-next-line max-len
         name, seat, status, idOwner, idModel, idMake, idType, location,
         locationAddr, rating, photos, photosVerified, transmission, priceOption,
-        description, vehicleNumber,
+        description, vehicleNumber, isActive,
         rule,
       } = req.body;
       await PostModel.findByIdAndUpdate({ _id: req.params.id }, {
@@ -157,6 +157,7 @@ const postController = {
         description,
         vehicleNumber,
         rule,
+        isActive
       });
       res.json({ msg: 'Update Successful' });
     } catch (err) {

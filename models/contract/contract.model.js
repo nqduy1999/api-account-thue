@@ -15,18 +15,15 @@ const ContractModel = new mongoose.Schema(
       type: Schema.Types.ObjectId,
       require,
     },
-    price: {
-      type: Number,
-    },
-    depositFee: {
-      price: {
-        String: Number,
-      },
-      isActive: Boolean,
+    idPayment: {
+      type: String,
     },
     status: {
       type: Number,
       default: 1,
+    },
+    isLate: {
+      type: Boolean,
     },
     dateHire: {
       type: Date,
