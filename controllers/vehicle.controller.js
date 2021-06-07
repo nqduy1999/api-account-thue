@@ -11,9 +11,19 @@ const VehicleController = {
   // Type là loại xe ví dụ xe 4 chỗ 7 chỗ bán tải
   getVehicleTypeAll: async (req, res) => {
     try {
-      const categories = await vehicleType.find();
-      categories.sort((a, b) => a.id - b.id);
-      res.json(categories);
+      const paginator = {
+        perPage: Number(req.query.limit),
+        currentPage: Number(req.query.page),
+        nextPage: Number(req.query.page) + 1,
+      };
+      const { perPage, currentPage } = paginator;
+      const { textSearch, isSearch } = req.query;
+      const totalPage = Math.ceil((await vehicleType.find(isSearch ? { name: { $regex: `${textSearch}`, $options: 'i' } } : {}))
+        .length / (req.query.limit || 1));
+      const types = await vehicleType.find(isSearch ? { name: { $regex: `${textSearch}`, $options: 'i' } } : {})
+        .limit(perPage).skip(currentPage > 0 ? (currentPage - 1) * perPage : 0);
+      types.sort((a, b) => a.id - b.id);
+      res.json(responseData(true, types, null, { ...paginator, totalPage }));
     } catch (err) {
       res.status(500).json({ msg: err.message });
     }
