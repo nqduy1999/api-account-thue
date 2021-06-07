@@ -17,9 +17,24 @@ const PaymentModel = new mongoose.Schema(
     totalPrice: {
       type: Number,
     },
+    idContract: {
+      type: Schema.Types.ObjectId,
+    },
+    dateHire: {
+      type: Date,
+      require,
+    },
+    dateReturn: {
+      type: Date,
+      require,
+    },
     status: {
       type: Number,
       default: 1,
+    },
+    isLate: {
+      type: Boolean,
+      default: false,
     },
   },
   {

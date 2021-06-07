@@ -15,25 +15,9 @@ const ContractModel = new mongoose.Schema(
       type: Schema.Types.ObjectId,
       require,
     },
-    idPayment: {
-      type: Schema.Types.ObjectId,
-      ref: 'payment',
-      require,
-    },
     status: {
       type: Number,
       default: 1,
-    },
-    isLate: {
-      type: Boolean,
-    },
-    dateHire: {
-      type: Date,
-      require,
-    },
-    dateReturn: {
-      type: Date,
-      require,
     },
   },
   {

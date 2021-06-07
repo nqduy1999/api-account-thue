@@ -18,10 +18,10 @@ const PaymentController = {
   },
   createPayment: async (req, res) => {
     const {
-      idHirer, idPost, typePayment, totalPrice,
+      idHirer, idPost, typePayment, totalPrice, dateHire, dateReturn,
     } = req.body;
     const newPayment = new PaymentModel({
-      idHirer, idPost, typePayment, totalPrice,
+      idHirer, idPost, typePayment, totalPrice, dateHire, dateReturn,
     });
     await newPayment.save();
     res.json({ msg: 'Tạo hoá đơn thành công' });
