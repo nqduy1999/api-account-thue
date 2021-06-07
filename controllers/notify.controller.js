@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 const NotifyModel = require('../models/notify.model');
 
 const NotifyController = {

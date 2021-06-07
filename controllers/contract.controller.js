@@ -1,5 +1,5 @@
 const ContractModel = require('../models/contract/contract.model');
-const postModel = require('../models/post/post.model');
+const { responseDataNormal } = require('../utils/response');
 
 const ContractController = {
   getContracts: async (req, res) => {
@@ -16,11 +16,10 @@ const ContractController = {
     }
   },
   createContract: async (req, res) => {
-    const { idHirer, idPost } = req.body;
-    const post = await postModel.findOne({ _id: idPost });
-    const newContract = new ContractModel({ idHirer, idPost, price: post.priceOption.price });
+    const { idHirer, idPost, idOwner } = req.body;
+    const newContract = new ContractModel({ idHirer, idPost, idOwner });
     await newContract.save();
-    res.json({ msg: 'Tạo hợp đồng thành công' });
+    res.json(responseDataNormal(true, newContract, null));
     try {
       res.json({ msg: 'Admin Resource' });
     } catch (err) {
