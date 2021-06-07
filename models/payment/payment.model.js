@@ -3,10 +3,6 @@ const mongoose = require('mongoose');
 
 const PaymentModel = new mongoose.Schema(
   {
-    idOwner: {
-      type: Schema.Types.ObjectId,
-      require,
-    },
     idPost: {
       type: Schema.Types.ObjectId,
       require,
@@ -31,4 +27,4 @@ const PaymentModel = new mongoose.Schema(
 
   },
 );
-module.exports = mongoose.model('contract', PaymentModel);
+module.exports = mongoose.model('payment', PaymentModel);

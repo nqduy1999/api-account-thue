@@ -16,7 +16,9 @@ const ContractModel = new mongoose.Schema(
       require,
     },
     idPayment: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: 'payment',
+      require,
     },
     status: {
       type: Number,

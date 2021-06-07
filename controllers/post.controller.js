@@ -126,7 +126,7 @@ const postController = {
       if (!post) {
         res.json(responseData(false, null, 'Khong tim thay'));
       }
-    } catch (error) {
+    } catch (err) {
       res.status(500).json({ msg: err.message });
     }
   },

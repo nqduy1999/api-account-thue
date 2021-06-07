@@ -1,6 +1,7 @@
 const router = require('express').Router();
-const ContractController = require('../controllers/contract.controller');
+const PaymentController = require('../controllers/payment.controller');
 
-router.get('/', ContractController.getContracts);
-router.post('/', ContractController.createContract);
+router.get('/', PaymentController.getPayments);
+router.post('/', PaymentController.createPayment);
+router.get('/:id', PaymentController.getPaymentById);
 module.exports = router;
