@@ -167,12 +167,10 @@ const postController = {
   // eslint-disable-next-line consistent-return
   deletePost: async (req, res) => {
     try {
-      const { idOwner } = req.body;
-      const postFind = await PostModel.findOne({ idOwner });
-      if (postFind === req.params.id) {
-        await PostModel.findByIdAndDelete(req.params.id);
-        return res.json({ msg: 'Delete Successful' });
-      }
+      // const { idOwner } = req.body;
+      // const postFind = await PostModel.findOne({ idOwner });
+      await PostModel.findByIdAndDelete(req.params.id);
+      return res.json({ msg: 'Delete Successful' });
     } catch (err) {
       res.status(500).json({ msg: err.message });
     }

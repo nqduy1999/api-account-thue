@@ -125,7 +125,7 @@ const UserController = {
         isActive: true,
         emailVerified: true,
       });
-      res.json({ msg: 'Kích hoạt tài khoản thành công' });
+      res.json({ code: 1, msg: 'Kích hoạt tài khoản thành công' });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
