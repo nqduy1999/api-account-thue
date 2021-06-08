@@ -24,7 +24,7 @@ const PaymentController = {
       idHirer, idPost, typePayment, totalPrice, dateHire, dateReturn, idContract,
     });
     await newPayment.save();
-    res.json(responseDataNormal(true, null, 'Tạo hợp đồng thành công'));
+    res.json(responseDataNormal(true, newPayment, 'Tạo hợp đồng thành công'));
     try {
       res.json({ msg: 'Admin Resource' });
     } catch (err) {

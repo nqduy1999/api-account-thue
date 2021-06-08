@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 const ContractModel = require('../models/contract/contract.model');
 const { responseDataNormal } = require('../utils/response');
 
@@ -34,6 +35,15 @@ const ContractController = {
       });
     } catch (err) {
       res.status(500).json({ msg: err.message });
+    }
+  },
+  getContractById: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const contract = await ContractModel.find({ _id: id });
+      res.json(responseDataNormal(true, contract, null));
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
     }
   },
 };
