@@ -3,6 +3,7 @@
 /* eslint-disable comma-dangle */
 /* eslint-disable no-undef */
 /* eslint-disable max-len */
+const ListdayModel = require('../models/post/listday.model');
 const PostModel = require('../models/post/post.model');
 const UserModel = require('../models/user/user.model');
 const vehicleType = require('../models/vehicle/vehicle.type.model');
@@ -52,6 +53,8 @@ const postController = {
         typePost,
       });
       await newPost.save();
+      const listDay = new ListdayModel({ idPost: newPost?._id });
+      listDay.save();
       await UserModel.findByIdAndUpdate({ _id: idOwner }, {
         listPostsUser: listPostsUser.concat(newPost._id)
       });
@@ -63,7 +66,7 @@ const postController = {
   getAllPostFree: async (req, res) => {
     try {
       const {
-        page, limit, transmission, idModel, idMake, idType, price, typePost, status, startDate, endDate
+        page, limit, transmission, idModel, idMake, idType, price, typePost, status
       } = req.query;
       const pagination = {
         perPage: Number(limit),

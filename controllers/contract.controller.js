@@ -2,6 +2,7 @@
 /* eslint-disable consistent-return */
 const ContractModel = require('../models/contract/contract.model');
 const PaymentModel = require('../models/payment/payment.model');
+const ListdayModel = require('../models/post/listday.model');
 const PostModel = require('../models/post/post.model');
 const { responseDataNormal } = require('../utils/response');
 
@@ -29,6 +30,7 @@ const ContractController = {
       idHirer, idPost, idOwner, endDate, startDate,
     });
     await PostModel.findByIdAndUpdate({ _id: idPost }, { status: 2 });
+    await ListdayModel.findOneAndUpdate({ idPost }, { listDay: { startDate, endDate } });
     await newContract.save();
     res.json(responseDataNormal(true, newContract, null));
     try {
