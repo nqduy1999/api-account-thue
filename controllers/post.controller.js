@@ -63,7 +63,7 @@ const postController = {
   getAllPostFree: async (req, res) => {
     try {
       const {
-        page, limit, transmission, idModel, idMake, idType, price, typePost, status
+        page, limit, transmission, idModel, idMake, idType, price, typePost, status, dateHire
       } = req.query;
       const pagination = {
         perPage: Number(limit),
@@ -86,6 +86,7 @@ const postController = {
       const posts = await PostModel.find(params, dataResponse, (err) => {
         if (err) return next(err);
       }).limit(perPage).skip(currentPage > 0 ? (currentPage - 1) * perPage : 0);
+      const postFinal = posts.filter((item) => console.log(item.listDate.filter((date) => date === dateHire)));
       res.json(responseData(true, posts, null,
         { ...pagination, totalPage }));
     } catch (err) {

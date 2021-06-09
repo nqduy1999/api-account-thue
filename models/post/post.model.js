@@ -128,9 +128,11 @@ const PostModel = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    listDate: [{
-      type: Date,
-    }],
+    listDate: [
+      {
+        startDate: Date,
+        endDate: Date,
+      }],
   },
   {
     timestamps: true,

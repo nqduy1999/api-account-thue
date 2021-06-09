@@ -8,21 +8,26 @@ const { responseDataNormal } = require('../utils/response');
 const ContractController = {
   getContracts: async (req, res) => {
     try {
-      const { idOwner, idHirer } = req.body;
+      const { idOwner, idHirer, status } = req.query;
       const params = {
         ...idOwner ? { idOwner } : {},
         ...idHirer ? { idHirer } : {},
+        ...status ? { status } : {},
       };
-      const contract = await ContractModel.find({ params });
-      res.json(contract);
+      const contract = await ContractModel.find(params);
+      res.json(responseDataNormal(true, contract, null));
     } catch (err) {
       res.status(500).json({ msg: err.message });
     }
   },
   createContract: async (req, res) => {
-    const { idHirer, idPost, idOwner } = req.body;
+    const {
+      idHirer, idPost, idOwner, endDate, startDate,
+    } = req.body;
 
-    const newContract = new ContractModel({ idHirer, idPost, idOwner });
+    const newContract = new ContractModel({
+      idHirer, idPost, idOwner, endDate, startDate,
+    });
     await PostModel.findByIdAndUpdate({ _id: idPost }, { status: 2 });
     await newContract.save();
     res.json(responseDataNormal(true, newContract, null));
