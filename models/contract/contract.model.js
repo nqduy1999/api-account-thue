@@ -15,8 +15,14 @@ const ContractModel = new mongoose.Schema(
       type: Schema.Types.ObjectId,
       require,
     },
-    startDate: Date,
-    endDate: Date,
+    startDate: {
+      type: Date,
+      require,
+    },
+    endDate: {
+      type: Date,
+      require,
+    },
     status: {
       type: Number,
       default: 1,

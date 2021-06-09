@@ -18,10 +18,10 @@ const PaymentController = {
   },
   createPayment: async (req, res) => {
     const {
-      idHirer, idPost, typePayment, totalPrice, dateHire, dateReturn, idContract,
+      idHirer, idPost, typePayment, totalPrice, startDate, endDate, idContract,
     } = req.body;
     const newPayment = new PaymentModel({
-      idHirer, idPost, typePayment, totalPrice, dateHire, dateReturn, idContract,
+      idHirer, idPost, typePayment, totalPrice, startDate, endDate, idContract,
     });
     await newPayment.save();
     res.json(responseDataNormal(true, newPayment, 'Tạo hợp đồng thành công'));
@@ -35,6 +35,15 @@ const PaymentController = {
     try {
       const { id } = req.params;
       const payment = await PaymentModel.find({ _id: id });
+      res.json(responseDataNormal(true, payment, null));
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+  getPaymentByIdContract: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const payment = await PaymentModel.findOne({ idContract: id });
       res.json(responseDataNormal(true, payment, null));
     } catch (error) {
       return res.status(500).json({ msg: error.message });

@@ -20,11 +20,11 @@ const PaymentModel = new mongoose.Schema(
     idContract: {
       type: Schema.Types.ObjectId,
     },
-    dateHire: {
+    startDate: {
       type: Date,
       require,
     },
-    dateReturn: {
+    endDate: {
       type: Date,
       require,
     },
