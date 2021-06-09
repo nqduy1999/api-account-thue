@@ -197,7 +197,7 @@ const VehicleController = {
         { model: modelMake.concat(newModel._id) });
       res.json(responseData(true, [], 'Tạo thành công'));
     } catch (err) {
-      res.status(500).json({ msg: err.message });
+      return res.status(500).json({ msg: err.message });
     }
   },
   deleteVehicleModel: async (req, res) => {

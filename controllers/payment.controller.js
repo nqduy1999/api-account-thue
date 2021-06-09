@@ -5,10 +5,10 @@ const { responseDataNormal } = require('../utils/response');
 const PaymentController = {
   getPayments: async (req, res) => {
     try {
-      const { idHirer, idPost } = req.body;
+      const { idHirer, idContract } = req.body;
       const params = {
+        ...idContract ? { idContract } : {},
         ...idHirer ? { idHirer } : {},
-        ...idPost ? { idPost } : {},
       };
       const contract = await PaymentModel.find({ params });
       res.json(contract);

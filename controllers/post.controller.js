@@ -89,7 +89,7 @@ const postController = {
       res.json(responseData(true, posts, null,
         { ...pagination, totalPage }));
     } catch (err) {
-      res.status(500).json({ msg: err.message });
+      return res.status(500).json({ msg: err.message });
     }
   },
   getAllPostAdmin: async (req, res) => {
