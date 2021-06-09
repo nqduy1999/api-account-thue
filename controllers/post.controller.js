@@ -221,6 +221,8 @@ const postController = {
   // eslint-disable-next-line consistent-return
   deletePostAdmin: async (req, res) => {
     try {
+      const postFind = await PostModel.findById(req.params.id);
+      if (postFind?.status !== 0) return res.status(400).json({ msg: 'Không thể xoá xe có trạng thái khác' });
       await PostModel.findByIdAndDelete(req.params.id);
       return res.json({ msg: 'Delete Successful' });
     } catch (err) {
