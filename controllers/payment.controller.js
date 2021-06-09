@@ -44,7 +44,7 @@ const PaymentController = {
     try {
       const { id } = req.params;
       const payment = await PaymentModel.findOne({ idContract: id });
-      res.json(responseDataNormal(true, payment, null));
+      res.json(payment);
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
