@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable no-undef */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable consistent-return */
 const ContractModel = require('../models/contract/contract.model');
@@ -30,7 +32,6 @@ const ContractController = {
       idHirer, idPost, idOwner, endDate, startDate,
     });
     await PostModel.findByIdAndUpdate({ _id: idPost }, { status: 2 });
-    await ListdayModel.findOneAndUpdate({ idPost }, { listDay: { startDate, endDate } });
     await newContract.save();
     res.json(responseDataNormal(true, newContract, null));
     try {
@@ -65,8 +66,10 @@ const ContractController = {
   acceptContractById: async (req, res) => {
     try {
       const { id } = req.params;
+      const { status } = req.body;
       const contractFind = await ContractModel.findById({ _id: id });
-      await PostModel.findByIdAndUpdate({ _id: contractFind.idPost }, { status: 1 });
+      await PostModel.findByIdAndUpdate({ _id: contractFind.idPost }, { status });
+      await ListdayModel.findOneAndUpdate({ idPost: contractFind.idPost }, { listDay: [startDate, endDate] });
       await ContractModel.findByIdAndUpdate({ _id: id }, { status: 2 });
       res.json({ code: 1, msg: 'Chấp nhận hợp đồng ' });
     } catch (error) {
