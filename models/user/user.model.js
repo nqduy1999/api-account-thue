@@ -30,14 +30,9 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-
     address: {
-      cityId: {
-        type: Number,
-        trim: true,
-      },
-      districtId: {
-        type: Number,
+      locationString: {
+        type: String,
         trim: true,
       },
       lat: {
@@ -47,23 +42,6 @@ const userSchema = new mongoose.Schema(
       lon: {
         type: Number,
         trim: true,
-      },
-      street: {
-        type: String,
-        trim: true,
-      },
-      wardId: {
-        type: Number,
-        trim: true,
-      },
-      cityName: {
-        type: String,
-      },
-      districtName: {
-        type: String,
-      },
-      wardName: {
-        type: String,
       },
     },
     emailVerified: {
