@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema(
         type: Number,
         trim: true,
       },
-      lon: {
+      lng: {
         type: Number,
         trim: true,
       },

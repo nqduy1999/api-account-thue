@@ -12,7 +12,7 @@ const { responseData, responseDataNormal } = require('../utils/response');
 const dataResponse = {
   name: 1,
   photos: 2,
-  address: 3,
+  locationAddress: 3,
   priceOption: 4,
   photosVerified: 5,
   rating: 6,
@@ -27,7 +27,7 @@ const postController = {
     try {
       const {
         name, status, idOwner, idModel, idMake, idType, address,
-        photos, isDriver, vehicleNumber, options, transmission, description, rule, price, isActive, typePost
+        photos, isDriver, vehicleNumber, options, transmission, description, rule, price, isActive, typePost, locationString
       } = req.body;
       const userFind = await UserModel.findOne({ _id: idOwner });
       const typeVehicle = await vehicleType.findById({ _id: idType });
@@ -51,6 +51,7 @@ const postController = {
         rule,
         isActive,
         typePost,
+        locationString
       });
       await newPost.save();
       const listDay = new ListdayModel({ idPost: newPost?._id });

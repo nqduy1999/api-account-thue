@@ -37,38 +37,17 @@ const PostModel = new mongoose.Schema(
       require,
     },
     address: {
-      cityId: {
-        type: Number,
-        trim: true,
-      },
-      districtId: {
-        type: Number,
+      locationString: {
+        type: String,
         trim: true,
       },
       lat: {
         type: Number,
         trim: true,
       },
-      lon: {
+      lng: {
         type: Number,
         trim: true,
-      },
-      street: {
-        type: String,
-        trim: true,
-      },
-      wardId: {
-        type: Number,
-        trim: true,
-      },
-      cityName: {
-        type: String,
-      },
-      districtName: {
-        type: String,
-      },
-      wardName: {
-        type: String,
       },
     },
     rating:
@@ -83,6 +62,10 @@ const PostModel = new mongoose.Schema(
           ref: 'rating',
         },
       ],
+    },
+    locationString: {
+      type: String,
+      require,
     },
     photos: [
       String,
