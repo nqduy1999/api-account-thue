@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const ListDaySchema = new mongoose.Schema(
   {
-    listDay: [{ type: Date }],
+    listDay: [{ startDate: Date, endDate: Date }],
     idPost: {
       type: Schema.Types.ObjectId,
       ref: 'Posts',

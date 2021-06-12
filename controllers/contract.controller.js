@@ -4,7 +4,7 @@
 /* eslint-disable consistent-return */
 const ContractModel = require('../models/contract/contract.model');
 const PaymentModel = require('../models/payment/payment.model');
-const ListdayModel = require('../models/post/listday.model');
+const ListDayModel = require('../models/post/listday.model');
 const PostModel = require('../models/post/post.model');
 const { responseDataNormal } = require('../utils/response');
 
@@ -66,10 +66,10 @@ const ContractController = {
   acceptContractById: async (req, res) => {
     try {
       const { id } = req.params;
-      const { status } = req.body;
+      const { status, startDate, endDate } = req.body;
       const contractFind = await ContractModel.findById({ _id: id });
       await PostModel.findByIdAndUpdate({ _id: contractFind.idPost }, { status });
-      await ListdayModel.findOneAndUpdate({ idPost: contractFind.idPost }, { listDay: [startDate, endDate] });
+      await ListDayModel.findOneAndUpdate({ idPost: contractFind.idPost }, { listDay: { startDate, endDate } });
       await ContractModel.findByIdAndUpdate({ _id: id }, { status: 2 });
       res.json({ code: 1, msg: 'Chấp nhận hợp đồng ' });
     } catch (error) {
