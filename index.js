@@ -26,7 +26,6 @@ app.use('/api/contract', require('./routes/contract.routes'));
 app.use('/api/request', require('./routes/request.routes'));
 app.use('/api/address', require('./routes/address.routes'));
 app.use('/api/payment', require('./routes/payment.routes'));
-app.use('/api/date', require('./routes/date.routes'));
 //
 const URI = process.env.MONGODB_URL_LOCAL;
 mongoose.connect(
