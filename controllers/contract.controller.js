@@ -10,11 +10,14 @@ const { responseDataNormal } = require('../utils/response');
 const ContractController = {
   getContracts: async (req, res) => {
     try {
-      const { idOwner, idHirer, status } = req.query;
+      const {
+        idOwner, idHirer, status, idPost,
+      } = req.query;
       const params = {
         ...idOwner ? { idOwner } : {},
         ...idHirer ? { idHirer } : {},
         ...status ? { status } : {},
+        ...idPost ? { idPost } : {},
       };
       const contract = await ContractModel.find(params);
       res.json(responseDataNormal(true, contract, null));
