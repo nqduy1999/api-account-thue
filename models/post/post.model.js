@@ -12,7 +12,7 @@ const PostModel = new mongoose.Schema(
       required: true,
     },
     status: {
-      type: Number, // 1: Xe đang được thuê, 2: Xe trống, 3: Gửi xác nhận cho chủ xe.
+      type: Number,
       required: true,
       default: 0,
     },
@@ -77,6 +77,7 @@ const PostModel = new mongoose.Schema(
     options: [{
       id: String,
       name: String,
+      img: String,
     }],
     vehicleNumber: {
       code: String,
@@ -110,6 +111,10 @@ const PostModel = new mongoose.Schema(
     isActive: {
       type: Boolean,
       default: false,
+    },
+    collateral: {
+      isCollateral: Boolean,
+      content: String,
     },
   },
   {

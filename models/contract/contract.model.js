@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 
 const ContractModel = new mongoose.Schema(
   {
+    name: {
+      type: String,
+      require,
+    },
     idPost: {
       type: Schema.Types.ObjectId,
       require,

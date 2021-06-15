@@ -29,9 +29,9 @@ const ContractController = {
     const {
       idHirer, idPost, idOwner, endDate, startDate,
     } = req.body;
-
+    const postFind = await PostModel.findById({ _id: idPost });
     const newContract = new ContractModel({
-      idHirer, idPost, idOwner, endDate, startDate,
+      idHirer, idPost, idOwner, endDate, startDate, name: postFind.name,
     });
     await PostModel.findByIdAndUpdate({ _id: idPost }, { status: 2 });
     await newContract.save();

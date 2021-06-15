@@ -26,7 +26,7 @@ const postController = {
     try {
       const {
         name, status, idOwner, idModel, idMake, idType, address,
-        photos, isDriver, vehicleNumber, options, transmission, description, rule, price, isActive, typePost, locationString
+        photos, isDriver, vehicleNumber, options, transmission, description, rule, price, isActive, typePost, locationString, collateral
       } = req.body;
       const userFind = await UserModel.findOne({ _id: idOwner });
       const typeVehicle = await vehicleType.findById({ _id: idType });
@@ -50,7 +50,8 @@ const postController = {
         rule,
         isActive,
         typePost,
-        locationString
+        locationString,
+        collateral
       });
       await newPost.save();
       await UserModel.findByIdAndUpdate({ _id: idOwner }, {
