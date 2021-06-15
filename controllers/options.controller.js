@@ -1,5 +1,5 @@
 const OptionModel = require('../models/post/option.model');
-const { responseData, responseDataNormal } = require('../utils/response');
+const { responseData } = require('../utils/response');
 
 const OptionController = {
   // Type là loại xe ví dụ xe 4 chỗ 7 chỗ bán tải
@@ -49,9 +49,9 @@ const OptionController = {
   },
   updateOption: async (req, res) => {
     try {
-      const { name, logo, seat } = req.body;
+      const { name, logo } = req.body;
       const param = {
-        name, logo, seat,
+        name, logo,
       };
       await OptionModel.findByIdAndUpdate({ _id: req.params.id }, param);
       res.json({ msg: 'Cập nhật loại thành công' });
