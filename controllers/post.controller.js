@@ -28,7 +28,7 @@ const postController = {
         name, status, idOwner, idModel, idMake, idType, address,
         photos, isDriver, vehicleNumber, options, transmission, description, rule, price, isActive, typePost, locationString, collateral
       } = req.body;
-      // const userFind = await UserModel.findOne({ _id: idOwner });
+      const userFind = await UserModel.findOne({ _id: idOwner });
       const typeVehicle = await vehicleType.findById({ _id: idType });
       const { listPostsUser } = userFind;
       const newPost = new PostModel({

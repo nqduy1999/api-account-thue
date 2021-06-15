@@ -10,6 +10,9 @@ const PaymentModel = new mongoose.Schema(
     typePayment: {
       type: String,
     },
+    idOwner: {
+      type: String,
+    },
     idHirer: {
       type: Schema.Types.ObjectId,
       require,

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const OptionsModel = new mongoose.Schema(
+const RatingModel = new mongoose.Schema(
   {
     idContract: {
       type: String,
@@ -10,7 +10,14 @@ const OptionsModel = new mongoose.Schema(
       type: String,
       require,
     },
+    idPost: {
+      type: String,
+      require,
+    },
+    value: {
+      Number,
+    },
     comment: String,
   },
 );
-module.exports = mongoose.model('options', OptionsModel);
+module.exports = mongoose.model('rating', RatingModel);

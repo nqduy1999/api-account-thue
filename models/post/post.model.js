@@ -41,6 +41,9 @@ const PostModel = new mongoose.Schema(
         type: String,
         trim: true,
       },
+      street: {
+        type: String,
+      },
       lat: {
         type: Number,
         trim: true,
@@ -77,7 +80,7 @@ const PostModel = new mongoose.Schema(
     options: [{
       _id: String,
       name: String,
-      img: String,
+      logo: String,
     }],
     vehicleNumber: {
       code: String,

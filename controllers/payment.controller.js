@@ -5,10 +5,11 @@ const { responseDataNormal } = require('../utils/response');
 const PaymentController = {
   getPayments: async (req, res) => {
     try {
-      const { idHirer, idContract } = req.body;
+      const { idHirer, idContract, idOwner } = req.body;
       const params = {
         ...idContract ? { idContract } : {},
         ...idHirer ? { idHirer } : {},
+        ...idOwner ? { idOwner } : {},
       };
       const contract = await PaymentModel.find({ params });
       res.json(contract);
@@ -18,10 +19,10 @@ const PaymentController = {
   },
   createPayment: async (req, res) => {
     const {
-      idHirer, idPost, typePayment, totalPrice, startDate, endDate, idContract,
+      idHirer, idPost, typePayment, totalPrice, startDate, endDate, idContract, idOwner,
     } = req.body;
     const newPayment = new PaymentModel({
-      idHirer, idPost, typePayment, totalPrice, startDate, endDate, idContract,
+      idHirer, idPost, typePayment, totalPrice, startDate, endDate, idContract, idOwner,
     });
     await newPayment.save();
     res.json(responseDataNormal(true, newPayment, 'Tạo hợp đồng thành công'));

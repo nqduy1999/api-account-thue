@@ -1,13 +1,17 @@
 // const PostModel = require('../models/post/post.model');
 const RatingModel = require('../models/rating.model');
+const { responseDataNormal } = require('../utils/response');
 
 const RatingController = {
   getAllRatingPost: async (req, res) => {
     try {
-      // const { idPost } = req.body;
-      // const post = await PostModel.findById({ _id: idPost });
-      // const require = await RatingModel.find({ idUser });
-      // res.json(require);
+      const { idPost, idContract } = req.body;
+      const params = {
+        ...idContract ? { idContract } : {},
+        ...idPost ? { idPost } : {},
+      };
+      const rating = await RatingModel.find(params);
+      res.json(responseDataNormal(true, rating, null));
     } catch (err) {
       res.status(500).json({ msg: err.message });
     }
@@ -15,12 +19,12 @@ const RatingController = {
   createRating: async (req, res) => {
     try {
       const {
-        idUser, description, type, status,
+        idUser, value, idPost, idContract, comment,
       } = req.body;
-      const notify = new RatingModel({
-        idUser, description, type, status,
+      const rating = new RatingModel({
+        idUser, value, idPost, idContract, comment,
       });
-      notify.save();
+      rating.save();
     } catch (err) {
       res.status(500).json({ msg: err.message });
     }
