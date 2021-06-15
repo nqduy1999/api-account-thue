@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 const OptionModel = require('../models/post/option.model');
 const { responseData } = require('../utils/response');
 

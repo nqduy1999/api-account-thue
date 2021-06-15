@@ -75,7 +75,7 @@ const PostModel = new mongoose.Schema(
       default: 'NO_DRIVER',
     },
     options: [{
-      id: String,
+      _id: String,
       name: String,
       img: String,
     }],
@@ -121,4 +121,5 @@ const PostModel = new mongoose.Schema(
     timestamps: true,
   },
 );
+
 module.exports = mongoose.model('Posts', PostModel);

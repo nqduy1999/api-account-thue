@@ -4,8 +4,8 @@ const OptionController = require('../controllers/options.controller');
 
 const router = require('express').Router();
 // Option
-router.get('/option', OptionController.getAllOption);
-router.put('/option/:id', OptionController.updateOption);
-router.post('/option', OptionController.createOption);
-router.delete('/option/:id', OptionController.deleteOption);
+router.get('/', OptionController.getAllOption);
+router.put('/:id', OptionController.updateOption);
+router.post('/', OptionController.createOption);
+router.delete('/:id', OptionController.deleteOption);
 module.exports = router;
