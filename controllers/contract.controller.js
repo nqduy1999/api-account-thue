@@ -99,7 +99,6 @@ const ContractController = {
       const { id } = req.params;
       const { idOwner, idHirer } = req.body;
       const params = {
-        status: 3,
         ...idOwner ? { idOwner } : {},
         ...idHirer ? { idHirer } : {},
       };
