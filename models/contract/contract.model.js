@@ -34,6 +34,10 @@ const ContractModel = new mongoose.Schema(
     reasonReject: {
       type: String,
     },
+    isRating: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

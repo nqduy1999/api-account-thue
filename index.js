@@ -24,9 +24,9 @@ app.use('/api/vehicle', require('./routes/vehicle.routes'));
 app.use('/api/post', require('./routes/post.routes'));
 app.use('/api/contract', require('./routes/contract.routes'));
 app.use('/api/request', require('./routes/request.routes'));
-app.use('/api/address', require('./routes/address.routes'));
 app.use('/api/payment', require('./routes/payment.routes'));
 app.use('/api/options', require('./routes/options.routes'));
+app.use('/api/rating', require('./routes/rating.routes'));
 //
 const URI = process.env.MONGODB_URL_LOCAL;
 mongoose.connect(
