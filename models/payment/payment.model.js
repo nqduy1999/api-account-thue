@@ -39,6 +39,10 @@ const PaymentModel = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    isDead: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

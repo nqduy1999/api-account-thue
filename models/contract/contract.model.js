@@ -31,6 +31,9 @@ const ContractModel = new mongoose.Schema(
       type: Number,
       default: 1,
     },
+    reasonReject: {
+      type: String,
+    },
   },
   {
     timestamps: true,

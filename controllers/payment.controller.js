@@ -5,13 +5,17 @@ const { responseDataNormal } = require('../utils/response');
 const PaymentController = {
   getPayments: async (req, res) => {
     try {
-      const { idHirer, idContract, idOwner } = req.body;
+      const {
+        idHirer, idContract, idOwner, isDead, status,
+      } = req.query;
       const params = {
         ...idContract ? { idContract } : {},
         ...idHirer ? { idHirer } : {},
         ...idOwner ? { idOwner } : {},
+        ...isDead ? { isDead } : {},
+        ...status ? { status } : {},
       };
-      const contract = await PaymentModel.find({ params });
+      const contract = await PaymentModel.find(params);
       res.json(contract);
     } catch (err) {
       res.status(500).json({ msg: err.message });

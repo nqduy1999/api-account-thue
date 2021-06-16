@@ -65,7 +65,7 @@ const postController = {
   getAllPostFree: async (req, res) => {
     try {
       const {
-        page, limit, transmission, idModel, idMake, idType, price, typePost, status
+        page, limit, transmission, idModel, idMake, idType, price, typePost, status, lat, lng
       } = req.query;
       const pagination = {
         perPage: Number(limit),
@@ -82,6 +82,8 @@ const postController = {
         ...price ? { price } : {},
         ...typePost ? { typePost } : {},
         ...status ? { status } : {},
+        ...lat ? { 'address.lat': lat } : {},
+        ...lng ? { 'address.lng': lng } : {}
       };
       const totalPage = Math.ceil((await PostModel.find(params)).length / (limit || 1));
       // eslint-disable-next-line consistent-return

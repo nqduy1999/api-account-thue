@@ -77,5 +77,38 @@ const ContractController = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  rejectContractById: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { reasonReject, idOwner, idHirer } = req.body;
+      const params = {
+        status: 0,
+        reasonReject,
+        ...idOwner ? { idOwner } : {},
+        ...idHirer ? { idHirer } : {},
+      };
+      await PaymentModel.findOneAndUpdate({ idContract: id }, { isDead: true });
+      await ContractModel.findByIdAndUpdate({ _id: id }, params);
+      res.json({ code: 1, msg: 'Thành công ' });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+  confirmPayment: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { idOwner, idHirer } = req.body;
+      const params = {
+        status: 3,
+        ...idOwner ? { idOwner } : {},
+        ...idHirer ? { idHirer } : {},
+      };
+      await PaymentModel.findOneAndUpdate({ idContract: id }, { status: 2 });
+      await ContractModel.findByIdAndUpdate({ _id: id }, params);
+      res.json({ code: 1, msg: 'Thành công ' });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
 };
 module.exports = ContractController;
